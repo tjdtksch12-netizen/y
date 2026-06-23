@@ -28,7 +28,8 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, sans-serif; }
         body { background-color: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; min-height: 100vh; align-items: flex-start; }
-        .container { max-width: 800px; width: 100%; position: relative; padding-bottom: 50px; }
+        
+        .container { max-width: 1200px; width: 100%; position: relative; padding-bottom: 50px; }
         
         header { text-align: center; margin-bottom: 10px; padding: 10px 0; position: relative; }
         header h1 { font-size: 1.8rem; color: var(--primary); margin-bottom: 8px; }
@@ -64,8 +65,8 @@
         .screen.active { display: block; }
         .rain-screen.active { display: flex !important; }
 
-        .day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
-        .day-btn { padding: 15px 5px; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: var(--text); transition: all 0.2s; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
+        .day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; }
+        .day-btn { padding: 15px 10px; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: var(--text); transition: all 0.2s; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
         .day-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1); }
         .day-btn.cleared { background: #ecfdf5; border-color: var(--success); color: #065f46; }
         .locked-btn { opacity: 0.65; cursor: not-allowed; border-color: #cbd5e1 !important; color: #64748b !important; }
@@ -112,13 +113,16 @@
         .stage-tab { flex: 0 0 auto; padding: 8px 16px; border: 2px solid var(--border); border-radius: 20px; background: var(--card-bg); cursor: pointer; font-weight: bold; color: var(--text-light); transition: 0.2s; }
         .stage-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
 
+        /* 랭킹 모드 토글 버튼용 추가 스타일 */
+        .rank-toggle-btn { flex: 1; padding: 10px; border: 2px solid var(--border); border-radius: 8px; background: var(--card-bg); cursor: pointer; font-weight: bold; color: var(--text-light); transition: 0.2s; }
+        .rank-toggle-btn.active { background: #e0e7ff; color: var(--primary); border-color: var(--primary); }
+
         .ranking-list { list-style: none; margin-bottom: 20px; }
         .ranking-item { display: flex; justify-content: space-between; padding: 12px 15px; border-bottom: 1px solid var(--border); font-size: 1.1rem; }
         .ranking-item:nth-child(1) { font-weight: bold; color: #d97706; background: #fef3c7; border-radius: 8px; }
         .ranking-item:nth-child(2) { font-weight: bold; color: #475569; background: #f1f5f9; border-radius: 8px; margin-top: 5px;}
         .ranking-item:nth-child(3) { font-weight: bold; color: #9a3412; background: #ffedd5; border-radius: 8px; margin-top: 5px;}
 
-        /* 결과 화면 */
         .result-score { font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 20px 0; text-align: center; }
         .result-comment { font-size: 1.2rem; margin-bottom: 30px; font-weight: 500; text-align: center; word-break: keep-all; line-height: 1.5; }
         .btn-home { width: 100%; padding: 15px; background: var(--border); color: var(--text); border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: 0.2s;}
@@ -145,26 +149,37 @@
         .word-chip { background: var(--card-bg); color: var(--text); border: 2px solid var(--border); padding: 12px 5px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: grab; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); touch-action: none; }
         .dragging-clone { position: fixed; z-index: 10000; pointer-events: none; opacity: 0.95; box-shadow: 0 10px 25px rgba(0,0,0,0.3); transform: scale(1.15); background: var(--card-bg); color: var(--primary); border: 2px solid var(--primary); padding: 12px 15px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; text-align: center; }
 
-        .bomb-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 9000; display: none; justify-content: center; align-items: center; flex-direction: column; background: rgba(239, 68, 68, 0.3); pointer-events: none; border-radius: 16px; }
+        .bomb-overlay, .correct-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 9000; display: none; justify-content: center; align-items: center; flex-direction: column; pointer-events: none; border-radius: 16px; }
+        .bomb-overlay { background: rgba(239, 68, 68, 0.3); }
         .bomb-icon { font-size: 6rem; animation: explode 0.5s ease-out forwards; }
         .bomb-text { font-size: 2.5rem; font-weight: bold; color: #ffffff; text-shadow: 0 0 10px #ef4444; margin-top: 10px; animation: floatUp 0.8s ease-out forwards; }
-        .correct-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 9000; display: none; justify-content: center; align-items: center; flex-direction: column; pointer-events: none; border-radius: 16px; }
         .correct-icon { font-size: 6rem; animation: popIn 0.4s ease-out forwards; }
         .correct-text { font-size: 2.5rem; font-weight: bold; color: var(--success); text-shadow: 0 0 15px rgba(16, 185, 129, 0.5); margin-top: 10px; animation: floatUpSuccess 0.6s ease-out forwards; }
 
-        /* ☔ 산성비 게임 */
-        .rain-screen { background: var(--rain-bg); color: white; display: none; flex-direction: column; height: 80vh; min-height: 500px; padding: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .rain-top { padding: 15px 20px; background: #1e293b; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #334155; }
+        /* 🎆 빠진 @keyframes 정의 */
+        @keyframes explode { 0%{transform:scale(0);opacity:1} 50%{transform:scale(1.6);} 100%{transform:scale(1.2);opacity:0.8} }
+        @keyframes floatUp { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(-40px);opacity:0} }
+        @keyframes popIn { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.3);} 100%{transform:scale(1);opacity:1} }
+        @keyframes floatUpSuccess { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(-30px);opacity:0} }
+
+        /* 🏰 디펜스 게임 */
+        .rain-screen { background: var(--rain-bg); color: white; display: none; flex-direction: column; height: 80vh; min-height: 600px; padding: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .rain-top { padding: 15px 20px; background: #1e293b; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #334155; z-index: 20;}
         .rain-title { font-size: 1.2rem; font-weight: bold; color: #38bdf8; }
         .rain-stats { font-size: 1.2rem; font-weight: bold; }
         .rain-hp { color: #ef4444; margin-right: 15px; }
         .rain-score { color: #facc15; }
-        .rain-sky { flex: 1; position: relative; background: linear-gradient(to bottom, #0f172a, #1e293b); overflow: hidden; }
-        .rain-drop { position: absolute; background: rgba(255, 255, 255, 0.95); color: #1e293b; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border: 2px solid #38bdf8; white-space: nowrap; transition: background 0.2s, color 0.2s; z-index: 10; }
-        .rain-drop.hit { background: var(--success); color: white; border-color: white; transform: scale(1.2); opacity: 0.8; transition: all 0.2s; }
-        .rain-word-bank { background: #0f172a; padding: 10px 15px; border-top: 2px solid #334155; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; min-height: 60px; }
+        
+        .defense-sky { flex: 1; position: relative; background: radial-gradient(circle at center, #1e293b, #0f172a); overflow: hidden; }
+        .defense-castle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; z-index: 5; text-align: center; text-shadow: 0 0 20px rgba(56, 189, 248, 0.5); transition: transform 0.1s;}
+        .defense-castle.hit { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); filter: hue-rotate(300deg); text-shadow: 0 0 30px red; }
+        
+        .rain-drop { position: absolute; background: rgba(255, 255, 255, 0.95); color: #1e293b; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border: 2px solid #ef4444; white-space: nowrap; transition: background 0.1s, color 0.1s; z-index: 10; transform: translate(-50%, -50%); }
+        .rain-drop.hit { background: var(--success); color: white; border-color: white; transform: translate(-50%, -50%) scale(1.3); opacity: 0; transition: all 0.2s ease-out; }
+        
+        .rain-word-bank { background: #0f172a; padding: 10px 15px; border-top: 2px solid #334155; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; min-height: 60px; z-index: 20;}
         .rain-hint-chip { background: #1e293b; color: #38bdf8; padding: 6px 12px; border-radius: 20px; border: 1px solid #38bdf8; font-weight: bold; font-size: 1.05rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .rain-bottom { padding: 15px; background: #1e293b; display: flex; gap: 10px; }
+        .rain-bottom { padding: 15px; background: #1e293b; display: flex; gap: 10px; z-index: 20;}
         .rain-input { flex: 1; padding: 12px 15px; font-size: 1.2rem; border-radius: 8px; border: 2px solid #64748b; outline: none; font-weight: bold; text-align: center; }
         .rain-input:focus { border-color: #38bdf8; }
         .rain-input:disabled { background: #334155; color: #ef4444; cursor: not-allowed; }
@@ -196,7 +211,7 @@
         .btn-lobby-random { flex: 1; padding: 15px; background: var(--primary); color: white; font-size: 1rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; }
         .btn-lobby-random:hover { background: var(--primary-hover); }
 
-        /* 🏁 땅따먹기 게임 화면 Layout 변경 (좌우 분할) */
+        /* 🏁 땅따먹기 게임 화면 Layout 변경 */
         .land-screen { display: none; flex-direction: column; background: var(--card-bg); border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .land-screen.active { display: flex; }
         
@@ -204,9 +219,9 @@
         .land-status-box { background: #f8fafc; padding: 10px 15px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; border: 2px solid var(--border); flex: 1; margin-right: 10px; display: flex; justify-content: space-between; }
         .land-my-color { width: 20px; height: 20px; border-radius: 4px; display: inline-block; vertical-align: middle; margin-right: 8px; border: 1px solid rgba(0,0,0,0.1); }
 
-        .land-game-layout { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: flex-start;}
-        .land-main { flex: 1 1 400px; max-width: 500px; width: 100%; }
-        .land-side { flex: 1 1 250px; max-width: 350px; width: 100%; display: flex; flex-direction: column; gap: 15px; }
+        .land-game-layout { display: flex; gap: 20px; justify-content: center; align-items: flex-start;}
+        .land-main { flex: 1.5; min-width: 500px; max-width: 700px; }
+        .land-side { flex: 1; min-width: 350px; max-width: 500px; display: flex; flex-direction: column; gap: 15px; }
 
         .land-board-container { width: 100%; aspect-ratio: 1/1; background: #cbd5e1; padding: 4px; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 15px;}
         .land-board { display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr); gap: 2px; width: 100%; height: 100%; }
@@ -240,11 +255,10 @@
         .score-a { color: var(--team-a); }
         .score-b { color: var(--team-b); }
 
-        /* 남은 단어 목록 (힌트) - 스크롤 제한 해제 */
-        .land-word-bank { border: 2px solid var(--border); border-radius: 8px; padding: 10px; background: #f8fafc; }
-        .land-word-bank h4 { font-size: 0.95rem; color: var(--text-light); margin-bottom: 8px; text-align: left; }
-        .land-word-list { display: flex; flex-wrap: wrap; gap: 6px; padding-right: 5px; }
-        .land-word-chip { background: white; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 4px; font-size: 0.9rem; font-weight: bold; color: var(--primary); }
+        .land-word-bank { border: 2px solid var(--border); border-radius: 8px; padding: 15px; background: #f8fafc; height: 100%; min-height: 200px; display: flex; flex-direction: column; }
+        .land-word-bank h4 { font-size: 1rem; color: var(--text-light); margin-bottom: 12px; text-align: left; border-bottom: 1px solid var(--border); padding-bottom: 8px;}
+        .land-word-list { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; align-content: flex-start;}
+        .land-word-chip { background: white; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-size: 0.95rem; font-weight: bold; color: var(--primary); }
 
         @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
         .shake { animation: shake 0.15s ease-in-out 0s 2; }
@@ -261,22 +275,10 @@
     <div id="loginScreen" class="screen active">
         <div class="login-box">
             <h2>학생 정보 입력</h2>
-            <div class="input-group">
-                <label>학교 이름</label>
-                <input type="text" id="inputSchool" value="군산초">
-            </div>
-            <div class="input-group">
-                <label>학년 반 (예: 6학년 1반 -> 6-1)</label>
-                <input type="text" id="inputClass" placeholder="예: 6-1">
-            </div>
-            <div class="input-group">
-                <label>출석 번호</label>
-                <input type="number" id="inputNum" placeholder="예: 15">
-            </div>
-            <div class="input-group">
-                <label>이름</label>
-                <input type="text" id="inputName" placeholder="홍길동">
-            </div>
+            <div class="input-group"><label>학교 이름</label><input type="text" id="inputSchool" value="군산초" onkeydown="if(event.key==='Enter') login()"></div>
+            <div class="input-group"><label>학년 반 (예: 6-1)</label><input type="text" id="inputClass" placeholder="예: 6-1" onkeydown="if(event.key==='Enter') login()"></div>
+            <div class="input-group"><label>출석 번호</label><input type="number" id="inputNum" placeholder="예: 15" onkeydown="if(event.key==='Enter') login()"></div>
+            <div class="input-group"><label>이름</label><input type="text" id="inputName" placeholder="홍길동" onkeydown="if(event.key==='Enter') login()"></div>
             <button class="btn-login" id="btnLoginBtn" onclick="login()">학습 시작하기</button>
         </div>
     </div>
@@ -289,15 +291,13 @@
     <div id="mainTabs" class="main-tabs" style="display: none;">
         <button id="tabDaily" class="main-tab active" onclick="switchMainTab('daily')">📅 매일 학습</button>
         <button id="tabMaster" class="main-tab" onclick="switchMainTab('master')">👑 스피드런</button>
-        <button id="tabRain" class="main-tab" onclick="switchMainTab('rain')">☔ 산성비 게임</button>
+        <button id="tabRain" class="main-tab" onclick="switchMainTab('rain')">🏰 디펜스</button>
         <button id="tabLand" class="main-tab" onclick="switchMainTab('land')">🏁 땅따먹기</button>
     </div>
 
     <div id="homeScreen" class="screen">
         <div class="dashboard">
-            <div class="dashboard-header">
-                <span class="dashboard-title" id="progressText">나의 학습 기록</span>
-            </div>
+            <div class="dashboard-header"><span class="dashboard-title" id="progressText">나의 학습 기록</span></div>
             <div class="progress-bar" style="margin-top:10px;"><div class="progress-fill" id="totalProgressFill" style="background: var(--success);"></div></div>
             <div style="font-size: 0.9rem; color: var(--text-light);" id="totalWordsDesc">데이터 로딩 중...</div>
         </div>
@@ -318,10 +318,10 @@
     <div id="rainStageScreen" class="screen">
         <div class="dashboard" style="background: #1e293b; color: white;">
             <div class="dashboard-header">
-                <span class="dashboard-title" style="color: #38bdf8;">☔ 산성비 방어 게임</span>
+                <span class="dashboard-title" style="color: #38bdf8;">🏰 낱말 디펜스: 성벽 방어</span>
                 <button class="ranking-btn" onclick="showRankingMenu(1, 'rain')">🏆 순위 보기</button>
             </div>
-            <p style="font-size: 0.95rem; color: #cbd5e1; margin-top: 10px; word-break: keep-all; line-height: 1.4;">하늘에서 떨어지는 단어의 '뜻'을 보고,<br>바닥에 닿기 전에 알맞은 <b>'단어'</b>를 입력하여 막아내세요!</p>
+            <p style="font-size: 0.95rem; color: #cbd5e1; margin-top: 10px; word-break: keep-all; line-height: 1.4;">사방에서 낱말의 '뜻'이 성벽을 공격해옵니다.<br>알맞은 <b>'단어'</b>를 입력하여 막아내세요! (시간이 지날수록 빨라집니다)</p>
         </div>
         <div class="day-grid" id="rainGrid"></div>
     </div>
@@ -332,7 +332,7 @@
                 <span class="dashboard-title" style="color: #86198f;">🏁 실시간 땅따먹기 (멀티플레이)</span>
                 <button class="ranking-btn" style="background:#e879f9; color:#4a044e;" onclick="showRankingMenu(1, 'land')">🏆 순위 보기</button>
             </div>
-            <p style="font-size: 0.95rem; color: #a21caf; margin-top: 10px; word-break: keep-all; line-height: 1.4;">빈 땅을 누르고 뜻에 맞는 단어를 먼저 입력하면 내 땅이 됩니다!<br>🔥 틀리면 <b>10초간 도전 불가!</b> 가장 많은 땅을 차지하세요.</p>
+            <p style="font-size: 0.95rem; color: #a21caf; margin-top: 10px; word-break: keep-all; line-height: 1.4;">빈 땅을 누르고 뜻에 맞는 단어를 먼저 입력하면 내 땅이 됩니다!<br>🔥 개인전 1등, 팀전 승리로 나의 순위를 올리세요.</p>
         </div>
         <div class="day-grid" id="landGrid"></div>
     </div>
@@ -342,6 +342,13 @@
             <span class="screen-title" id="rankingTitle">🏆 명예의 전당</span>
             <button class="stop-btn" onclick="goToHome()">나가기</button>
         </div>
+        
+        <!-- 땅따먹기 랭킹 모드 선택 버튼 -->
+        <div id="landRankingToggle" style="display:none; justify-content:center; gap:10px; margin-bottom:15px;">
+            <button class="rank-toggle-btn active" id="btnRankSolo" onclick="switchLandRankMode('solo')">👤 개인전 순위</button>
+            <button class="rank-toggle-btn" id="btnRankTeam" onclick="switchLandRankMode('team')">⚔️ 팀전 순위</button>
+        </div>
+
         <div class="stage-tabs" id="rankingTabs"></div>
         <ul class="ranking-list" id="rankingList"><li>데이터를 불러오는 중입니다...</li></ul>
     </div>
@@ -351,7 +358,6 @@
             <span class="screen-title" style="color: var(--error);">👨‍🏫 서버 관리자 모드</span>
             <button class="stop-btn" onclick="goToHome()">나가기</button>
         </div>
-        <p style="margin-bottom: 20px;">서버에 저장된 모든 학생의 기록을 확인하고 관리할 수 있습니다.</p>
         <div style="display:flex; gap:10px; margin-bottom: 20px; flex-wrap: wrap;">
             <button class="btn-home" style="background: var(--primary); color:white; flex:1; min-width: 120px;" onclick="fetchAdminData()">🔄 새로고침</button>
             <button class="btn-home" style="background: var(--success); color:white; flex:1; min-width: 120px;" onclick="downloadAdminCSV()">💾 엑셀 다운로드</button>
@@ -369,69 +375,36 @@
 
     <!-- 🏁 땅따먹기 대기실 -->
     <div id="landLobbyScreen" class="screen">
-        <div class="top-bar">
-            <span class="screen-title" id="lobbyStageTitleText">1탄 대기실</span>
-            <button class="stop-btn" onclick="quitLandLobby()">나가기</button>
-        </div>
-        
+        <div class="top-bar"><span class="screen-title" id="lobbyStageTitleText">1탄 대기실</span><button class="stop-btn" onclick="quitLandLobby()">나가기</button></div>
         <div class="land-lobby-box">
             <div class="land-lobby-header">
                 <span style="font-size:1.1rem; font-weight:bold;">게임 설정</span>
-                <div class="land-lobby-controls">
-                    <select id="lobbyModeSelect" class="lobby-select" onchange="changeLandMode()">
-                        <option value="solo">👤 개인전 (1~25명)</option>
-                        <option value="team">⚔️ 팀전 (A팀 vs B팀)</option>
-                    </select>
-                </div>
+                <div class="land-lobby-controls"><select id="lobbyModeSelect" class="lobby-select" onchange="changeLandMode()"><option value="solo">👤 개인전 (1~25명)</option><option value="team">⚔️ 팀전 (A팀 vs B팀)</option></select></div>
             </div>
-
-            <!-- 개인전 UI -->
-            <div id="lobbySoloUI">
-                <h4 style="margin-bottom:10px; color:var(--text-light);">참여중인 플레이어</h4>
-                <div class="lobby-player-list" id="lobbySoloList"></div>
-            </div>
-
-            <!-- 팀전 UI -->
+            <div id="lobbySoloUI"><h4 style="margin-bottom:10px; color:var(--text-light);">참여중인 플레이어</h4><div class="lobby-player-list" id="lobbySoloList"></div></div>
             <div id="lobbyTeamUI" style="display:none;">
                 <div class="lobby-teams">
-                    <div class="team-box team-a">
-                        <div class="team-title"><span style="color:var(--team-a)">A팀 (블루)</span> <button class="team-join-btn" onclick="joinLandTeam('A')">참여하기</button></div>
-                        <div class="lobby-player-list" id="lobbyTeamAList"></div>
-                    </div>
-                    <div class="team-box team-b">
-                        <div class="team-title"><span style="color:var(--team-b)">B팀 (레드)</span> <button class="team-join-btn" onclick="joinLandTeam('B')">참여하기</button></div>
-                        <div class="lobby-player-list" id="lobbyTeamBList"></div>
-                    </div>
+                    <div class="team-box team-a"><div class="team-title"><span style="color:var(--team-a)">A팀 (블루)</span> <button class="team-join-btn" onclick="joinLandTeam('A')">참여하기</button></div><div class="lobby-player-list" id="lobbyTeamAList"></div></div>
+                    <div class="team-box team-b"><div class="team-title"><span style="color:var(--team-b)">B팀 (레드)</span> <button class="team-join-btn" onclick="joinLandTeam('B')">참여하기</button></div><div class="lobby-player-list" id="lobbyTeamBList"></div></div>
                 </div>
             </div>
-
             <div class="lobby-actions" id="lobbyHostActions">
                 <button class="btn-lobby-random" id="btnRandomTeam" style="display:none;" onclick="randomizeLandTeams()">🎲 랜덤 팀 배정</button>
                 <button class="btn-lobby-start" onclick="startLandGame()">🚀 게임 시작하기</button>
             </div>
-            <div id="lobbyGuestMessage" style="display:none; text-align:center; padding:15px; font-weight:bold; color:var(--primary);">
-                방장이 게임을 시작할 때까지 기다려주세요...
-            </div>
+            <div id="lobbyGuestMessage" style="display:none; text-align:center; padding:15px; font-weight:bold; color:var(--primary);">방장이 게임을 시작할 때까지 기다려주세요...</div>
         </div>
     </div>
 
     <!-- 🏁 땅따먹기 게임 화면 -->
     <div id="landGameScreen" class="screen land-screen">
         <div class="land-header">
-            <div class="land-status-box">
-                <span id="landGameStageTitle">1탄</span>
-                <span><span class="land-my-color" id="landMyColorBox"></span><span id="landMyScoreDisplay">0</span>땅</span>
-            </div>
+            <div class="land-status-box"><span id="landGameStageTitle">1탄</span><span><span class="land-my-color" id="landMyColorBox"></span><span id="landMyScoreDisplay">0</span>땅</span></div>
             <button class="stop-btn" onclick="quitLandGrabGame()">나가기</button>
         </div>
-
-        <!-- 레이아웃 좌우 분할 컨테이너 -->
         <div class="land-game-layout">
-            <!-- 왼쪽: 게임 보드 및 입력창 -->
             <div class="land-main">
-                <div class="land-board-container">
-                    <div class="land-board" id="landBoard"></div>
-                </div>
+                <div class="land-board-container"><div class="land-board" id="landBoard"></div></div>
                 <div class="land-interaction" id="landInteractionBox">
                     <div class="land-target-mean" id="landTargetMean">👇 빈 땅을 클릭하여 문제를 확인하세요.</div>
                     <div class="land-input-group">
@@ -440,21 +413,12 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 오른쪽: 리더보드 및 남은 단어 목록 -->
             <div class="land-side">
                 <div class="land-leaderboard">
-                    <h3 style="display:flex; justify-content:space-between; align-items:center;">
-                        <span>📊 현재 점령 현황</span>
-                        <button id="btnLandReset" style="display:none; font-size:0.8rem; padding:4px 8px; border-radius:6px; background:var(--error); color:white; border:none; cursor:pointer;" onclick="resetLandGrabRoom()">방 폭파(방장)</button>
-                    </h3>
-                    <div id="landTeamScoreBoard" class="land-team-score-board" style="display:none;">
-                        <span class="score-a">A팀(블루): <span id="landScoreA">0</span>땅</span>
-                        <span class="score-b">B팀(레드): <span id="landScoreB">0</span>땅</span>
-                    </div>
+                    <h3 style="display:flex; justify-content:space-between; align-items:center;"><span>📊 현재 점령 현황</span><button id="btnLandReset" style="display:none; font-size:0.8rem; padding:4px 8px; border-radius:6px; background:var(--error); color:white; border:none; cursor:pointer;" onclick="resetLandGrabRoom()">방 폭파</button></h3>
+                    <div id="landTeamScoreBoard" class="land-team-score-board" style="display:none;"><span class="score-a">A: <span id="landScoreA">0</span></span><span class="score-b">B: <span id="landScoreB">0</span></span></div>
                     <div class="land-players" id="landLeaderboard"></div>
                 </div>
-
                 <div class="land-word-bank">
                     <h4>💡 남은 단어 목록 (가나다순 힌트)</h4>
                     <div class="land-word-list" id="landWordBankList"></div>
@@ -463,63 +427,48 @@
         </div>
     </div>
 
-    <!-- 공통 화면 모음 (학습, 퀴즈, 스피드런, 산성비, 결과) -->
+    <!-- 일반 학습 화면들 -->
     <div id="studyScreen" class="screen">
-        <div class="top-bar">
-            <span class="screen-title" id="studyDayLabel">Day 1 학습</span>
-            <button class="stop-btn" onclick="saveAndExit()">⏹ 저장하고 나가기</button>
-        </div>
+        <div class="top-bar"><span class="screen-title" id="studyDayLabel">Day 1 학습</span><button class="stop-btn" onclick="saveAndExit()">⏹ 저장하고 나가기</button></div>
         <div class="study-progress" id="studyProgressLabel">1 / 25</div>
         <div class="flashcard">
-            <div class="flashcard-word" id="flashcardWord">단어</div>
-            <div class="flashcard-mean" id="flashcardMean">뜻</div>
-            <div class="typing-section">
-                <span class="typing-label" id="typingLabel">👇 낱말을 똑같이 타이핑하세요</span>
-                <input type="text" id="wordInput" class="word-input" autocomplete="off" placeholder="입력하기">
-            </div>
+            <div class="flashcard-word" id="flashcardWord">단어</div><div class="flashcard-mean" id="flashcardMean">뜻</div>
+            <div class="typing-section"><span class="typing-label" id="typingLabel">👇 낱말을 똑같이 타이핑하세요</span><input type="text" id="wordInput" class="word-input" autocomplete="off" placeholder="입력하기"></div>
         </div>
         <button class="nav-btn btn-next" id="btnNextWord" onclick="nextWord()">다음으로 넘어갈 수 없습니다</button>
     </div>
 
     <div id="quizScreen" class="screen">
-        <div class="top-bar">
-            <span class="screen-title" id="quizDayLabel">확인 퀴즈</span>
-            <button class="stop-btn" onclick="saveAndExit()">⏹ 저장하고 나가기</button>
-        </div>
+        <div class="top-bar"><span class="screen-title" id="quizDayLabel">확인 퀴즈</span><button class="stop-btn" onclick="saveAndExit()">⏹ 저장하고 나가기</button></div>
         <div class="study-progress" id="quizProgressLabel">1 / 5</div>
         <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-        <div class="quiz-question" id="quizQuestion">질문</div>
-        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-question" id="quizQuestion">질문</div><div class="quiz-options" id="quizOptions"></div>
         <button class="action-quiz-btn" id="quizActionBtn" onclick="submitAndNext()">다음 문제 ➔</button>
     </div>
 
     <div id="masterGameScreen" class="screen master-screen">
-        <div class="master-top">
-            <span class="screen-title" style="color: white;" id="masterTitle">1탄 스피드런 도전</span>
-            <div class="master-timer" id="masterTimerDisplay">00:00.0</div>
-        </div>
-        <div class="master-target-box" id="masterTargetBox">
-            <span class="master-progress" id="masterProgressLabel">1 / 50 단어 찾는 중</span>
-            <div class="master-target-mean" id="masterTargetMean">여기에 단어의 뜻이 표시됩니다.</div>
-        </div>
-        <div class="chip-grid" id="masterChipGrid"></div>
-        <button class="btn-home" style="margin-top: 25px;" onclick="quitMasterGame()">나가기</button>
+        <div class="master-top"><span class="screen-title" style="color: white;" id="masterTitle">1탄 스피드런 도전</span><div class="master-timer" id="masterTimerDisplay">00:00.0</div></div>
+        <div class="master-target-box" id="masterTargetBox"><span class="master-progress" id="masterProgressLabel">1 / 50 단어 찾는 중</span><div class="master-target-mean" id="masterTargetMean">뜻</div></div>
+        <div class="chip-grid" id="masterChipGrid"></div><button class="btn-home" style="margin-top: 25px;" onclick="quitMasterGame()">나가기</button>
         <div id="correctOverlay" class="correct-overlay"><div class="correct-icon">✨</div><div class="correct-text">정답!</div></div>
         <div id="bombOverlay" class="bomb-overlay"><div class="bomb-icon">💥</div><div class="bomb-text">+ 5초</div></div>
     </div>
 
+    <!-- 디펜스 방어 -->
     <div id="rainGameScreen" class="screen rain-screen">
         <div class="rain-top">
-            <span class="rain-title" id="rainTitle">1탄 산성비 방어</span>
+            <span class="rain-title" id="rainTitle">1탄 디펜스 방어</span>
             <span class="rain-stats">
-                <span class="rain-hp">❤️ <span id="rainHPDisplay">10</span></span>
-                <span class="rain-score">💯 <span id="rainScoreDisplay">0</span>점</span>
+                <span class="rain-hp">🏰 성벽 내구도: <span id="rainHPDisplay">10</span></span>
+                <span class="rain-score">⏱️ 생존: <span id="rainScoreDisplay">00:00</span></span>
             </span>
         </div>
-        <div class="rain-sky" id="rainSky"></div>
+        <div class="defense-sky" id="rainSky">
+            <div class="defense-castle" id="defenseCastle">🏰</div>
+        </div>
         <div class="rain-word-bank" id="rainWordBank"><span style="color:#94a3b8;">여기에 힌트 단어가 나타납니다.</span></div>
         <div class="rain-bottom">
-            <input type="text" id="rainInput" class="rain-input" autocomplete="off" placeholder="단어 입력 후 엔터">
+            <input type="text" id="rainInput" class="rain-input" autocomplete="off" placeholder="단어 입력 후 엔터 (가장 가까운 적 파괴)">
             <button class="rain-quit-btn" onclick="quitRainGame()">나가기</button>
         </div>
     </div>
@@ -535,7 +484,7 @@
 
 <script>
     // =========================================================
-    // 🔥 파이어베이스 연동 설정
+    // 🔥 파이어베이스 및 데이터 세팅 
     // =========================================================
     const firebaseConfig = {
         apiKey: "AIzaSyDgoncuqzhrk7zN6uMfZU3RKZwh0GmBRdA",
@@ -562,10 +511,7 @@
 
     function getDB() { return firebase.database(); }
 
-    // =========================================================
-    // 📚 단어 데이터
-    // =========================================================
-    const rawDataString = "가꾸다|잘 보살펴 자라게 하다^가리다|구별하거나 분간하다^가치|사물이 지니는 중요함이나 바람직한 정도^간직하다|잃지 않도록 보관하다^감각|눈·귀·코·혀 피부로 느끼는 힘^감사|고마운 마음을 나타냄^강요하다|억지로 시키다^개념|어떤 사물이나 현상에 대한 일반적이고 본질적인 생각^개방|막힌 것을 열어 놓음^거절하다|요구나 부탁을 받아들이지 않다^건강|몸과 마음이 튼튼하고 이상이 없음^검토|내용을 자세히 따져 살펴봄^결심|어떤 일을 하기로 굳게 마음을 먹음^경험|실제로 겪음^경고|위험이나 잘못을 알림^경쟁|같은 목표를 두고 겨룸^경제|재화를 생산하고 쓰는 모든 활동^경제적|돈이나 자원을 아껴 쓰는 것^고난|큰 어려움이나 괴로움^고민|마음속으로 괴로워하고 걱정함^고유하다|본래부터 가지고 있는 특성이다^고집|자기 생각을 굽히지 않고 우김^곤란|하기 어렵거나 난처함^공동|여럿이 함께 하는 것^공간|어떤 범위 안의 자리나 곳^공감|다른 사람의 감정을 같이 느낌^공정하다|치우치지 않고 올바르다^공통|여러 사람이나 사물에 함께 해당됨^공포|두렵고 무서운 감정^과학|자연 현상을 탐구하여 얻은 지식^과제|해야 할 일이나 문제^관찰|주의 깊게 살펴봄^관심|어떤 것에 마음을 두고 집중함^괴롭히다|다른 사람을 힘들게 하다^교류|서로 오가며 주고받음^교육|지식과 기술을 가르치고 기르는 일^교훈|가르침이 되는 일이나 말^구조|부분이 서로 짜여 이루어진 방식^구체적|실제로 나타나 뚜렷하게 드러나는 것^국어|우리나라의 말과 글^국제적|여러 나라에 걸친 것^군중|많이 모인 사람들^권리|당연히 누릴 수 있는 힘이나 자격^규칙|지켜야 하는 정해진 방법^균형|어느 한쪽으로 치우치지 않고 고름^그리움|간절히 보고 싶고 만나고 싶은 마음^극복|어려움을 이겨 냄^근거|어떤 판단이나 행동의 바탕^근본|사물의 바탕이 되는 것^금지|하지 못하게 막음^기념|잊지 않고 기억함^기대|어떤 일이 일어나기를 바람^기도|신이나 절대자에게 비는 것^기록|어떤 사실을 적거나 남김^기술|일을 잘 해내는 방법이나 재주^기준|비교하거나 판단하는 데 바탕이 되는 것^기억|마음속에 간직하고 다시 떠올리는 힘^기회|어떤 일을 할 수 있는 좋은 시기^긴장|마음이 조마조마하고 불안한 상태^깨어나다|잠이나 무의식 상태에서 정신을 차리다^끈기|쉽게 포기하지 않는 성질^끊임없다|계속 이어져 그치지 않다^나누다|여럿으로 갈라 놓다^나라|일정한 영토와 주권을 가진 사회 집단^나름|특별히 그에 맞는 경우나 방식^난처하다|어떻게 해야 할지 몰라 곤란하다^남다르다|보통과는 다르게 특별하다^남용|옳지 않게 함부로 씀^낭비|필요 이상으로 씀^내내|어떤 동안 계속^내용|사물이나 글의 속에 들어 있는 것^냉정하다|감정에 치우치지 않고 침착하다^넓히다|범위를 크게 하다^노력|어떤 일을 이루려고 힘씀^논리|생각이나 주장에 맞는 이치^논문|학문적 연구 결과를 적은 글^논의|어떤 문제를 토론함^논쟁|서로 다른 의견을 말하며 다툼^농담|웃기거나 장난으로 하는 말^농업|농사를 짓는 일^동일|똑같음^높이다|수준이나 정도를 더 올리다^동포|같은 민족이나 나라의 사람^누리다|즐기며 혜택을 받다^능동적|스스로 움직여 적극적으로 하는 태도^두려움|무섭고 걱정되는 마음^뒤집다|안팎, 위아래를 바꾸다^드러나다|겉으로 나타나다^능력|일을 해낼 수 있는 힘^등급|기준에 따라 나눈 단계^다루다|어떤 일을 맡아 처리하다^디자인|모양이나 구조를 계획적으로 꾸밈^단순하다|복잡하지 않고 간단하다^따르다|따라가다 또는 규칙에 복종하다^단어|뜻을 가진 최소의 말^딱딱하다|부드럽지 않고 굳다^단정하다|태도나 옷차림이 바르다^떠오르다|위로 올라 나오다^단절|서로의 관계가 끊어짐^떠올리다|생각이나 기억을 불러내다^단체|일정한 목적을 가진 사람들의 모임^뛰어나다|다른 것보다 훨씬 좋거나 앞서다^답변|물음에 대답함^마감|일정한 기한을 끝냄^당당하다|자신 있고 떳떳하다^당연하다|그러함이 옳고 마땅하다^당하다|어떤 일을 겪거나 맞닥뜨리다^대답|질문에 응하는 말^대량|양이 매우 많음^대립|서로 맞서거나 반대함^대명사|명사를 대신하여 쓰는 말^대신|다른 것으로 바꾸어 함^대중|많은 사람들^대체|다른 것으로 바꾸어 대신함^대표|여러 사람을 대표하여 나서는 사람^대회|많은 사람이 모여 겨루거나 발표하는 모임^덕분|남이 베풀어 준 도움^덜다|양을 줄이다^데리다|함께 가거나 오게 하다^도구|어떤 일을 하는 데 쓰는 기구^맞이하다|어떤 상황이나 사람을 받음^맞히다|문제의 답을 알아맞다^맡다|책임이나 일을 담당하다^매력|사람의 마음을 끄는 힘^매번|매번마다, 늘^매우|정도가 심하게^맥락|어떤 일이나 글의 줄거리와 관계^머물다|한곳에 잠시 있거나 멈추다^머뭇거리다|주저하며 행동을 못하다^먼저|시간이나 순서가 앞섬^멈추다|하던 일을 그치다^메우다|빈 곳을 채우다^멀리하다|가까이하지 않고 떨어져 지내다^멋지다|훌륭하고 보기 좋다^명령|윗사람이 아랫사람에게 지시하는 말^명예|이름을 빛나게 하는 명성^명확하다|분명하고 뚜렷하다^모범|본받을 만한 행동이나 대상^모순|앞뒤가 서로 어긋남^모양|사물의 생긴 모습^목표|이루려는 목적^몰두|어떤 일에 정신을 집중함^몰래|남이 모르게^무관심|관심이 없음^무너지다|쌓아 올린 것이 허물어지다^무리|일정한 사람이나 동물의 무더기^무사하다|사고나 탈이 없이 안전하다^무조건|아무런 조건이 없음^무척|매우, 아주^문득|갑자기 어떤 생각이 떠오르는 모양^문제|해결해야 할 일이나 사건^문화|사람이 삶 속에서 만들어 낸 가치와 양식^묵다|일정한 곳에 머무르다^물질|형태와 부피를 가진 모든 것^미끄럽다|잘 미끄러지는 성질^미래|앞으로 올 시간^미루다|일을 뒤로 늦추다^미소|부드럽게 웃음^미숙하다|아직 익숙하지 않고 서툴다^미움|싫어하는 마음^민감하다|작은 자극에도 잘 반응하다^민주|주권이 국민에게 있음^믿음|굳게 의지하거나 확신함^바꾸다|다른 것으로 고치거나 바꿔 놓다^바람직하다|그렇게 하는 것이 옳다^바르다|곧고 바탕이 바람직하다^반대|어떤 것에 맞서거나 거슬러 행함^반성|잘못을 돌아보고 뉘우침^반영|어떤 영향을 받아 드러남^반장|집단에서 대표로 뽑힌 학생^반복|같은 일을 되풀이함^발걸음|걷는 걸음^발달|성장하여 수준이 높아짐^발전|점점 더 좋아지고 수준이 높아짐^발견|새롭게 찾아냄^발명|새로운 물건이나 방법을 처음으로 만듦^발표|많은 사람 앞에서 알리거나 설명함^방송|소리나 영상을 널리 보냄^방식|일을 하는 방법이나 형식^방문|어떤 곳에 찾아감^방문하다|다른 사람을 찾아가다^방향|나아가는 쪽이나 위치^방법|어떤 일을 하는 데 필요한 절차^방해|일이 제대로 되지 못하도록 막음^배경|어떤 일의 뒷받침이 되는 환경^배려|다른 사람을 잘 돌보고 생각해 줌^배우다|지식이나 기술을 익히다^배움|배우는 과정이나 내용^배치|일정한 자리에 알맞게 놓음^배우자|결혼한 상대편^백성|한 나라에 사는 국민^버릇|자주 되풀이하는 행동^번역|한 언어를 다른 언어로 옮김^벌리다|어떤 일을 크게 시작하다^벌이다|일을 새로 시작하거나 전개하다^범죄|법을 어기고 죄를 지음^범위|한정된 구역이나 테두리^법률|나라에서 정한 규칙이나 법^법칙|반드시 지켜야 하는 규정^변화|달라지고 바뀜^변명|잘못을 꾸며서 이유를 댐^변하다|모양이나 상태가 달라지다^별명|본 이름이 아닌 다른 이름^보고|어떤 일의 결과를 알림^보관|물건을 맡아 간수함^보람|어떤 일을 하고 난 뒤의 기쁨이나 가치^보호|지켜 주고 돌봄^보통|특별하지 않고 흔함^복잡|얽히고 뒤섞여 어수선함^본격적|본래의 성격이나 방식대로 하는 것^본래|원래부터^본받다|모범으로 삼아 따르다^본인|바로 그 자신^볼거리|구경할 만한 것^부담|짐이나 의무를 짊어짐^부대|군대의 집단 단위^부분|전체 중의 한 조각^부서|기관의 여러 기능을 나눈 단위^부정|옳지 않다고 인정하지 않음^부족|모자라거나 넉넉하지 못함^부지런하다|게으르지 않고 열심이다^부친|아버지^부품|기계의 낱낱의 부분^분명|틀림없이 확실함^분석|내용을 자세히 나누어 살펴봄^분위기|주위에서 느껴지는 기운^분리|서로 나누어 떨어뜨림^분명하다|확실하고 뚜렷하다^분배|나누어 줌^분쟁|다투고 싸움^분포|일정한 구역에 퍼져 있음^분해|나누어 쪼갬^불가능|할 수 없음^불공평|고르지 않고 공정하지 못함^불과|겨우 그 정도에 지나지 않음^불리하다|이롭지 않고 불편하다^불안|마음이 편하지 못함^불완전|완전하지 않음^불평|마음에 차지 않아 탓함^불행|좋지 않은 일을 당함^분위|주위에 감도는 기운^붕괴|무너지고 깨짐^붙잡다|놓치지 않고 잡다^비극|슬프고 불행한 사건^비교|둘 이상의 것을 견주어 살펴봄^비난|남의 잘못을 탓하며 나무람^비밀|남에게 알리지 않는 일^비슷하다|거의 같음^비율|두 수나 양의 크기를 비교한 값^비중|어떤 것이 차지하는 무게나 중요성^비추다|빛을 보내거나 보여 주다^비판|옳고 그름을 가려 판단함^비평|작품이나 현상을 분석하고 평가함^빈틈|빠져 있는 곳^빌리다|남의 것을 잠시 받아 쓰다^빠르다|움직임이나 속도가 보통보다 크다^빨리|보통보다 더 서둘러^뽑다|여러 개 가운데 하나를 고르다^사계절|봄, 여름, 가을, 겨울 네 계절^사라지다|없어지거나 보이지 않게 되다^사생활|개인의 일상적인 생활^사소하다|대단하지 않고 하찮다^사연|어떤 일이 있게 된 까닭이나 내용^사전|낱말의 뜻을 모아 놓은 책^사실|실제로 있었던 일^사회|사람들이 모여 이룬 공동체^사회적|사회와 관련된 것^사흘|사나흘의 기간(3일)^산물|어떤 결과로 생긴 것^산업|생활에 필요한 재화를 만드는 활동^살펴보다|주의 깊게 관찰하다^상담|의논하여 도움을 받음^상상|실제로 없는 것을 마음속에 그려 봄^상황|일이 벌어지는 상태^상징|어떤 개념을 구체적인 사물로 나타냄^상식|일반적으로 알고 있어야 할 보통의 지식^상승|위로 올라감^상업|물건을 사고파는 일^상인|장사를 하는 사람^상처|다쳐서 생긴 자국이나 마음의 아픔^상호|서로 주고받음^상태|어떤 사물이나 현상의 모양이나 형편^생활|사람의 일상적인 삶^생명|살아 있는 힘^생물|살아서 움직이는 모든 존재^생생하다|눈앞에 보듯 뚜렷하다^생산|물건을 만들어 냄^생존|살아남음^생활비|생활에 드는 비용^서류|일정한 내용을 적은 문서^서민|보통의 평범한 사람^서술|어떤 사실이나 생각을 글이나 말로 나타냄^서양|아시아 이외의 서쪽 나라들^서점|책을 파는 가게^석유|땅속에서 나는 기름^선거|대표자를 뽑는 절차^선물|다른 사람에게 주는 물건^선배|어떤 조직에서 나보다 먼저 들어온 사람^선생님|학생을 가르치는 분^선택|여러 가지 중에서 고름^선언|어떤 뜻을 공식적으로 밝힘^선호|특별히 좋아하여 앞세움^선행|착한 행동^선호하다|좋아하여 우선하다^설명|알기 쉽게 풀이하여 말함^성공|목적한 일을 이룸^성과|어떤 일을 하여 얻은 좋은 결과^성격|사람의 성질이나 품성^성실|정직하고 책임감 있게 최선을 다함^성인|다 자라서 어른이 된 사람^성취|목적한 바를 이룸^성향|성질이나 경향^세계|사람이 살아가는 지구 전체^세계적|전 세계에 걸친 것^세기|백 년의 단위^세력|힘이나 권위^세상|사람이 살아가는 세간^세심하다|꼼꼼하고 조심스럽다^세월|시간이 흐름^세탁|옷감을 씻어 깨끗하게 함^소감|어떤 일에 대하여 느낀 바^소규모|작은 규모^소득|일하여 얻는 돈이나 이익^소망|바라는 마음^소문|입에서 입으로 전해지는 말^소설|꾸며낸 이야기 글^소속|일정한 단체에 속함^소용|필요한 바탕이나 이익^소중하다|귀하고 중요하다^소질|어떤 일을 잘할 수 있는 타고난 능력^소풍|야외로 나들이 가는 일^속담|생활에서 나온 교훈적인 짧은 말^속도|움직이는 빠르기^속이다|남을 거짓으로 믿게 하다^손해|이익이 줄거나 잃는 것^손질|잘 다듬거나 고침^솔직하다|숨김이 없이 바르다^송금|돈을 보내는 일^송별|떠나는 사람을 보내는 일^수고|어떤 일을 위해 애씀^수단|어떤 일을 이루기 위한 방법^수량|수나 양^수령|받아 가짐^수리|고쳐서 쓰게 함^수많다|수가 매우 많다^수명|살 수 있는 기간^수상|물 위에서 하는 일^수석|으뜸가는 자리나 학생^수업|배우고 익히는 과정^수입|돈이나 물건이 들어옴^수익|얻는 이익^수집|모아서 모음^수준|정도나 단계^수출|물건을 외국으로 내보냄^수치|수로 나타낸 수량^수학|수와 관련된 학문^수확|농작물을 거두어들임^숙제|배운 것을 복습하기 위한 과제^순간|아주 짧은 시간^순서|일정한 차례^순수|섞이지 않고 깨끗함^순위|순서에 따라 정한 자리^순진하다|꾸밈이 없고 솔직하다^숭고하다|뜻이 높고 훌륭하다^시각|눈으로 보는 힘. 또는 시간^시기|일정한 시점이나 때^시끄럽다|소리가 크고 어수선하다^시도|어떤 일을 해 보려는 행동^시력|눈으로 볼 수 있는 힘^시민|한 나라의 국민^시선|눈길이 향하는 곳^시설|편리하게 만든 장치나 건물^시험|배운 지식을 평가하는 절차^시합|실력을 겨루는 일^시작|어떤 일을 처음으로 함^시장|물건을 사고파는 장소^시중|곁에서 도와주고 보살핌^시집|여자가 결혼하여 들어가는 집^시작하다|일을 처음으로 하다^시키다|어떤 일을 하도록 명령하다^신경|자극을 받아들이고 전달하는 기관^신념|굳게 믿는 마음^신문|시대의 소식이나 정보를 전하는 인쇄물^신비|쉽게 알 수 없는 이상한 일^신속|매우 빠름^신용|믿을 수 있는 가치^신중하다|생각이 깊고 조심스럽다^신체|사람의 몸^신호|뜻을 나타내는 기호나 표시^신화|옛날부터 전해 내려오는 신과 인간 이야기^실내|건물 안쪽^실력|실제로 지니고 있는 능력^실시|실제로 행함^실수|잘못하여 저지른 행동^실제|거짓이 아닌 사실^실패|뜻한 바를 이루지 못함^실현|실제로 이루어짐^실험|가설을 검증하기 위해 행하는 행위^심각하다|사태가 몹시 중대하다^심리|마음의 움직임^심사|자세히 살펴 평가함^심장|피를 온몸에 보내는 기관^심정|마음속의 상태^심하다|정도가 지나치다^싱싱하다|생기가 있고 신선하다^싸움|서로 부딪쳐 다투는 일^쌓다|차곡차곡 올리다^쓸모|필요하거나 가치가 있음^쓰이다|사용되다^씩씩하다|힘차고 활기가 있다^아름답다|보기에 곱고 좋다^아쉽다|부족하거나 만족스럽지 않다^아예|처음부터, 전혀^아픔|몸이나 마음이 괴로운 상태^악기|음악을 연주하는 기구^악몽|무섭고 괴로운 꿈^안개|공기 속에 떠 있는 작은 물방울^안정|상태가 변하지 않고 편안함^안타깝다|마음이 아프고 애처롭다^알리다|사실이나 소식을 전하다^알려지다|널리 퍼져 사람들에게 알려짐^암시|은근히 넌지시 보임^압력|누르는 힘^앞두다|어떤 시점이 가까이 오다^애국|자기 나라를 사랑하는 마음^애쓰다|힘을 다해 노력하다^애정|깊이 아끼고 사랑하는 마음^야경|밤의 경치^야외|집 밖의 넓은 들판이나 공터^약간|아주 많지 않고 조금^약속|서로 지키기로 정한 일^약하다|힘이나 세력이 부족하다^얕다|깊지 않다^양보|자기 것을 내주어 남을 도와줌^양심|옳고 그름을 판단하는 마음^얕보다|가볍게 여기다^어깨|팔과 몸통을 잇는 부분^어둡다|빛이 적어 잘 보이지 않는다^어려움|하기 힘든 상태^어리석다|생각이 깊지 못하다^어린이|나이가 어린 사람^어머니|자기를 낳아 길러 주신 분^어부|물고기를 잡는 일을 하는 사람^어제|오늘보다 하루 전날^어디서나|어느 곳에서든^억지|무리하게 하는 것^언덕|땅이 비스듬히 높아진 곳^언어|사람의 말^얼굴|머리의 앞쪽 부분^얼마나|수나 양을 묻는 말^업적|훌륭하게 이룬 성과^없다|존재하지 않다^여기다|어떤 성질로 생각하다^여전히|변함없이 그대로^여럿|두 개 이상 많은 수^여름|네 계절 가운데 두 번째 계절^여성|여자의 성별^여유|시간이나 돈 등이 넉넉함^여행|집을 떠나 다른 곳을 다녀옴^역사|인류 사회가 지나온 발자취^연구|어떤 것을 깊이 있게 탐구함^연극|무대에서 연기하는 예술^연결|서로 이어 줌^연락|서로 소식을 주고받음^연락|서로 소식을 주고받음^연습|익히려고 반복하여 함^연애|남녀가 사랑하는 일^연예인|대중 앞에서 공연하는 사람^연주|악기를 다루어 음악을 나타냄^연합|힘을 합쳐 함께 함^열기|뜨겁게 달아오른 기운^열다|닫힌 것을 벌려 열리게 하다^열심|힘을 다해 노력하는 태도^열정|강렬하게 바라는 마음^열차|철도 위를 달리는 차량^염려|걱정하고 근심함^영광|빛나고 자랑스러운 명예^영구|아주 오랫동안 변하지 않음^영리하다|똑똑하고 이해가 빠르다^영향|어떤 일에 작용하여 끼치는 작용^영어|영국에서 시작된 언어^영상|화면이나 그림으로 나타난 모양^영화|스크린에 비춰 보여 주는 영상 예술^영역|활동이나 지배가 미치는 범위^영혼|몸과는 다른 정신적인 존재^예방|미리 막음^예상|앞으로의 일을 미리 생각함^예술|아름다움을 표현하는 인간의 활동^예습|배울 것을 미리 공부함^예외|보통의 경우와 다름^예절|지켜야 하는 예의 바른 행동^예측|앞으로 일어날 일을 미리 짐작함^옛날|먼 과거의 시절^오늘날|현재의 시대^오류|잘못이나 틀림^오랫동안|긴 시간 동안^오염|더럽혀지고 나빠짐^오직|그것 하나뿐임^오전|하루 중 낮 12시 이전의 시간^오후|낮 12시 이후의 시간^오해|잘못 이해함^온갖|여러 가지 모든 것^온도|차고 더운 정도^온라인|인터넷을 통해 연결된 상태^올라가다|위로 향해 움직이다^올바르다|그름이 없이 바르다^옳다|이치에 맞고 그르지 않다^완성|끝까지 다 이루어 냄^완전|모자람이 없음^완화|강한 것을 누그러뜨림^외교|나라와 나라 사이의 관계^외롭다|혼자 있어 쓸쓸하다^외모|겉으로 드러난 모습^외부|바깥쪽^외식|집 밖에서 사 먹는 일^외출|밖으로 나감^왠지|분명한 이유는 모르지만^요구|필요로 하여 청함^요리|음식을 만듦^요약|긴 글을 줄여 핵심만 적음^요인|중요한 원인^욕심|지나치게 바라는 마음^용기|두려움을 이겨 내는 힘^용도|쓰이는 목적^용어|일정한 분야에서 쓰이는 말^우려|걱정하거나 근심함^우리나라|대한민국^우수하다|뛰어나고 훌륭하다^우연|뜻하지 않게 일어남^우정|친구 사이의 믿음과 정^우주|하늘과 별, 공간 전체^운명|피할 수 없는 하늘의 뜻^운동|몸을 움직이는 활동^운행|정해진 길을 따라 움직임^운전|탈것을 다루어 움직임^울리다|소리가 나게 하다^웃음|즐겁거나 기뻐서 소리 내어 웃음^원래|본디부터^원리|사물이 성립하는 기본 이치^원인|어떤 결과를 일으키는 까닭^원조|어려운 처지에 도움을 줌^원칙|반드시 지켜야 하는 규정^원하다|바라거나 소망하다^월급|한 달 동안 일한 대가로 받는 돈^위치|있는 곳^위협|두렵게 하여 억누름^위험|사고나 나쁜 일이 생길 가능성^위로|괴로운 사람을 달래어 줌^위반|규칙이나 약속을 어김^위인|훌륭한 업적을 남긴 사람^위주|가장 중심에 둠^위층|위에 있는 층^위하다|이롭게 하려고 돌보다^유능하다|능력이 뛰어나다^유도|어떤 방향으로 이끌어 감^유리|투명한 단단한 재료^유머|웃음을 주는 말이나 행동^유사하다|비슷하다^유용|쓸모가 있음^유익|이로움^유일|오직 하나뿐임^유지|상태를 그대로 보존함^유행|한때 사회에서 널리 퍼짐^유혹|꾀어 이끌어 감^육체|사람의 몸^음악|소리를 통해 감정을 표현하는 예술^의논|의견을 서로 나눔^의도|어떤 일을 하려는 생각^의무|반드시 해야 하는 일^의미|뜻이나 내용^의료|병을 치료하고 보살피는 활동^의사|병을 치료하는 전문 직업인^의식|깨어 있는 마음, 혹은 사회적 의례^의심|믿지 못하고 의혹을 가짐^의욕|어떤 일을 하고자 하는 마음^의지|어떤 것에 기대거나 마음을 굳게 함^이론|어떤 현상을 설명하는 논리 체계^이롭다|도움이 되다^이루다|목적이나 뜻 실현하다^이뤄지다|어떤 결과가 실제로 나타나다^이유|어떤 일의 까닭^이전|지금보다 앞선 때^이제|바로 지금 이때^이젠|이제는^이중|둘로 겹쳐 있음^이익|이로움이나 얻는 돈^이해|뜻이나 내용을 알아차림^이혼|부부가 관계를 끊음^인간|사람^인간적|사람답고 인정이 있는 모습^인격|사람의 성품과 품격^인기|많은 사람들의 관심과 사랑^인내|어려움을 참고 견딤^인류|사람 전체^인물|뛰어난 사람. 혹은 사람의 생김새^인생|사람이 살아가는 한평생^인식|사물을 분별하여 앎^인연|서로 관계를 맺게 되는 계기^인원|모여 있는 사람의 수^인위적|사람이 의도하여 만든 것^인재|훌륭한 인물^인정|따뜻한 마음. 혹은 사실로 받아들임^인종|피부색, 문화 등으로 구분되는 사람 집단^인체|사람의 몸^인형|사람 모양으로 만든 장난감^일기|하루 동안 있었던 일을 적은 글^일단|우선 먼저^일대|어떤 일정한 지역^일등|첫째로 좋은 등급^일명|또 다른 이름^일상|날마다의 보통 생활^일시|잠깐 동안^일어나다|눕거나 앉은 데서 몸을 일으키다^일부|전체 중의 한 부분^일찍|이른 시기에^일정|정해진 기간이나 계획^일종|같은 부류에 속하는 것^일치|서로 맞아 들어감^일터|일하는 곳^일행|함께 길을 가는 사람들^임무|맡아서 해야 하는 일^임시|정해진 기간 동안 잠시 쓰는 것^입구|들어가는 자리^입대|군대에 들어감^입력|안으로 집어넣음^입맛|음식의 맛을 느끼는 기호^입장|어떤 자리에 들어감, 또는 처지^자격|어떤 일을 할 수 있는 조건^자극|어떤 작용을 주어 반응을 일으킴^자기|자기 자신^자꾸|계속하여 반복해서^자료|연구나 활동의 바탕이 되는 재료^자리|앉거나 설 수 있는 공간^자랑|뽐내며 내세움^자세|몸의 태도나 마음가짐^자식|자기의 아들딸^자신|스스로 믿는 마음^자연|사람이 손대지 않은 그대로의 상태^자유|구속이나 제한이 없음^자율|스스로 다스려 절제함^자원|생활에 쓸 수 있는 천연물^자원하다|스스로 나서서 맡다^자의|자기 스스로의 뜻^자주|여러 번 반복해서^자신감|자기 능력을 믿는 마음^자제|스스로 억제함^작가|글이나 작품을 쓰는 사람^작품|예술로 만든 결과물^작은아버지|아버지의 남동생^작은어머니|작은아버지의 아내^작성|문서나 계획을 만듦^작용|어떤 결과를 일으키는 움직임^작정|하기로 굳게 마음먹음^잔소리|자꾸 잔잔하게 꾸짖는 말^잘나다|남보다 뛰어나다^잘못|올바르지 않은 행위^잘생기다|얼굴이나 모습이 보기 좋다^잠깐|짧은 동안^잠들다|잠에 빠지다^잠시|오래지 않은 동안^잡다|손으로 쥐거나 붙잡다^잡지|여러 글과 그림을 실은 간행물^장소|일이 벌어지는 곳^장식|보기 좋게 꾸밈^장점|좋은 점^장차|앞으로 다가올 시간^재능|타고난 능력^재료|어떤 것을 만드는 데 쓰이는 물건^재산|개인이 가지고 있는 돈이나 물건^재앙|큰 피해를 주는 나쁜 일^재정|나라나 단체의 경제 상태^재질|물건의 바탕이 되는 성질^재판|옳고 그름을 가려 판결함^재학|학교에 다님^재활용|쓰던 것을 다시 이용함^저녁|하루의 끝 무렵 시간^저렴하다|값이 싸고 알맞다^저장|물건이나 자료를 간직하여 둠^저절로|다른 힘이 없이 스스로^적용|실제로 알맞게 씀^저항|억압이나 힘에 맞서서 버팀^저희|우리를 낮추어 이르는 말^적당|알맞고 마땅함^적성|어떤 일에 알맞은 성질^적절|꼭 알맞음^전개|일이 차례대로 벌어짐^전국|나라 전체^전달|전하여 건네줌^전력|전기의 힘, 또는 모든 힘^전면|사물의 앞면 전체^전문|어떤 분야에 깊이 통달함^전부|전체 모두^전세|일정한 기간 집이나 방을 빌려 씀^전용|특정한 일에만 씀^전자|전기의 성질을 띠는 입자^전체|낱낱을 합친 전부^전통|오래 전부터 이어온 생활양식^전혀|아예, 조금도^전환|바꾸어 돌림^전화|목소리를 주고받는 통신 기구^점검|잘못된 곳이 없는지 살핌^점점|차츰차츰, 조금씩 더^접하다|서로 맞닿다^정답|올바른 대답^정당|정치 활동을 하는 단체^정리|뒤섞인 것을 바르게 함^정상|보통의 상태^정성|마음을 다해 정중히 하는 태도^정식|공식적으로 정해진 방식^정신|사람의 생각이나 마음^정오|낮 12시^정보|어떤 사실에 대한 소식이나 자료^정부|나라를 다스리는 조직^정확|틀림없고 바름^정의|올바름, 또는 말의 뜻^제공|물건이나 서비스를 내어 줌^제도|일정한 규칙이나 체계^제품|만들어 낸 물건^제한|일정한 한도를 정해 막음^제외|빼고 제외함^제출|내어 바침^제자|가르침을 받는 학생^제작|물건을 만들거나 지음^제정|법이나 제도를 정함^제일|가장 첫째^제거|없애 버림^제안|어떤 일을 내놓아 의견을 구함^제약|자유를 제한하는 조건^제왕|옛날 나라의 임금^조건|어떤 일을 이루는 데 필요한 요건^조급하다|마음이 몹시 급하다^조명|빛을 비춤^조상|자기보다 윗대의 친족^조심|언행이나 행동을 조심함^조직|일정한 목적을 이루기 위한 집단^존재|실제로 있음^존경|훌륭한 사람을 우러러 받듦^존중|귀하게 여겨 대접함^졸업|다니던 학교를 마침^종교|초자연적 존재를 믿고 섬김^종류|사물의 갈래^종합|모아서 합침^좌석|앉는 자리^좌우|왼쪽과 오른쪽^죄인|죄를 저지른 사람^주고받다|서로 주고받음^주관|자기만의 의견이나 생각^주기|일정한 간격으로 되풀이됨^주다|다른 사람에게 건네주다^주목|눈길을 주어 봄^주문|부탁하여 물건을 청함^주인|어떤 물건이나 집을 가진 사람^주제|말이나 글에서 중심이 되는 생각^주차|자동차를 세워 둠^주장|자기 의견을 강하게 내세움^주저하다|결정을 쉽게 내리지 못하다^주변|가까운 근처^주의|관심을 기울여 조심함^주인공|이야기나 사건의 중심 인물^주입|안으로 흘려 넣음^주체|어떤 일을 하는 본래의 사람이나 단체^주택|사람이 살 수 있는 집^준비|미리 갖추어 마련함^줄거리|글이나 이야기의 대강^줄이다|양을 적게 하다^중간|앞과 뒤. 위와 아래의 사이^중심|한가운데^중요|꼭 필요하고 소중함^중학교|초등학교 위의 학교^즐겁다|기쁘고 유쾌하다^증가|점점 더 많아짐^증거|사실을 증명하는 근거^증명|사실임을 밝힘^증상|병의 징후나 나타남^지각|느끼거나 알아차림. 또는 학교에 늦게 감^지구|사람이 사는 행성^지능|문제를 이해하고 해결하는 능력^지다|싸움이나 경쟁에서 이기지 못하다^지리|땅의 모양과 위치에 관한 지식^지도|땅의 위치와 모양을 그림으로 나타낸 것^지루하다|지겹고 재미가 없다^지원|도와줌^지역|일정한 범위의 땅^지연|일이 늦어짐^지점|일정한 장소^지혜|슬기롭고 현명한 생각^지휘|여럿을 이끌고 지도함^직업|생계를 위하여 하는 일^직접|중간에 다른 것을 거치지 않고 바로^진급|학년이나 직급이 올라감^진단|병이나 상태를 판단함^진리|변하지 않는 참된 이치^진실|거짓이 없는 사실^진행|앞으로 나아감^진짜|거짓이 아닌 것^질문|모르거나 알고 싶은 것을 묻는 일^집단|여럿이 모여 이루어진 무리^집중|한 가지에 마음을 모음^짐작|어떤 일을 미루어 생각함^짙다|빛깔이나 기운이 강하다^짜다|소금을 넣다. 또는 계획을 세우다^짜증|마음이 언짢고 화가 남^책임|맡아서 해야 할 의무^철도|기차가 다니는 길^철저하다|빈틈이 없이 완벽하다^첫째|맨 처음^청결|깨끗하고 맑음^청구|요구하여 달라고 함^청소년|어린이와 어른의 중간 시기 사람^청춘|젊음의 시기^체력|몸의 힘^체험|몸으로 직접 경험함^초대|오라고 청함^초등학교|초등교육을 하는 학교^초보|처음 시작하는 단계^초원|풀만 넓게 자라는 들판^초점|가장 중요한 부분^촬영|사진이나 영화를 찍음^최대|가장 큼^최근|요즈음 가까운 시기^최선|가장 좋은 방법이나 노력^최소|가장 작음^최고|가장 위나 가장 뛰어남^추가|덧붙여 더함^추억|지난 일을 떠올림^추천|좋다고 권함^추측|짐작하여 생각함^축구|공을 차서 하는 경기^축소|줄여 작게 함^충분|모자람이 없음^춤추다|음악에 맞추어 몸을 움직이다^출근|직장에 나감^출발|목적지를 향해 떠남^출장|일을 하러 다른 곳에 감^출판|책이나 글을 인쇄하여 냄^충격|세게 부딪쳐 받는 자극^충돌|서로 부딪침^충실|내용이나 마음이 알차고 든든함^취미|즐기기 위해 하는 활동^취소|없던 일로 함^치료|병이나 상처를 낫게 함^친근하다|가깝게 느껴지고 허물없다^친절|다정하고 친밀하게 대함^친척|혈연으로 이어진 가까운 사람^칭찬|잘한 일을 좋게 말함^칼날|칼의 날카로운 부분^캠프|야외에서 일정 기간 지내는 활동^커다랗다|매우 크다^컴퓨터|정보를 처리하는 전자 기계^켜다|불이나 기계를 작동시키다^코끼리|큰 몸집과 긴 코를 가진 동물^코스|정해진 길이나 과정^코치|운동을 가르치는 사람^콘서트|음악 공연^콩나물|콩에서 싹이 난 채소^콩쿠르|예술 분야의 경연 대회^콧노래|콧소리로 흥얼거리는 노래^쾌적하다|기분이 상쾌하고 좋다^크기|길이나 넓이, 부피의 정도^크다|몸집이나 규모가 보통보다 크다^클래스|등급이나 반^클럽|같은 취미나 목적을 가진 모임^키우다|식물이나 동물을 자라게 하다^타다|불이 붙다. 탈것을 이용하다^타인|자기 이외의 다른 사람^타협|서로 의견을 양보하여 합의함^탁월하다|아주 뛰어나다^탄생|태어남^탈락|떨어져 빠짐^탐구|깊이 연구함^탑승|탈것에 올라탐^태도|마음가짐이나 행동하는 방식^태양|태양계의 중심이 되는 별^택배|물건을 집까지 배달하는 일^토론|서로 의견을 주고받으며 논의함^토론회|여러 사람이 모여 의견을 나누는 모임^토양|식물이 자라는 흙^통과|어떤 곳이나 시험을 지나감^통로|사람이나 물건이 다니는 길^통신|멀리 떨어져 소식을 주고받음^통역|다른 언어를 말로 바꾸어 전달함^통일|나뉜 것을 하나로 합침^통제|제지하고 다스림^통증|아픈 증세^통찰|깊이 꿰뚫어 봄^통행|길을 따라 다님^통합|여러 가지를 하나로 모음^퇴근|일을 마치고 집으로 돌아옴^퇴장|무대나 장소에서 나감^투자|이익을 얻으려고 돈이나 자원을 들임^튼튼하다|쉽게 무너지지 않고 강하다^튼튼히|단단하고 확실하게^틀리다|옳지 않다^틀림없다|반드시 그러하다^티끌|아주 작은 먼지^파괴|때려 부숨^파도|바람에 흔들려 이는 물결^파랑|푸른 빛깔^파악|내용을 알아 차림^파출소|경찰이 근무하는 작은 기관^파트너|짝을 이루는 상대^파일|자료를 모아 놓은 묶음^파이프|액체나 기체가 통하는 관^파출|경찰이 임무를 맡아 나감^파편|부서져 흩어진 작은 조각^판단|옳고 그름이나 좋고 나쁨을 헤아림^판매|물건을 팖^판사|재판을 맡은 사람^판정|결과나 상태를 가름^팔꿈치|팔과 팔뚝을 잇는 관절 부분^팝송|서양 대중가요^패배|싸움이나 경쟁에서 짐^패션|유행하는 옷차림^패자|경쟁이나 경기에서 진 사람^팽창|부풀어 넓어짐^퍼지다|널리 번지거나 퍼짐^페인트|칠하는 물감^편견|한쪽으로 치우친 생각^편리|사용하기 쉽고 편함^편안|마음이 평온하고 안정됨^편지|소식을 적은 글월^편집|글이나 그림을 모아 꾸밈^평가|가치를 판단함^평균|전체를 고르게 나눈 수치^평범|특별하지 않고 보통임^평생|살아 있는 동안 내내^평소|보통 때^평화|전쟁이나 다툼이 없는 상태^포기|바라던 것을 버림^포근하다|따뜻하고 부드럽다^포도|덩굴에 열리는 열매^포장|물건을 싸는 일^포함|안에 함께 들어 있음^폭넓다|범위가 넓다^폭력|힘으로 남을 해침^폭우|갑자기 많이 내리는 비^폭포|물이 높은 곳에서 떨어짐^표면|겉으로 드러난 부분^표현|생각이나 감정을 말이나 글, 그림 등으로 나타냄^표준|비교의 기준이 되는 규범^표정|얼굴에 드러나는 감정^표시|뜻을 드러내는 기호^표지판|알리거나 지시하기 위한 표지^프로그램|일정하게 계획된 절차^프로|전문적으로 하는 사람^프린터|글이나 그림을 인쇄하는 기계^플라스틱|가볍고 단단한 합성 재료^피곤|몸과 마음이 지쳐 힘듦^피다|꽃이 열리거나 활짝 벌어지다^피로|피곤한 상태^피우다|불이나 연기를 일어나게 함^피해|입은 손해나 고통^필수|반드시 있어야 하는 것^필연|반드시 그렇게 될 수밖에 없음^필자|글을 쓴 사람^필요|꼭 있어야 하는 것^필통|연필을 넣어 두는 통^핑계|잘못을 변명하는 말^하늘|머리 위에 펼쳐진 공간^하늘색|맑은 하늘과 같은 색^하락|값이나 수준이 떨어짐^하루|아침부터 저녁까지의 한 날^하루하루|날마다^하반기|한 해의 뒤쪽 절반^하산|산에서 내려옴^하수도|빗물이나 오수를 흘려 보내는 시설^하얗다|눈처럼 흰 빛깔^학교|교육을 받는 곳^학생|학교에서 배우는 사람^학습|지식이나 기술을 배움^학용품|공부에 필요한 물건^학원|학문이나 기술을 가르치는 기관^한계|일정한 범위나 한도^한국|대한민국의 공식 이름^한글|우리나라 고유의 문자";
+    const rawDataString = "가꾸다|잘 보살펴 자라게 하다^가리다|구별하거나 분간하다^가치|사물이 지니는 중요함이나 바람직한 정도^간직하다|잃지 않도록 보관하다^감각|눈·귀·코·혀 피부로 느끼는 힘^감사|고마운 마음을 나타냄^강요하다|억지로 시키다^개념|어떤 사물이나 현상에 대한 일반적이고 본질적인 생각^개방|막힌 것을 열어 놓음^거절하다|요구나 부탁을 받아들이지 않다^건강|몸과 마음이 튼튼하고 이상이 없음^검토|내용을 자세히 따져 살펴봄^결심|어떤 일을 하기로 굳게 마음을 먹음^경험|실제로 겪음^경고|위험이나 잘못을 알림^경쟁|같은 목표를 두고 겨룸^경제|재화를 생산하고 쓰는 모든 활동^경제적|돈이나 자원을 아껴 쓰는 것^고난|큰 어려움이나 괴로움^고민|마음속으로 괴로워하고 걱정함^고유하다|본래부터 가지고 있는 특성이다^고집|자기 생각을 굽히지 않고 우김^곤란|하기 어렵거나 난처함^공동|여럿이 함께 하는 것^공간|어떤 범위 안의 자리나 곳^공감|다른 사람의 감정을 같이 느낌^공정하다|치우치지 않고 올바르다^공통|여러 사람이나 사물에 함께 해당됨^공포|두렵고 무서운 감정^과학|자연 현상을 탐구하여 얻은 지식^과제|해야 할 일이나 문제^관찰|주의 깊게 살펴봄^관심|어떤 것에 마음을 두고 집중함^괴롭히다|다른 사람을 힘들게 하다^교류|서로 오가며 주고받음^교육|지식과 기술을 가르치고 기르는 일^교훈|가르침이 되는 일이나 말^구조|부분이 서로 짜여 이루어진 방식^구체적|실제로 나타나 뚜렷하게 드러나는 것^국어|우리나라의 말과 글^국제적|여러 나라에 걸친 것^군중|많이 모인 사람들^권리|당연히 누릴 수 있는 힘이나 자격^규칙|지켜야 하는 정해진 방법^균형|어느 한쪽으로 치우치지 않고 고름^그리움|간절히 보고 싶고 만나고 싶은 마음^극복|어 어려움을 이겨 냄^근거|어떤 판단이나 행동의 바탕^근본|사물의 바탕이 되는 것^금지|하지 못하게 막음^기념|잊지 않고 기억함^기대|어떤 일이 일어나기를 바람^기도|신이나 절대자에게 비는 것^기록|어떤 사실을 적거나 남김^기술|일을 잘 해내는 방법이나 재주^기준|비교하거나 판단하는 데 바탕이 되는 것^기억|마음속에 간직하고 다시 떠올리는 힘^기회|어떤 일을 할 수 있는 좋은 시기^긴장|마음이 조마조마하고 불안한 상태^깨어나다|잠이나 무의식 상태에서 정신을 차리다^끈기|쉽게 포기하지 않는 성질^끊임없다|계속 이어져 그치지 않다^나누다|여럿으로 갈라 놓다^나라|일정한 영토와 주권을 가진 사회 집단^나름|특별히 그에 맞는 경우나 방식^난처하다|어떻게 해야 할지 몰라 곤란하다^남다르다|보통과는 다르게 특별하다^남용|옳지 않게 함부로 씀^낭비|필요 이상으로 씀^내내|어떤 동안 계속^내용|사물이나 글의 속에 들어 있는 것^냉정하다|감정에 치우치지 않고 침착하다^넓히다|범위를 크게 하다^노력|어떤 일을 이루려고 힘씀^논리|생각이나 주장에 맞는 이치^논문|학문적 연구 결과를 적은 글^논의|어떤 문제를 토론함^논쟁|서로 다른 의견을 말하며 다툼^농담|웃기거나 장난으로 하는 말^농업|농사를 짓는 일^동일|똑같음^높이다|수준이나 정도를 더 올리다^동포|같은 민족이나 나라의 사람^누리다|즐기며 혜택을 받다^능동적|스스로 움직여 적극적으로 하는 태도^두려움|무섭고 걱정되는 마음^뒤집다|안팎, 위아래를 바꾸다^드러나다|겉으로 나타나다^능력|일을 해낼 수 있는 힘^등급|기준에 따라 나눈 단계^다루다|어떤 일을 맡아 처리하다^디자인|모양이나 구조를 계획적으로 꾸밈^단순하다|복잡하지 않고 간단하다^따르다|따라가다 또는 규칙에 복종하다^단어|뜻을 가진 최소의 말^딱딱하다|부드럽지 않고 굳다^단정하다|태도나 옷차림이 바르다^떠오르다|위로 올라 나오다^단절|서로의 관계가 끊어짐^떠올리다|생각이나 기억을 불러내다^단체|일정한 목적을 가진 사람들의 모임^뛰어나다|다른 것보다 훨씬 좋거나 앞서다^답변|물음에 대답함^당당하다|자신 있고 떳떳하다^당연하다|그러함이 옳고 마땅하다^당하다|어떤 일을 겪거나 맞닥뜨리다^대답|질문에 응하는 말^대량|양이 매우 많음^대립|서로 맞서거나 반대함^대명사|명사를 대신하여 쓰는 말^대신|다른 것으로 바꾸어 함^대중|많은 사람들^대체|다른 것으로 바꾸어 대신함^대표|여러 사람을 대표하여 나서는 사람^대회|많은 사람이 모여 겨루거나 발표하는 모임^덕분|남이 베풀어 준 도움^덜다|양을 줄이다^데리다|함께 가거나 오게 하다^도구|어떤 일을 하는 데 쓰는 기구^맞이하다|어떤 상황이나 사람을 받음^맞히다|문제의 답을 알아맞다^맡다|책임이나 일을 담당하다^매력|사람의 마음을 끄는 힘^매번|매번마다, 늘^매우|정도가 심하게^맥락|어떤 일이나 글의 줄거리와 관계^머물다|한곳에 잠시 있거나 멈추다^머뭇거리다|주저하며 행동을 못하다^먼저|시간이나 순서가 앞섬^멈추다|하던 일을 그치다^메우다|빈 곳을 채우다^멀리하다|가까이하지 않고 떨어져 지내다^멋지다|훌륭하고 보기 좋다^명령|윗사람이 아랫사람에게 지시하는 말^명예|이름을 빛나게 하는 명성^명확하다|분명하고 뚜렷하다^모범|본받을 만한 행동이나 대상^모순|앞뒤가 서로 어긋남^모양|사물의 생긴 모습^목표|이루려는 목적^몰두|어떤 일에 정신을 집중함^몰래|남이 모르게^무관심|관심이 없음^무너지다|쌓아 올린 것이 허물어지다^무리|일정한 사람이나 동물의 무더기^무사하다|사고나 탈이 없이 안전하다^무조건|아무런 조건이 없음^무척|매우, 아주^문득|갑자기 어떤 생각이 떠오르는 모양^문제|해결해야 할 일이나 사건^문화|사람이 삶 속에서 만들어 낸 가치와 양식^묵다|일정한 곳에 머무르다^물질|형태와 부피를 가진 모든 것^미끄럽다|잘 미끄러지는 성질^미래|앞으로 올 시간^미루다|일을 뒤로 늦추다^미소|부드럽게 웃음^미숙하다|아직 익숙하지 않고 서툴다^미움|싫어하는 마음^민감하다|작은 자극에도 잘 반응하다^민주|주권이 국민에게 있음^믿음|굳게 의지하거나 확신함^바꾸다|다른 것으로 고치거나 바꿔 놓다^바람직하다|그렇게 하는 것이 옳다^바르다|곧고 바탕이 바람직하다^반대|어떤 것에 맞서거나 거슬러 행함^반성|잘못을 돌아보고 뉘우침^반영|어떤 영향을 받아 드러남^반장|집단에서 대표로 뽑힌 학생^반복|같은 일을 되풀이함^발걸음|걷는 걸음^발달|성장하여 수준이 높아짐^발전|점점 더 좋아지고 수준이 높아짐^발견|새롭게 찾아냄^발명|새로운 물건이나 방법을 처음으로 만듦^발표|많은 사람 앞에서 알리거나 설명함^방송|소리나 영상을 널리 보냄^방식|일을 하는 방법이나 형식^방문|어떤 곳에 찾아감^방문하다|다른 사람을 찾아가다^방향|나아가는 쪽이나 위치^방법|어떤 일을 하는 데 필요한 절차^방해|일이 제대로 되지 못하도록 막음^배경|어떤 일의 뒷받침이 되는 환경^배려|다른 사람을 잘 돌보고 생각해 줌^배우다|지식이나 기술을 익히다^배움|배우는 과정이나 내용^배치|일정한 자리에 알맞게 놓음^배우자|결혼한 상대편^백성|한 나라에 사는 국민^버릇|자주 되풀이하는 행동^번역|한 언어를 다른 언어로 옮김^벌리다|어떤 일을 크게 시작하다^벌이다|일을 새로 시작하거나 전개하다^범죄|법을 어기고 죄를 지음^범위|한정된 구역이나 테두리^법률|나라에서 정한 규칙이나 법^법칙|반드시 지켜야 하는 규정^변화|달라지고 바뀜^변명|잘못을 꾸며서 이유를 댐^변하다|모양이나 상태가 달라지다^별명|본 이름이 아닌 다른 이름^보고|어떤 일의 결과를 알림^보관|물건을 맡아 간수함^보람|어떤 일을 하고 난 뒤의 기쁨이나 가치^보호|지켜 주고 돌봄^보통|특별하지 않고 흔함^복잡|얽히고 뒤섞여 어수선함^본격적|본래의 성격이나 방식대로 하는 것^본래|원래부터^본받다|모범으로 삼아 따르다^본인|바로 그 자신^볼거리|구경할 만한 것^부담|짐이나 의무를 짊어짐^부대|군대의 집단 단위^부분|전체 중의 한 조각^부서|기관의 여러 기능을 나눈 단위^부정|옳지 않다고 인정하지 않음^부족|모자라거나 넉넉하지 못함^부지런하다|게으르지 않고 열심이다^부친|아버지^부품|기계의 낱낱의 부분^분명|틀림없이 확실함^분석|내용을 자세히 나누어 살펴봄^분위기|주위에서 느껴지는 기운^분리|서로 나누어 떨어뜨림^분명하다|확실하고 뚜렷하다^분배|나누어 줌^분쟁|다투고 싸움^분포|일정한 구역에 퍼져 있음^분해|나누어 쪼갬^불가능|할 수 없음^불공평|고르지 않고 공정하지 못함^불과|겨우 그 정도에 지나지 않음^불리하다|이롭지 않고 불편하다^불안|마음이 편하지 못함^불완전|완전하지 않음^불평|마음에 차지 않아 탓함^불행|좋지 않은 일을 당함^분위|주위에 감도는 기운^붕괴|무너지고 깨짐^붙잡다|놓치지 않고 잡다^비극|슬프고 불행한 사건^비교|둘 이상의 것을 견주어 살펴봄^비난|남의 잘못을 탓하며 나무람^비밀|남에게 알리지 않는 일^비슷하다|거의 같음^비율|두 수나 양의 크기를 비교한 값^비중|어떤 것이 차지하는 무게나 중요성^비추다|빛을 보내거나 보여 주다^비판|옳고 그름을 가려 판단함^비평|작품이나 현상을 분석하고 평가함^빈틈|빠져 있는 곳^빌리다|남의 것을 잠시 받아 쓰다^빠르다|움직임이나 속도가 보통보다 크다^빨리|보통보다 더 서둘러^뽑다|여러 개 가운데 하나를 고르다^사계절|봄, 여름, 가을, 겨울 네 계절^사라지다|없어지거나 보이지 않게 되다^사생활|개인의 일상적인 생활^사소하다|대단하지 않고 하찮다^사연|어떤 일이 있게 된 까닭이나 내용^사전|낱말의 뜻을 모아 놓은 책^사실|실제로 있었던 일^사회|사람들이 모여 이룬 공동체^사회적|사회와 관련된 것^사흘|사나흘의 기간(3일)^산물|어떤 결과로 생긴 것^산업|생활에 필요한 재화를 만드는 활동^살펴보다|주의 깊게 관찰하다^상담|의논하여 도움을 받음^상상|실제로 없는 것을 마음속에 그려 봄^상황|일이 벌어지는 상태^상징|어떤 개념을 구체적인 사물로 나타냄^상식|일반적으로 알고 있어야 할 보통의 지식^상승|위로 올라감^상업|물건을 사고파는 일^상인|장사를 하는 사람^상처|다쳐서 생긴 자국이나 마음의 아픔^상호|서로 주고받음^상태|어떤 사물이나 현상의 모양이나 형편^생활|사람의 일상적인 삶^생명|살아 있는 힘^생물|살아서 움직이는 모든 존재^생생하다|눈앞에 보듯 뚜렷하다^생산|물건을 만들어 냄^생존|살아남음^생활비|생활에 드는 비용^서류|일정한 내용을 적은 문서^서민|보통의 평범한 사람^서술|어떤 사실이나 생각을 글이나 말로 나타냄^서양|아시아 이외의 서쪽 나라들^서점|책을 파는 가게^석유|땅속에서 나는 기름^선거|대표자를 뽑는 절차^선물|다른 사람에게 주는 물건^선배|어떤 조직에서 나보다 먼저 들어온 사람^선생님|학생을 가르치는 분^선택|여러 가지 중에서 고름^선언|어떤 뜻을 공식적으로 밝힘^선호|특별히 좋아하여 앞세움^선행|착한 행동^선호하다|좋아하여 우선하다^설명|알기 쉽게 풀이하여 말함^성공|목적한 일을 이룸^성과|어떤 일을 하여 얻은 좋은 결과^성격|사람의 성질이나 품성^성실|정직하고 책임감 있게 최선을 다함^성인|다 자라서 어른이 된 사람^성취|목적한 바를 이룸^성향|성질이나 경향^세계|사람이 살아가는 지구 전체^세계적|전 세계에 걸친 것^세기|백 년의 단위^세력|힘이나 권위^세상|사람이 살아가는 세간^세심하다|꼼꼼하고 조심스럽다^세월|시간이 흐름^세탁|옷감을 씻어 깨끗하게 함^소감|어떤 일에 대하여 느낀 바^소규모|작은 규모^소득|일하여 얻는 돈이나 이익^소망|바라는 마음^소문|입에서 입으로 전해지는 말^소설|꾸며낸 이야기 글^소속|일정한 단체에 속함^소용|필요한 바탕이나 이익^소중하다|귀하고 중요하다^소질|어떤 일을 잘할 수 있는 타고난 능력^소풍|야외로 나들이 가는 일^속담|생활에서 나온 교훈적인 짧은 말^속도|움직이는 빠르기^속이다|남을 거짓으로 믿게 하다^손해|이익이 줄거나 잃는 것^손질|잘 다듬거나 고침^솔직하다|숨김이 없이 바르다^송금|돈을 보내는 일^송별|떠나는 사람을 보내는 일^수고|어떤 일을 위해 애씀^수단|어떤 일을 이루기 위한 방법^수량|수나 양^수령|받아 가짐^수리|고쳐서 쓰게 함^수많다|수가 매우 많다^수명|살 수 있는 기간^수상|물 위에서 하는 일^수석|으뜸가는 자리나 학생^수업|배우고 익히는 과정^수입|돈이나 물건이 들어옴^수익|얻는 이익^수집|모아서 모음^수준|정도나 단계^수출|물건을 외국으로 내보냄^수치|수로 나타낸 수량^수학|수와 관련된 학문^수확|농작물을 거두어들임^숙제|배운 것을 복습하기 위한 과제^순간|아주 짧은 시간^순서|일정한 차례^순수|섞이지 않고 깨끗함^순위|순서에 따라 정한 자리^순진하다|꾸밈이 없고 솔직하다^숭고하다|뜻이 높고 훌륭하다^시각|눈으로 보는 힘. 또는 시간^시기|일정한 시점이나 때^시끄럽다|소리가 크고 어수선하다^시도|어떤 일을 해 보려는 행동^시력|눈으로 볼 수 있는 힘^시민|한 나라의 국민^시선|눈길이 향하는 곳^시설|편리하게 만든 장치나 건물^시험|배운 지식을 평가하는 절차^시합|실력을 겨루는 일^시작|어떤 일을 처음으로 함^시장|물건을 사고파는 장소^시중|곁에서 도와주고 보살핌^시집|여자가 결혼하여 들어가는 집^시작하다|일을 처음으로 하다^시키다|어떤 일을 하도록 명령하다^신경|자극을 받아들이고 전달하는 기관^신념|굳게 믿는 마음^신문|시대의 소식이나 정보를 전하는 인쇄물^신비|쉽게 알 수 없는 이상한 일^신속|매우 빠름^신용|믿을 수 있는 가치^신중하다|생각이 깊고 조심스럽다^신체|사람의 몸^신호|뜻을 나타내는 기호나 표시^신화|옛날부터 전해 내려오는 신과 인간 이야기^실내|건물 안쪽^실력|실제로 지니고 있는 능력^실시|실제로 행함^실수|잘못하여 저지른 행동^실제|거짓이 아닌 사실^실패|뜻한 바를 이루지 못함^실현|실제로 이루어짐^실험|가설을 검증하기 위해 행하는 행위^심각하다|사태가 몹시 중대하다^심리|마음의 움직임^심사|자세히 살펴 평가함^심장|피를 온몸에 보내는 기관^심정|마음속의 상태^심하다|정도가 지나치다^싱싱하다|생기가 있고 신선하다^싸움|서로 부딪쳐 다투는 일^쌓다|차곡차곡 올리다^쓸모|필요하거나 가치가 있음^쓰이다|사용되다^씩씩하다|힘차고 활기가 있다^아름답다|보기에 곱고 좋다^아쉽다|부족하거나 만족스럽지 않다^아예|처음부터, 전혀^아픔|몸이나 마음이 괴로운 상태^악기|음악을 연주하는 기구^악몽|무섭고 괴로운 꿈^안개|공기 속에 떠 있는 작은 물방울^안정|상태가 변하지 않고 편안함^안타깝다|마음이 아프고 애처롭다^알리다|사실이나 소식을 전하다^알려지다|널리 퍼져 사람들에게 알려짐^암시|은근히 넌지시 보임^압력|누르는 힘^앞두다|어떤 시점이 가까이 오다^애국|자기 나라를 사랑하는 마음^애쓰다|힘을 다해 노력하다^애정|깊이 아끼고 사랑하는 마음^야경|밤의 경치^야외|집 밖의 넓은 들판이나 공터^약간|아주 많지 않고 조금^약속|서로 지키기로 정한 일^약하다|힘이나 세력이 부족하다^얕다|깊지 않다^양보|자기 것을 내주어 남을 도와줌^양심|옳고 그름을 판단하는 마음^얕보다|가볍게 여기다^어깨|팔과 몸통을 잇는 부분^어둡다|빛이 적어 잘 보이지 않는다^어려움|하기 힘든 상태^어리석다|생각이 깊지 못하다^어린이|나이가 어린 사람^어머니|자기를 낳아 길러 주신 분^어부|물고기를 잡는 일을 하는 사람^어제|오늘보다 하루 전날^어디서나|어느 곳에서든^억지|무리하게 하는 것^언덕|땅이 비스듬히 높아진 곳^언어|사람의 말^얼굴|머리의 앞쪽 부분^얼마나|수나 양을 묻는 말^업적|훌륭하게 이룬 성과^없다|존재하지 않다^여기다|어떤 성질로 생각하다^여전히|변함없이 그대로^여럿|두 개 이상 많은 수^여름|네 계절 가운데 두 번째 계절^여성|여자의 성별^여유|시간이나 돈 등이 넉넉함^여행|집을 떠나 다른 곳을 다녀옴^역사|인류 사회가 지나온 발자취^연구|어떤 것을 깊이 있게 탐구함^연극|무대에서 연기하는 예술^연결|서로 이어 줌^연락|서로 소식을 주고받음^연습|익히려고 반복하여 함^연애|남녀가 사랑하는 일^연예인|대중 앞에서 공연하는 사람^연주|악기를 다루어 음악을 나타냄^연합|힘을 합쳐 함께 함^열기|뜨겁게 달아오른 기운^열다|닫힌 것을 벌려 열리게 하다^열심|힘을 다해 노력하는 태도^열정|강렬하게 바라는 마음^열차|철도 위를 달리는 차량^염려|걱정하고 근심함^영광|빛나고 자랑스러운 명예^영구|아주 오랫동안 변하지 않음^영리하다|똑똑하고 이해가 빠르다^영향|어떤 일에 작용하여 끼치는 작용^영어|영국에서 시작된 언어^영상|화면이나 그림으로 나타난 모양^영화|스크린에 비춰 보여 주는 영상 예술^영역|활동이나 지배가 미치는 범위^영혼|몸과는 다른 정신적인 존재^예방|미리 막음^예상|앞으로의 일을 미리 생각함^예술|아름다움을 표현하는 인간의 활동^예습|배울 것을 미리 공부함^예외|보통의 경우와 다름^예절|지켜야 하는 예의 바른 행동^예측|앞으로 일어날 일을 미리 짐작함^옛날|먼 과거의 시절^오늘날|현재의 시대^오류|잘못이나 틀림^오랫동안|긴 시간 동안^오염|더럽혀지고 나빠짐^오직|그것 하나뿐임^오전|하루 중 낮 12시 이전의 시간^오후|낮 12시 이후의 시간^오해|잘못 이해함^온갖|여러 가지 모든 것^온도|차고 더운 정도^온라인|인터넷을 통해 연결된 상태^올라가다|위로 향해 움직이다^올바르다|그름이 없이 바르다^옳다|이치에 맞고 그르지 않다^완성|끝까지 다 이루어 냄^완전|모자람이 없음^완화|강한 것을 누그러뜨림^외교|나라와 나라 사이의 관계^외롭다|혼자 있어 쓸쓸하다^외모|겉으로 드러난 모습^외부|바깥쪽^외식|집 밖에서 사 먹는 일^외출|밖으로 나감^왠지|분명한 이유는 모르지만^요구|필요로 하여 청함^요리|음식을 만듦^요약|긴 글을 줄여 핵심만 적음^요인|중요한 원인^욕심|지나치게 바라는 마음^용기|두려움을 이겨 내는 힘^용도|쓰이는 목적^용어|일정한 분야에서 쓰이는 말^우려|걱정하거나 근심함^우리나라|대한민국^우수하다|뛰어나고 훌륭하다^우연|뜻하지 않게 일어남^우정|친구 사이의 믿음과 정^우주|하늘과 별, 공간 전체^운명|피할 수 없는 하늘의 뜻^운동|몸을 움직이는 활동^운행|정해진 길을 따라 움직임^운전|탈것을 다루어 움직임^울리다|소리가 나게 하다^웃음|즐겁거나 기뻐서 소리 내어 웃음^원래|본디부터^원리|사물이 성립하는 기본 이치^원인|어떤 결과를 일으키는 까닭^원조|어려운 처지에 도움을 줌^원칙|반드시 지켜야 하는 규정^원하다|바라거나 소망하다^월급|한 달 동안 일한 대가로 받는 돈^위치|있는 곳^위협|두렵게 하여 억누름^위험|사고나 나쁜 일이 생길 가능성^위로|괴로운 사람을 달래어 줌^위반|규칙이나 약속을 어김^위인|훌륭한 업적을 남긴 사람^위주|가장 중심에 둠^위층|위에 있는 층^위하다|이롭게 하려고 돌보다^유능하다|능력이 뛰어나다^유도|어떤 방향으로 이끌어 감^유리|투명한 단단한 재료^유머|웃음을 주는 말이나 행동^유사하다|비슷하다^유용|쓸모가 있음^유익|이로움^유일|오직 하나뿐임^유지|상태를 그대로 보존함^유행|한때 사회에서 널리 퍼짐^유혹|꾀어 이끌어 감^육체|사람의 몸^음악|소리를 통해 감정을 표현하는 예술^의논|의견을 서로 나눔^의도|어떤 일을 하려는 생각^의무|반드시 해야 하는 일^의미|뜻이나 내용^의료|병을 치료하고 보살피는 활동^의사|병을 치료하는 전문 직업인^의식|깨어 있는 마음, 혹은 사회적 의례^의심|믿지 못하고 의혹을 가짐^의욕|어떤 일을 하고자 하는 마음^의지|어떤 것에 기대거나 마음을 굳게 함^이론|어떤 현상을 설명하는 논리 체계^이롭다|도움이 되다^이루다|목적이나 뜻 실현하다^이뤄지다|어떤 결과가 실제로 나타나다^이유|어떤 일의 까닭^이전|지금보다 앞선 때^이제|바로 지금 이때^이젠|이제는^이중|둘로 겹쳐 있음^이익|이로움이나 얻는 돈^이해|뜻이나 내용을 알아차림^이혼|부부가 관계를 끊음^인간|사람^인간적|사람답고 인정이 있는 모습^인격|사람의 성품과 품격^인기|많은 사람들의 관심과 사랑^인내|어려움을 참고 견딤^인류|사람 전체^인물|뛰어난 사람. 혹은 사람의 생김새^인생|사람이 살아가는 한평생^인식|사물을 분별하여 앎^인연|서로 관계를 맺게 되는 계기^인원|모여 있는 사람의 수^인위적|사람이 의도하여 만든 것^인재|훌륭한 인물^인정|따뜻한 마음. 혹은 사실로 받아들임^인종|피부색, 문화 등으로 구분되는 사람 집단^인체|사람의 몸^인형|사람 모양으로 만든 장난감^일기|하루 동안 있었던 일을 적은 글^일단|우선 먼저^일대|어떤 일정한 지역^일등|첫째로 좋은 등급^일명|또 다른 이름^일상|날마다의 보통 생활^일시|잠깐 동안^일어나다|눕거나 앉은 데서 몸을 일으키다^일부|전체 중의 한 부분^일찍|이른 시기에^일정|정해진 기간이나 계획^일종|같은 부류에 속하는 것^일치|서로 맞아 들어감^일터|일하는 곳^일행|함께 길을 가는 사람들^임무|맡아서 해야 하는 일^임시|정해진 기간 동안 잠시 쓰는 것^입구|들어가는 자리^입대|군대에 들어감^입력|안으로 집어넣음^입맛|음식의 맛을 느끼는 기호^입장|어떤 자리에 들어감, 또는 처지^자격|어떤 일을 할 수 있는 조건^자극|어떤 작용을 주어 반응을 일으킴^자기|자기 자신^자꾸|계속하여 반복해서^자료|연구나 활동의 바탕이 되는 재료^자리|앉거나 설 수 있는 공간^자랑|뽐내며 내세움^자세|몸의 태도나 마음가짐^자식|자기의 아들딸^자신|스스로 믿는 마음^자연|사람이 손대지 않은 그대로의 상태^자유|구속이나 제한이 없음^자율|스스로 다스려 절제함^자원|생활에 쓸 수 있는 천연물^자원하다|스스로 나서서 맡다^자의|자기 스스로의 뜻^자주|여러 번 반복해서^자신감|자기 능력을 믿는 마음^자제|스스로 억제함^작가|글이나 작품을 쓰는 사람^작품|예술로 만든 결과물^작은아버지|아버지의 남동생^작은어머니|작은아버지의 아내^작성|문서나 계획을 만듦^작용|어떤 결과를 일으키는 움직임^작정|하기로 굳게 마음먹음^잔소리|자꾸 잔잔하게 꾸짖는 말^잘나다|남보다 뛰어나다^잘못|올바르지 않은 행위^잘생기다|얼굴이나 모습이 보기 좋다^잠깐|짧은 동안^잠들다|잠에 빠지다^잠시|오래지 않은 동안^잡다|손으로 쥐거나 붙잡다^잡지|여러 글과 그림을 실은 간행물^장소|일이 벌어지는 곳^장식|보기 좋게 꾸밈^장점|좋은 점^장차|앞으로 다가올 시간^재능|타고난 능력^재료|어떤 것을 만드는 데 쓰이는 물건^재산|개인이 가지고 있는 돈이나 물건^재앙|큰 피해를 주는 나쁜 일^재정|나라나 단체의 경제 상태^재질|물건의 바탕이 되는 성질^재판|옳고 그름을 가려 판결함^재학|학교에 다님^재활용|쓰던 것을 다시 이용함^저녁|하루의 끝 무렵 시간^저렴하다|값이 싸고 알맞다^저장|물건이나 자료를 간직하여 둠^저절로|다른 힘이 없이 스스로^적용|실제로 알맞게 씀^저항|억압이나 힘에 맞서서 버팀^저희|우리를 낮추어 이르는 말^적당|알맞고 마땅함^적성|어떤 일에 알맞은 성질^적절|꼭 알맞음^전개|일이 차례대로 벌어짐^전국|나라 전체^전달|전하여 건네줌^전력|전기의 힘, 또는 모든 힘^전면|사물의 앞면 전체^전문|어떤 분야에 깊이 통달함^전부|전체 모두^전세|일정한 기간 집이나 방을 빌려 씀^전용|특정한 일에만 씀^전자|전기의 성질을 띠는 입자^전체|낱낱을 합친 전부^전통|오래 전부터 이어온 생활양식^전혀|아예, 조금도^전환|바꾸어 돌림^전화|목소리를 주고받는 통신 기구^점검|잘못된 곳이 없는지 살핌^점점|차츰차츰, 조금씩 더^접하다|서로 맞닿다^정답|올바른 대답^정당|정치 활동을 하는 단체^정리|뒤섞인 것을 바르게 함^정상|보통의 상태^정성|마음을 다해 정중히 하는 태도^정식|공식적으로 정해진 방식^정신|사람의 생각이나 마음^정오|낮 12시^정보|어떤 사실에 대한 소식이나 자료^정부|나라를 다스리는 조직^정확|틀림없고 바름^정의|올바름, 또는 말의 뜻^제공|물건이나 서비스를 내어 줌^제도|일정한 규칙이나 체계^제품|만들어 낸 물건^제한|일정한 한도를 정해 막음^제외|빼고 제외함^제출|내어 바침^제자|가르침을 받는 학생^제작|물건을 만들거나 지음^제정|법이나 제도를 정함^제일|가장 첫째^제거|없애 버림^제안|어떤 일을 내놓아 의견을 구함^제약|자유를 제한하는 조건^제왕|옛날 나라의 임금^조건|어떤 일을 이루는 데 필요한 요건^조급하다|마음이 몹시 급하다^조명|빛을 비춤^조상|자기보다 윗대의 친족^조심|언행이나 행동을 조심함^조직|일정한 목적을 이루기 위한 집단^존재|실제로 있음^존경|훌륭한 사람을 우러러 받듦^존중|귀하게 여겨 대접함^졸업|다니던 학교를 마침^종교|초자연적 존재를 믿고 섬김^종류|사물의 갈래^종합|모아서 합침^좌석|앉는 자리^좌우|왼쪽과 오른쪽^죄인|죄를 저지른 사람^주고받다|서로 주고받음^주관|자기만의 의견이나 생각^주기|일정한 간격으로 되풀이됨^주다|다른 사람에게 건네주다^주목|눈길을 주어 봄^주문|부탁하여 물건을 청함^주인|어떤 물건이나 집을 가진 사람^주제|말이나 글에서 중심이 되는 생각^주차|자동차를 세워 둠^주장|자기 의견을 강하게 내세움^주저하다|결정을 쉽게 내리지 못하다^주변|가까운 근처^주의|관심을 기울여 조심함^주인공|이야기나 사건의 중심 인물^주입|안으로 흘려 넣음^주체|어떤 일을 하는 본래의 사람이나 단체^주택|사람이 살 수 있는 집^준비|미리 갖추어 마련함^줄거리|글이나 이야기의 대강^줄이다|양을 적게 하다^중간|앞과 뒤. 위와 아래의 사이^중심|한가운데^중요|꼭 필요하고 소중함^중학교|초등학교 위의 학교^즐겁다|기쁘고 유쾌하다^증가|점점 더 많아짐^증거|사실을 증명하는 근거^증명|사실임을 밝힘^증상|병의 징후나 나타남^지각|느끼거나 알아차림. 또는 학교에 늦게 감^지구|사람이 사는 행성^지능|문제를 이해하고 해결하는 능력^지다|싸움이나 경쟁에서 이기지 못하다^지리|땅의 모양과 위치에 관한 지식^지도|땅의 위치와 모양을 그림으로 나타낸 것^지루하다|지겹고 재미가 없다^지원|도와줌^지역|일정한 범위의 땅^지연|일이 늦어짐^지점|일정한 장소^지혜|슬기롭고 현명한 생각^지휘|여럿을 이끌고 지도함^직업|생계를 위하여 하는 일^직접|중간에 다른 것을 거치지 않고 바로^진급|학년이나 직급이 올라감^진단|병이나 상태를 판단함^진리|변하지 않는 참된 이치^진실|거짓이 없는 사실^진행|앞으로 나아감^진짜|거짓이 아닌 것^질문|모르거나 알고 싶은 것을 묻는 일^집단|여럿이 모여 이루어진 무리^집중|한 가지에 마음을 모음^짐작|어떤 일을 미루어 생각함^짙다|빛깔이나 기운이 강하다^짜다|소금을 넣다. 또는 계획을 세우다^짜증|마음이 언짢고 화가 남^책임|맡아서 해야 할 의무^철도|기차가 다니는 길^철저하다|빈틈이 없이 완벽하다^첫째|맨 처음^청결|깨끗하고 맑음^청구|요구하여 달라고 함^청소년|어린이와 어른의 중간 시기 사람^청춘|젊음의 시기^체력|몸의 힘^체험|몸으로 직접 경험함^초대|오라고 청함^초등학교|초등교육을 하는 학교^초보|처음 시작하는 단계^초원|풀만 넓게 자라는 들판^초점|가장 중요한 부분^촬영|사진이나 영화를 찍음^최대|가장 큼^최근|요즈음 가까운 시기^최선|가장 좋은 방법이나 노력^최소|가장 작음^최고|가장 위나 가장 뛰어남^추가|덧붙여 더함^추억|지난 일을 떠올림^추천|좋다고 권함^추측|짐작하여 생각함^축구|공을 차서 하는 경기^축소|줄여 작게 함^충분|모자람이 없음^춤추다|음악에 맞추어 몸을 움직이다^출근|직장에 나감^출발|목적지를 향해 떠남^출장|일을 하러 다른 곳에 감^출판|책이나 글을 인쇄하여 냄^충격|세게 부딪쳐 받는 자극^충돌|서로 부딪침^충실|내용이나 마음이 알차고 든든함^취미|즐기기 위해 하는 활동^취소|없던 일로 함^치료|병이나 상처를 낫게 함^친근하다|가깝게 느껴지고 허물없다^친절|다정하고 친밀하게 대함^친척|혈연으로 이어진 가까운 사람^칭찬|잘한 일을 좋게 말함^칼날|칼의 날카로운 부분^캠프|야외에서 일정 기간 지내는 활동^커다랗다|매우 크다^컴퓨터|정보를 처리하는 전자 기계^켜다|불이나 기계를 작동시키다^코끼리|큰 몸집과 긴 코를 가진 동물^코스|정해진 길이나 과정^코치|운동을 가르치는 사람^콘서트|음악 공연^콩나물|콩에서 단 싹이 난 채소^콩쿠르|예술 분야의 경연 대회^콧노래|콧소리로 흥얼거리는 노래^쾌적하다|기분이 상쾌하고 좋다^크기|길이나 넓이, 부피의 정도^크다|몸집이나 규모가 보통보다 크다^클래스|등급이나 반^클럽|같은 취미나 목적을 가진 모임^키우다|식물이나 동물을 자라게 하다^타다|불이 붙다. 탈것을 이용하다^타인|자기 이외의 다른 사람^타협|서로 의견을 양보하여 합의함^탁월하다|아주 뛰어나다^탄생|태어남^탈락|떨어져 빠짐^탐구|깊이 연구함^탑승|탈것에 올라탐^태도|마음가짐이나 행동하는 방식^태양|태양계의 중심이 되는 별^택배|물건을 집까지 배달하는 일^토론|서로 의견을 주고받으며 논의함^토론회|여러 사람이 모여 의견을 나누는 모임^토양|식물이 자라는 흙^통과|어떤 곳이나 시험을 지나감^통로|사람이나 물건이 다니는 길^통신|멀리 떨어져 소식을 주고받음^통역|다른 언어를 말로 바꾸어 전달함^통일|나뉜 것을 하나로 합침^통제|제지하고 다스림^통증|아픈 증세^통찰|깊이 꿰뚫어 봄^통행|길을 따라 다님^통합|여러 가지를 하나로 모음^퇴근|일을 마치고 집으로 돌아옴^퇴장|무대나 장소에서 나감^투자|이익을 얻으려고 돈이나 자원을 들임^튼튼하다|쉽게 무너지지 않고 강하다^튼튼히|단단하고 확실하게^틀리다|옳지 않다^틀림없다|반드시 그러하다^티끌|아주 작은 먼지^파괴|때려 부숨^파도|바람에 흔들려 이는 물결^파랑|푸른 빛깔^파악|내용을 알아 차림^파출소|경찰이 근무하는 작은 기관^파트너|짝을 이루는 상대^파일|자료를 모아 놓은 묶음^파이프|액체나 기체가 통하는 관^파출|경찰이 임무를 맡아 나감^파편|부서져 흩어진 작은 조각^판단|옳고 그름이나 좋고 나쁨을 헤아림^판매|물건을 팖^판사|재판을 맡은 시람^판정|결과나 상태를 가름^팔꿈치|팔과 팔뚝을 잇는 관절 부분^팝송|서양 대중가요^패배|싸움이나 경쟁에서 짐^패션|유행하는 옷차림^패자|경쟁이나 경기에서 진 사람^팽창|부풀어 넓어짐^퍼지다|널리 번지거나 퍼짐^페인트|칠하는 물감^편견|한쪽으로 치우친 생각^편리|사용하기 쉽고 편함^편안|마음이 평온하고 안정됨^편지|소식을 적은 글월^편집|글이나 그림을 모아 꾸밈^평가|가치를 판단함^평균|전체를 고르게 나눈 수치^평범|특별하지 않고 보통임^평생|살아 있는 동안 내내^평소|보통 때^평화|전쟁이나 다툼이 없는 상태^포기|바라던 것을 버림^포근하다|따뜻하고 부드럽다^포도|덩굴에 열리는 열매^포장|물건을 싸는 일^포함|안에 함께 들어 있음^폭넓다|범위가 넓다^폭력|힘으로 남을 해침^폭우|갑자기 많이 내리는 비^폭포|물이 높은 곳에서 떨어짐^표면|겉으로 드러난 부분^표현|생각이나 감정을 말이나 글, 그림 등으로 나타냄^표준|비교의 기준이 되는 규범^표정|얼굴에 드러나는 감정^표시|뜻을 드러내는 기호^표지판|알리거나 지시하기 위한 표지^프로그램|일정하게 계획된 절차^프로|전문적으로 하는 사람^프린터|글이나 그림을 인쇄하는 기계^플라스틱|가볍고 단단한 합성 재료^피곤|몸과 마음이 지쳐 힘듦^피다|꽃이 열리거나 활짝 벌어지다^피로|피곤한 상태^피우다|불이나 연기를 일어나게 함^피해|입은 손해나 고통^필수|반드시 있어야 하는 것^필연|반드시 그렇게 될 수밖에 없음^필자|글을 쓴 사람^필요|꼭 있어야 하는 것^필통|연필을 넣어 두는 통^핑계|잘못을 변명하는 말^하늘|머리 위에 펼쳐진 공간^하늘색|맑은 하늘과 같은 색^하락|값이나 수준이 떨어짐^하루|아침부터 저녁까지의 한 날^하루하루|날마다^하반기|한 해의 뒤쪽 절반^하산|산에서 내려옴^하수도|빗물이나 오수를 흘려 보내는 시설^하얗다|눈처럼 흰 빛깔^학교|교육을 받는 곳^학생|학교에서 배우는 사람^학습|지식이나 기술을 배움^학용품|공부에 필요한 물건^학원|학문이나 기술을 가르치는 기관^한계|일정한 범위나 한도^한국|대한민국의 공식 이름^한글|우리나라 고유의 문자";
 
     const rawWords = rawDataString.split('^').map(item => {
         const parts = item.split('|');
@@ -576,8 +522,6 @@
     const TOTAL_DAYS = Math.ceil(rawWords.length / WORDS_PER_DAY);
     const MASTER_WORDS_PER_STAGE = 50;
     const TOTAL_MASTER_STAGES = Math.ceil(rawWords.length / MASTER_WORDS_PER_STAGE);
-
-    // 🏁 땅따먹기 스테이지 변수 (100개씩)
     const LAND_WORDS_PER_STAGE = 100;
     const TOTAL_LAND_STAGES = Math.ceil(rawWords.length / LAND_WORDS_PER_STAGE);
     const PLAYER_COLORS = ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#38bdf8', '#d946ef', '#ec4899', '#9f1239', '#ea580c', '#4d7c0f', '#047857', '#0f766e', '#1d4ed8', '#6b21a8'];
@@ -590,46 +534,20 @@
     let dailyRecords = safeParseJSON('dailyRecords', {});
     let masterRecords = safeParseJSON('masterRecords', {});
     let rainRecords = safeParseJSON('rainRecords', {});
-    let landRecords = safeParseJSON('landRecords', {}); // 땅따먹기 최고 기록 저장
+    let landRecords = safeParseJSON('landRecords', {}); 
 
-    let currentDay = 1;
-    let studyQueue = [];
-    let quizQueue = [];
-    let missedWords = [];
-    let currentStudyIndex = 0;
-    let currentQuizIdx = 0;
-    let score = 0;
-    let isReviewMode = false;
-    let currentSelectedOption = null;
+    // 게임 상태 변수들
+    let currentDay = 1, studyQueue = [], quizQueue = [], missedWords = [];
+    let currentStudyIndex = 0, currentQuizIdx = 0, score = 0, isReviewMode = false, currentSelectedOption = null;
+    let masterStage = 1, masterWords = [], masterTargetQueue = [], masterCurrentIdx = 0, masterStartTime = 0, masterTimerReq = null;
+    let rainStage = 1, rainWordsPool = [], rainWordsQueue = [], activeRainDrops = [];
+    let rainHP = 10, rainTimeMs = 0, rainDropIdCounter = 0, rainTimerReq = null, lastRainTime = 0, rainSpawnTimer = 0;
+    
+    let inLandGrabRoom = false, currentLandStage = 1, currentLandRoomCode = "", landRoomRef = null;
+    let myLandColor = '#fff', myLandPenaltyUntil = 0, currentSelectedLandIndex = -1, landPenaltyInterval = null, currentLandBoardData = [];
 
-    let masterStage = 1;
-    let masterWords = [];
-    let masterTargetQueue = [];
-    let masterCurrentIdx = 0;
-    let masterStartTime = 0;
-    let masterTimerReq = null;
-
-    let rainStage = 1;
-    let rainWordsPool = [];
-    let rainWordsQueue = [];
-    let activeRainDrops = [];
-    let rainHP = 10; 
-    let rainScore = 0;
-    let rainDropIdCounter = 0;
-    let rainTimerReq = null;
-    let lastRainTime = 0;
-    let rainSpawnTimer = 0;
-
-    // 🏁 땅따먹기 게임 상태 변수
-    let inLandGrabRoom = false;
-    let currentLandStage = 1;
-    let currentLandRoomCode = "";
-    let landRoomRef = null;
-    let myLandColor = '#fff';
-    let myLandPenaltyUntil = 0;
-    let currentSelectedLandIndex = -1;
-    let landPenaltyInterval = null;
-    let currentLandBoardData = [];
+    // 땅따먹기 랭킹 모드 플래그
+    let landRankMode = 'solo'; 
 
     const wordInput = document.getElementById('wordInput');
     const btnNextWord = document.getElementById('btnNextWord');
@@ -642,10 +560,8 @@
                 getDB().ref('students/' + getUserKey()).once('value').then(snapshot => {
                     if(snapshot.exists()) {
                         let data = snapshot.val();
-                        dailyRecords = data.daily || {};
-                        masterRecords = data.master || {};
-                        rainRecords = data.rain || {};
-                        landRecords = data.land || {};
+                        dailyRecords = data.daily || {}; masterRecords = data.master || {};
+                        rainRecords = data.rain || {}; landRecords = data.land || {};
                         localStorage.setItem('dailyRecords', JSON.stringify(dailyRecords));
                         localStorage.setItem('masterRecords', JSON.stringify(masterRecords));
                         localStorage.setItem('rainRecords', JSON.stringify(rainRecords));
@@ -653,20 +569,15 @@
                     }
                     finalizeLogin();
                 }).catch(() => finalizeLogin());
-            } else {
-                finalizeLogin();
-            }
-        } else {
-            showScreen('loginScreen');
-        }
+            } else { finalizeLogin(); }
+        } else { showScreen('loginScreen'); }
     };
 
     function finalizeLogin() {
         document.getElementById('userProfileBar').style.display = 'flex';
         document.getElementById('displayUserInfo').innerText = `${userProfile.school} ${userProfile.gradeClass}반 ${userProfile.studentNum}번 ${userProfile.studentName}님 환영합니다!`;
         document.getElementById('mainTabs').style.display = 'flex';
-        initHome();
-        showScreen('homeScreen');
+        initHome(); showScreen('homeScreen');
     }
 
     function login() {
@@ -675,11 +586,7 @@
         let studentNum = document.getElementById('inputNum').value.trim();
         let studentName = document.getElementById('inputName').value.trim();
 
-        if(!gradeClass || !studentNum || !studentName) {
-            alert("정보를 모두 입력해주세요.");
-            return;
-        }
-
+        if(!gradeClass || !studentNum || !studentName) { alert("정보를 모두 입력해주세요."); return; }
         userProfile = { school, gradeClass, studentNum, studentName };
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
@@ -687,39 +594,25 @@
             getDB().ref('students/' + getUserKey()).once('value').then(snapshot => {
                 if(snapshot.exists()) {
                     let data = snapshot.val();
-                    dailyRecords = data.daily || {};
-                    masterRecords = data.master || {};
-                    rainRecords = data.rain || {};
-                    landRecords = data.land || {};
-                    localStorage.setItem('dailyRecords', JSON.stringify(dailyRecords));
-                    localStorage.setItem('masterRecords', JSON.stringify(masterRecords));
-                    localStorage.setItem('rainRecords', JSON.stringify(rainRecords));
-                    localStorage.setItem('landRecords', JSON.stringify(landRecords));
+                    dailyRecords = data.daily || {}; masterRecords = data.master || {};
+                    rainRecords = data.rain || {}; landRecords = data.land || {};
                 } else {
                     dailyRecords = {}; masterRecords = {}; rainRecords = {}; landRecords = {};
-                    localStorage.setItem('dailyRecords', JSON.stringify(dailyRecords));
-                    localStorage.setItem('masterRecords', JSON.stringify(masterRecords));
-                    localStorage.setItem('rainRecords', JSON.stringify(rainRecords));
-                    localStorage.setItem('landRecords', JSON.stringify(landRecords));
                 }
+                localStorage.setItem('dailyRecords', JSON.stringify(dailyRecords));
+                localStorage.setItem('masterRecords', JSON.stringify(masterRecords));
+                localStorage.setItem('rainRecords', JSON.stringify(rainRecords));
+                localStorage.setItem('landRecords', JSON.stringify(landRecords));
                 finalizeLogin();
             }).catch(() => finalizeLogin());
-        } else {
-            finalizeLogin();
-        }
+        } else { finalizeLogin(); }
     }
 
     function logout() {
         if(confirm("로그아웃 하시겠습니까?\n(기기에 저장된 임시 기록은 사라지지만, 서버 기록은 유지됩니다.)")) {
-            localStorage.removeItem('userProfile'); localStorage.removeItem('dailyRecords');
-            localStorage.removeItem('masterRecords'); localStorage.removeItem('rainRecords'); localStorage.removeItem('landRecords');
-            userProfile = null; dailyRecords = {}; masterRecords = {}; rainRecords = {}; landRecords = {};
-            
-            document.getElementById('userProfileBar').style.display = 'none';
-            document.getElementById('mainTabs').style.display = 'none';
-            document.getElementById('inputClass').value = '';
-            document.getElementById('inputNum').value = '';
-            document.getElementById('inputName').value = '';
+            localStorage.clear(); userProfile = null; dailyRecords = {}; masterRecords = {}; rainRecords = {}; landRecords = {};
+            document.getElementById('userProfileBar').style.display = 'none'; document.getElementById('mainTabs').style.display = 'none';
+            document.getElementById('inputClass').value = ''; document.getElementById('inputNum').value = ''; document.getElementById('inputName').value = '';
             showScreen('loginScreen');
         }
     }
@@ -732,33 +625,29 @@
     function syncToFirebase() {
         if(!isFirebaseActive || !getUserKey()) return;
         getDB().ref('students/' + getUserKey()).set({
-            profile: userProfile, daily: dailyRecords, master: masterRecords, rain: rainRecords, land: landRecords,
-            lastUpdated: new Date().toISOString()
+            profile: userProfile, daily: dailyRecords, master: masterRecords, rain: rainRecords, land: landRecords, lastUpdated: new Date().toISOString()
         });
     }
 
     function openAdmin() {
         let pwd = prompt("👨‍🏫 선생님 전용 관리자 암호를 입력하세요.\n(기본 암호: 1234)");
-        if(pwd === "1234" || pwd === adminPassword) {
-            showScreen('adminScreen'); fetchAdminData();
-        } else if(pwd !== null) { alert("암호가 틀렸습니다."); }
+        if(pwd === "1234" || pwd === adminPassword) { showScreen('adminScreen'); fetchAdminData(); } 
+        else if(pwd !== null) { alert("암호가 틀렸습니다."); }
     }
 
     function fetchAdminData() {
         if(!isFirebaseActive) { document.getElementById('adminTableBody').innerHTML = '<tr><td colspan="6">파이어베이스가 연결되지 않았습니다.</td></tr>'; return; }
         document.getElementById('adminTableBody').innerHTML = '<tr><td colspan="6">데이터를 불러오는 중...</td></tr>';
-        
         getDB().ref('students').once('value').then(snapshot => {
             let html = '';
             if(snapshot.exists()) {
                 snapshot.forEach(child => {
                     let data = child.val();
+                    if(!data || !data.profile) return; // 프로필 없는 항목 건너뜀
                     let clearedCount = data.daily ? Object.values(data.daily).filter(r => r.cleared).length : 0;
-                    html += `<tr>
-                        <td>${data.profile.school}</td><td>${data.profile.gradeClass}</td><td>${data.profile.studentNum}</td>
+                    html += `<tr><td>${data.profile.school}</td><td>${data.profile.gradeClass}</td><td>${data.profile.studentNum}</td>
                         <td>${data.profile.studentName}</td><td><b>${clearedCount} / ${TOTAL_DAYS}</b></td>
-                        <td><button class="btn-delete" onclick="deleteStudentData('${child.key}')">삭제</button></td>
-                    </tr>`;
+                        <td><button class="btn-delete" onclick="deleteStudentData('${child.key}')">삭제</button></td></tr>`;
                 });
             } else { html = '<tr><td colspan="6">저장된 학생 기록이 없습니다.</td></tr>'; }
             document.getElementById('adminTableBody').innerHTML = html;
@@ -771,73 +660,62 @@
         }
     }
 
-    // 🔥 추가된 관리자 모드: 땅따먹기 방 전체 폭파 로직
     function resetAllLandRooms() {
-        if(confirm("현재 진행 중인 모든 [땅따먹기 게임 방]을 강제로 종료(폭파)하시겠습니까?\n오류로 인해 게임이 끝나지 않는 방을 초기화할 때 사용합니다.")) {
-            if(isFirebaseActive) {
-                getDB().ref('landGrabRooms').remove().then(() => {
-                    alert("모든 땅따먹기 방이 폭파(초기화)되었습니다. 다시 게임에 접속할 수 있습니다.");
-                }).catch(err => {
-                    alert("초기화 중 오류가 발생했습니다: " + err.message);
-                });
-            } else {
-                alert("파이어베이스가 연결되지 않았습니다.");
-            }
+        if(confirm("현재 진행 중인 모든 [땅따먹기 게임 방]을 강제로 종료(폭파)하시겠습니까?")) {
+            if(isFirebaseActive) getDB().ref('landGrabRooms').remove().then(() => alert("모든 방이 초기화되었습니다."));
         }
     }
 
     function deleteAllData() {
         if(confirm("⚠️ 경고: 서버에 저장된 '모든 학생'의 기록을 완전히 삭제합니다.\n정말 진행하시겠습니까?")) {
-            Promise.all([
-                getDB().ref('students').remove(),
-                getDB().ref('rankings').remove(),
-                getDB().ref('rankings_rain').remove(),
-                getDB().ref('rankings_land').remove(),
-                getDB().ref('landGrabRooms').remove()
-            ]).then(() => {
-                alert("모든 기록이 초기화되었습니다."); fetchAdminData();
-            }).catch(err => {
-                alert("초기화 중 오류가 발생했습니다: " + err.message); console.error(err);
-            });
+            Promise.all([ 
+                getDB().ref('students').remove(), getDB().ref('rankings').remove(), 
+                getDB().ref('rankings_rain').remove(), getDB().ref('rankings_land_solo').remove(), getDB().ref('rankings_land_team').remove(), 
+                getDB().ref('landGrabRooms').remove() 
+            ]).then(() => { alert("모든 기록이 초기화되었습니다."); fetchAdminData(); });
         }
     }
 
     function downloadAdminCSV() {
-        if(!isFirebaseActive) { alert("파이어베이스 연결이 필요합니다."); return; }
+        if(!isFirebaseActive) return;
         getDB().ref('students').once('value').then(snapshot => {
             if(!snapshot.exists()) return alert("다운로드할 데이터가 없습니다.");
-            const escapeCSV = (v) => { let s = String(v); return (s.includes(',') || s.includes('"') || s.includes('\n')) ? '"' + s.replace(/"/g, '""') + '"' : s; };
             let csvRows = [`학교,학년/반,번호,이름,총 클리어수(${TOTAL_DAYS}일기준),마지막 접속일`];
             snapshot.forEach(child => {
                 let d = child.val();
+                if(!d || !d.profile) return; // 프로필 없는 항목 건너뜀
                 let clearedCount = d.daily ? Object.values(d.daily).filter(r => r.cleared).length : 0;
-                let dateStr = d.lastUpdated ? new Date(d.lastUpdated).toLocaleString() : '기록없음';
-                csvRows.push([escapeCSV(d.profile.school), escapeCSV(d.profile.gradeClass), escapeCSV(d.profile.studentNum), escapeCSV(d.profile.studentName), clearedCount, dateStr].join(','));
+                csvRows.push([d.profile.school, d.profile.gradeClass, d.profile.studentNum, d.profile.studentName, clearedCount, d.lastUpdated||'기록없음'].join(','));
             });
-            let csvContent = '\uFEFF' + csvRows.join('\n');
-            let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            let url = URL.createObjectURL(blob);
-            let link = document.createElement("a"); link.setAttribute("href", url); link.setAttribute("download", `단어마스터_전체학생결과.csv`);
-            document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+            let blob = new Blob(['\uFEFF' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            let link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `단어마스터_전체학생결과.csv`;
+            document.body.appendChild(link); link.click(); link.remove();
         });
     }
 
     function changeAdminPassword() {
         let newPwd = prompt("새롭게 사용할 관리자 암호를 입력하세요:");
-        if(newPwd !== null && newPwd.trim() !== "") {
-            adminPassword = newPwd.trim(); localStorage.setItem('adminPwd', adminPassword);
-            if(isFirebaseActive) getDB().ref('admin/password').set(adminPassword);
-            alert("암호가 성공적으로 변경되었습니다.");
-        }
+        if(newPwd) { adminPassword = newPwd.trim(); localStorage.setItem('adminPwd', adminPassword); if(isFirebaseActive) getDB().ref('admin/password').set(adminPassword); alert("변경 완료"); }
     }
 
+    // =========================================================
+    // 🏆 랭킹 시스템 (땅따먹기 개인전/팀전 분리 반영)
+    // =========================================================
     let currentRankingType = 'master'; 
     function showRankingMenu(initialStage = 1, type = 'master') {
         currentRankingType = type; showScreen('rankingScreen');
-        if(type === 'master') document.getElementById('rankingTitle').innerText = '🏆 스피드런 명예의 전당';
-        else if(type === 'rain') document.getElementById('rankingTitle').innerText = '🏆 산성비 명예의 전당';
-        else if(type === 'land') document.getElementById('rankingTitle').innerText = '🏆 땅따먹기 명예의 전당';
+        document.getElementById('rankingTitle').innerText = type === 'master' ? '🏆 스피드런 명예의 전당' : (type === 'rain' ? '🏆 디펜스 명예의 전당' : '🏆 땅따먹기 명예의 전당');
         
+        let toggleDiv = document.getElementById('landRankingToggle');
+        if(type === 'land') {
+            toggleDiv.style.display = 'flex';
+            document.getElementById('btnRankSolo').classList.add('active');
+            document.getElementById('btnRankTeam').classList.remove('active');
+            landRankMode = 'solo';
+        } else {
+            toggleDiv.style.display = 'none';
+        }
+
         let tabsContainer = document.getElementById('rankingTabs'); tabsContainer.innerHTML = '';
         let totalStages = (type === 'land') ? TOTAL_LAND_STAGES : TOTAL_MASTER_STAGES;
         for(let i=1; i<=totalStages; i++) {
@@ -847,6 +725,17 @@
         changeRankStage(initialStage);
     }
 
+    function switchLandRankMode(mode) {
+        landRankMode = mode;
+        document.getElementById('btnRankSolo').classList.remove('active');
+        document.getElementById('btnRankTeam').classList.remove('active');
+        if(mode === 'solo') document.getElementById('btnRankSolo').classList.add('active');
+        else document.getElementById('btnRankTeam').classList.add('active');
+        
+        let activeStageBtn = document.querySelector('#rankingTabs .active');
+        if(activeStageBtn) loadRanking(parseInt(activeStageBtn.innerText));
+    }
+
     function changeRankStage(stage) {
         document.querySelectorAll('.stage-tab').forEach(b => { b.classList.remove('active'); if(b.innerText === `${stage}탄`) b.classList.add('active'); });
         loadRanking(stage);
@@ -854,29 +743,46 @@
 
     function loadRanking(stage) {
         const list = document.getElementById('rankingList');
-        if(!isFirebaseActive) {
-            if(currentRankingType === 'master') { list.innerHTML = `<li style="text-align:center; padding:20px;">서버 미연결 상태입니다.<br><br><b style="color:var(--primary); font-size:1.2rem;">${stage}탄 최고 기록:</b><br><span style="font-size:1.5rem;">` + (masterRecords[stage] ? formatTime(masterRecords[stage].bestTime) : '기록 없음') + '</span></li>'; } 
-            else if(currentRankingType === 'rain') { list.innerHTML = `<li style="text-align:center; padding:20px;">서버 미연결 상태입니다.<br><br><b style="color:#38bdf8; font-size:1.2rem;">${stage}탄 최고 점수:</b><br><span style="font-size:1.5rem;">` + (rainRecords[stage] ? rainRecords[stage].bestScore + '점' : '기록 없음') + '</span></li>'; }
-            else { list.innerHTML = `<li style="text-align:center; padding:20px;">서버 미연결 상태입니다.<br><br><b style="color:#86198f; font-size:1.2rem;">${stage}탄 최고 점령기록:</b><br><span style="font-size:1.5rem;">` + (landRecords[stage] ? landRecords[stage].bestScore + '땅' : '기록 없음') + '</span></li>'; }
-            return;
-        }
+        if(!isFirebaseActive) { list.innerHTML = `<li style="text-align:center; padding:20px;">서버 미연결 상태입니다.</li>`; return; }
         list.innerHTML = '<li style="text-align:center;">데이터를 불러오는 중...</li>';
-        let dbPath = currentRankingType === 'master' ? `rankings/stage_${stage}` : 
-                     currentRankingType === 'rain' ? `rankings_rain/stage_${stage}` : `rankings_land/stage_${stage}`;
-                     
-        let query = currentRankingType === 'master' ? getDB().ref(dbPath).orderByChild('time').limitToFirst(10) : getDB().ref(dbPath).orderByChild('score').limitToLast(10); 
         
+        let dbPath;
+        if (currentRankingType === 'master') dbPath = `rankings/stage_${stage}`;
+        else if (currentRankingType === 'rain') dbPath = `rankings_rain/stage_${stage}`;
+        else dbPath = landRankMode === 'solo' ? `rankings_land_solo/stage_${stage}` : `rankings_land_team/stage_${stage}`;
+
+        let query;
+        if (currentRankingType === 'master') query = getDB().ref(dbPath).orderByChild('time').limitToFirst(10);
+        else if (currentRankingType === 'rain') query = getDB().ref(dbPath).orderByChild('score').limitToLast(10);
+        else if (currentRankingType === 'land') {
+            if (landRankMode === 'solo') query = getDB().ref(dbPath).orderByChild('soloFirsts').limitToLast(10);
+            else query = getDB().ref(dbPath).orderByChild('teamWins').limitToLast(10);
+        }
+
         query.once('value').then(snapshot => {
             list.innerHTML = ''; let results = [];
             snapshot.forEach(child => { results.push(child.val()); });
             
-            if(currentRankingType === 'rain' || currentRankingType === 'land') { results.sort((a,b) => b.score - a.score); results = results.slice(0, 10); }
+            if(currentRankingType === 'rain') { results.sort((a,b) => b.score - a.score); } 
+            else if (currentRankingType === 'land') {
+                if (landRankMode === 'solo') results.sort((a,b) => b.soloFirsts - a.soloFirsts);
+                else results.sort((a,b) => {
+                    if (b.teamWins !== a.teamWins) return b.teamWins - a.teamWins;
+                    return (a.teamLosses || 0) - (b.teamLosses || 0); // 패배가 적을수록 상위
+                });
+            }
+            if (currentRankingType !== 'master') results = results.slice(0, 10);
 
-            if(results.length === 0) { list.innerHTML = '<li style="text-align:center;">아직 등록된 기록이 없습니다.<br>첫 번째 랭커가 되어보세요!</li>'; return; }
+            if(results.length === 0) { list.innerHTML = '<li style="text-align:center;">아직 등록된 기록이 없습니다.</li>'; return; }
             results.forEach((data, index) => {
                 let item = document.createElement('li'); item.className = 'ranking-item';
-                let displayVal = currentRankingType === 'master' ? formatTime(data.time) : 
-                                 currentRankingType === 'rain' ? `${data.score}점` : `${data.score}땅`;
+                let displayVal = '';
+                if (currentRankingType === 'master') displayVal = formatTime(data.time);
+                else if (currentRankingType === 'rain') displayVal = formatTime(data.score);
+                else if (currentRankingType === 'land') {
+                    if (landRankMode === 'solo') displayVal = `👑 1등 ${data.soloFirsts}회`;
+                    else displayVal = `${data.teamWins}승 ${data.teamDraws}무 ${data.teamLosses}패`;
+                }
                 item.innerHTML = `<span>${index+1}위: ${data.name} (${data.classInfo}반)</span><span>${displayVal}</span>`;
                 list.appendChild(item);
             });
@@ -914,7 +820,6 @@
         }
     }
 
-    // 🔒 스피드런 게임 홈 (자물쇠 기능 적용)
     function initMasterHome() {
         const grid = document.getElementById('masterGrid'); grid.innerHTML = '';
         for(let s = 1; s <= TOTAL_MASTER_STAGES; s++) {
@@ -922,47 +827,37 @@
             const record = masterRecords[s]; let rateText = "기록: 없음", isCleared = false;
             if(record && record.bestTime) { rateText = `기록: ${formatTime(record.bestTime)}`; isCleared = true; }
             
-            // 락(Lock) 확인: 해당 스테이지의 (s-1)*2+1 일차와 s*2 일차가 모두 클리어되었는지 검사
-            let reqDay1 = (s - 1) * 2 + 1;
-            let reqDay2 = s * 2;
-            let isLocked = false;
+            let reqDay1 = (s - 1) * 2 + 1, reqDay2 = s * 2, isLocked = false;
             if (!(dailyRecords[reqDay1] && dailyRecords[reqDay1].cleared)) isLocked = true;
             if (reqDay2 <= TOTAL_DAYS && !(dailyRecords[reqDay2] && dailyRecords[reqDay2].cleared)) isLocked = true;
 
             if (isLocked) {
                 btn.innerHTML = `${s}탄 <div style="font-size:0.8rem; color:var(--error); margin-top:5px;">🔒 매일학습 ${reqDay1}~${reqDay2 <= TOTAL_DAYS ? reqDay2 : TOTAL_DAYS}일차 필요</div>`;
-                btn.classList.add('locked-btn');
-                btn.onclick = () => alert(`🔒 해당 게임을 하려면 먼저 [매일학습 ${reqDay1}~${reqDay2 <= TOTAL_DAYS ? reqDay2 : TOTAL_DAYS}일차]를 모두 클리어해야 합니다!`);
+                btn.classList.add('locked-btn'); btn.onclick = () => alert(`🔒 먼저 [매일학습 ${reqDay1}~${reqDay2 <= TOTAL_DAYS ? reqDay2 : TOTAL_DAYS}일차]를 클리어하세요!`);
             } else {
                 btn.innerHTML = `${s}탄 <span class="clear-badge">✅ 클리어</span><div class="daily-rate">${rateText}</div>`;
-                if(isCleared) btn.classList.add('cleared');
-                btn.onclick = () => startMasterGame(s);
+                if(isCleared) btn.classList.add('cleared'); btn.onclick = () => startMasterGame(s);
             }
             grid.appendChild(btn);
         }
     }
 
-    // 🔒 산성비 홈 (자물쇠 기능 적용)
     function initRainHome() {
         const grid = document.getElementById('rainGrid'); grid.innerHTML = '';
         for(let s = 1; s <= TOTAL_MASTER_STAGES; s++) {
             const btn = document.createElement('button'); btn.classList.add('day-btn');
             const record = rainRecords[s]; let rateText = "기록: 없음", isCleared = false;
-            if(record && record.bestScore > 0) { rateText = `최고 점수: ${record.bestScore}점`; if(record.cleared) isCleared = true; }
+            if(record && record.bestTimeMs > 0) { rateText = `생존 기록: ${formatTime(record.bestTimeMs)}`; if(record.cleared) isCleared = true; }
             
-            // 락(Lock) 확인
-            let reqDay1 = (s - 1) * 2 + 1;
-            let reqDay2 = s * 2;
-            let isLocked = false;
+            let reqDay1 = (s - 1) * 2 + 1, reqDay2 = s * 2, isLocked = false;
             if (!(dailyRecords[reqDay1] && dailyRecords[reqDay1].cleared)) isLocked = true;
             if (reqDay2 <= TOTAL_DAYS && !(dailyRecords[reqDay2] && dailyRecords[reqDay2].cleared)) isLocked = true;
 
             if (isLocked) {
                 btn.innerHTML = `${s}탄 <div style="font-size:0.8rem; color:var(--error); margin-top:5px;">🔒 매일학습 ${reqDay1}~${reqDay2 <= TOTAL_DAYS ? reqDay2 : TOTAL_DAYS}일차 필요</div>`;
-                btn.classList.add('locked-btn');
-                btn.onclick = () => alert(`🔒 해당 게임을 하려면 먼저 [매일학습 ${reqDay1}~${reqDay2 <= TOTAL_DAYS ? reqDay2 : TOTAL_DAYS}일차]를 모두 클리어해야 합니다!`);
+                btn.classList.add('locked-btn'); btn.onclick = () => alert(`🔒 먼저 [매일학습 ${reqDay1}~${reqDay2 <= TOTAL_DAYS ? reqDay2 : TOTAL_DAYS}일차]를 클리어하세요!`);
             } else {
-                btn.innerHTML = `${s}탄 <span class="clear-badge" style="background:#38bdf8;">✅ 클리어</span><div class="daily-rate">${rateText}</div>`;
+                btn.innerHTML = `${s}탄 <span class="clear-badge" style="background:#38bdf8;">✅ 완료</span><div class="daily-rate">${rateText}</div>`;
                 if(isCleared) { btn.classList.add('cleared'); btn.style.borderColor = '#38bdf8'; btn.style.backgroundColor = '#f0f9ff'; }
                 btn.onclick = () => startRainGame(s);
             }
@@ -970,29 +865,31 @@
         }
     }
 
-    // 🔒 땅따먹기 홈 (자물쇠 기능 적용)
     function initLandGrabHome() {
         const grid = document.getElementById('landGrid'); grid.innerHTML = '';
         for(let s = 1; s <= TOTAL_LAND_STAGES; s++) {
             const btn = document.createElement('button'); btn.classList.add('day-btn');
-            let startDay = (s - 1) * 4 + 1;
-            let endDay = s * 4;
-            if (endDay > TOTAL_DAYS) endDay = TOTAL_DAYS;
-
+            let startDay = (s - 1) * 4 + 1, endDay = Math.min(s * 4, TOTAL_DAYS);
+            
             const record = landRecords[s];
-            let rateText = "최고 점령기록: 없음";
-            if(record && record.bestScore >= 0) { rateText = `최고 기록: <b style="color:#d946ef;">${record.bestScore}땅</b>`; }
-
-            // 락(Lock) 확인: 4일치 분량이 모두 클리어되었는지 검사
-            let isLocked = false;
-            for(let d = startDay; d <= endDay; d++) {
-                if (!(dailyRecords[d] && dailyRecords[d].cleared)) isLocked = true;
+            let rateText = "전적: 없음";
+            
+            if(record && (record.soloPlays > 0 || record.teamPlays > 0)) { 
+                let sFirsts = record.soloFirsts || 0;
+                let tWins = record.teamWins || 0;
+                let tLosses = record.teamLosses || 0;
+                rateText = `<div style="font-size:0.9rem; line-height:1.4;">
+                👤 개인: 1등 <b style="color:#d946ef;">${sFirsts}</b>회<br>
+                ⚔️ 팀전: <b style="color:var(--team-a);">${tWins}승</b> <b style="color:var(--error);">${tLosses}패</b>
+                </div>`;
             }
+
+            let isLocked = false;
+            for(let d = startDay; d <= endDay; d++) if (!(dailyRecords[d] && dailyRecords[d].cleared)) isLocked = true;
 
             if(isLocked) {
                 btn.innerHTML = `<span style="font-size:1.3rem;">${s}탄</span><div style="font-size:0.8rem; color:var(--error); margin-top:5px;">🔒 매일학습 ${startDay}~${endDay}일차 필요</div>`;
-                btn.classList.add('locked-btn');
-                btn.onclick = () => alert(`🔒 해당 게임을 하려면 먼저 [매일학습 ${startDay}~${endDay}일차]를 모두 클리어해야 합니다!`);
+                btn.classList.add('locked-btn'); btn.onclick = () => alert(`🔒 먼저 [매일학습 ${startDay}~${endDay}일차]를 클리어하세요!`);
             } else {
                 btn.innerHTML = `<span style="font-size:1.3rem;">${s}탄</span><div class="daily-rate" style="margin-top:5px;">${rateText}</div>`;
                 btn.style.borderColor = '#d946ef'; btn.style.color = '#701a75'; btn.style.backgroundColor = '#fdf4ff';
@@ -1016,7 +913,7 @@
 
     // ====== [매일 학습 로직] ====== 
     function saveAndExit() {
-        if (isReviewMode) { if(confirm("오답 복습 중에는 진행 상황이 임시 저장되지 않습니다. 나가시겠습니까?")) goToHome(); return; }
+        if (isReviewMode) { if(confirm("오답 복습 중에는 임시 저장되지 않습니다. 나가시겠습니까?")) goToHome(); return; }
         let record = dailyRecords[currentDay] || { score: 0, total: 0, cleared: false, lastStudyIndex: 0 };
         if (document.getElementById('studyScreen').classList.contains('active')) {
             record.lastStudyIndex = currentStudyIndex; record.isQuizInProgress = false;
@@ -1032,38 +929,31 @@
         currentDay = dayNum; isReviewMode = false;
         let startIdx = (dayNum - 1) * WORDS_PER_DAY; studyQueue = rawWords.slice(startIdx, startIdx + WORDS_PER_DAY);
         let record = dailyRecords[currentDay] || {};
-        
         if (!record.cleared && (record.lastStudyIndex > 0 || record.isQuizInProgress)) {
             if (record.isQuizInProgress) {
-                if(confirm(`Day ${currentDay} 퀴즈를 풀던 중이었습니다. 이어서 푸시겠습니까?\n(취소 시 처음부터 다시 학습합니다)`)) {
-                    currentStudyIndex = record.lastStudyIndex; currentQuizIdx = record.currentQuizIdx || 0;
-                    score = record.currentScore || 0; missedWords = record.savedMissedWords || []; quizQueue = record.savedQuizQueue || [];
-                    document.getElementById('quizDayLabel').innerText = `Day ${currentDay} 확인 퀴즈 (이어하기)`;
-                    showScreen('quizScreen'); renderQuiz(); return;
+                if(confirm(`Day ${currentDay} 퀴즈를 풀던 중이었습니다. 이어서 푸시겠습니까?`)) {
+                    currentStudyIndex = record.lastStudyIndex; currentQuizIdx = record.currentQuizIdx || 0; score = record.currentScore || 0; missedWords = record.savedMissedWords || []; quizQueue = record.savedQuizQueue || [];
+                    document.getElementById('quizDayLabel').innerText = `Day ${currentDay} 확인 퀴즈 (이어하기)`; showScreen('quizScreen'); renderQuiz(); return;
                 } else { record.isQuizInProgress = false; dailyRecords[currentDay] = record; }
             } else if (record.lastStudyIndex >= studyQueue.length) {
-                if(confirm(`Day ${currentDay} 학습은 모두 마쳤습니다. 바로 퀴즈를 푸시겠습니까?\n(취소 시 처음부터 다시 학습)`)) { generateQuiz(); return; }
+                if(confirm(`Day ${currentDay} 학습은 마쳤습니다. 퀴즈를 푸시겠습니까?`)) { generateQuiz(); return; }
             } else {
-                if(confirm(`이전에 학습하던 Day ${currentDay}의 ${record.lastStudyIndex + 1}번째 단어부터 이어서 하시겠습니까?`)) {
-                    currentStudyIndex = record.lastStudyIndex; startFlashcards(); return;
-                }
+                if(confirm(`이전에 학습하던 ${record.lastStudyIndex + 1}번째 단어부터 이어서 하시겠습니까?`)) { currentStudyIndex = record.lastStudyIndex; startFlashcards(); return; }
             }
         }
         currentStudyIndex = 0; startFlashcards();
     }
 
     function startReview() { 
-        if(!missedWords || missedWords.length === 0) { alert("복습할 오답이 없습니다!"); goToHome(); return; }
+        if(!missedWords || missedWords.length === 0) return goToHome();
         isReviewMode = true; studyQueue = [...missedWords]; currentStudyIndex = 0; startFlashcards(); 
     }
 
     function startFlashcards() {
         document.getElementById('studyDayLabel').innerText = isReviewMode ? `🚨 오답 집중 복습` : `Day ${currentDay} 학습`;
-        if(isReviewMode) {
-            typingLabel.innerText = "🚨 오답 복습: 아래 뜻을 똑같이 타이핑하세요"; typingLabel.classList.add('review-mode'); wordInput.placeholder = "여기에 뜻 입력하기";
-        } else {
-            typingLabel.innerText = "👇 낱말을 똑같이 타이핑하세요"; typingLabel.classList.remove('review-mode'); wordInput.placeholder = "여기에 낱말 입력하기";
-        }
+        typingLabel.innerText = isReviewMode ? "🚨 뜻을 똑같이 타이핑하세요" : "👇 낱말을 똑같이 타이핑하세요";
+        typingLabel.className = isReviewMode ? "typing-label review-mode" : "typing-label";
+        wordInput.placeholder = isReviewMode ? "뜻 입력" : "낱말 입력";
         showScreen('studyScreen'); renderStudyWord();
     }
 
@@ -1072,24 +962,19 @@
         document.getElementById('flashcardWord').innerText = wordObj.w; document.getElementById('flashcardMean').innerText = wordObj.m;
         document.getElementById('studyProgressLabel').innerText = `${currentStudyIndex + 1} / ${studyQueue.length}`;
         wordInput.value = ''; wordInput.classList.remove('matched'); btnNextWord.classList.remove('active');
-        btnNextWord.innerText = isReviewMode ? "뜻을 정확히 입력하세요" : "낱말을 정확히 입력하세요"; wordInput.focus();
+        btnNextWord.innerText = isReviewMode ? "뜻을 입력하세요" : "낱말을 입력하세요"; wordInput.focus();
     }
 
     wordInput.addEventListener('input', (e) => {
         if(!document.getElementById('studyScreen').classList.contains('active')) return;
         const currentObj = studyQueue[currentStudyIndex]; const targetText = isReviewMode ? currentObj.m : currentObj.w;
         if(e.target.value.replace(/\s+/g, '') === targetText.replace(/\s+/g, '')) {
-            wordInput.classList.add('matched'); btnNextWord.classList.add('active');
-            btnNextWord.innerText = currentStudyIndex === studyQueue.length - 1 ? "학습 완료! 퀴즈 풀기 🎮" : "다음 낱말 ➔";
-        } else {
-            wordInput.classList.remove('matched'); btnNextWord.classList.remove('active');
-            btnNextWord.innerText = isReviewMode ? "뜻을 정확히 입력하세요" : "낱말을 정확히 입력하세요";
-        }
+            wordInput.classList.add('matched'); btnNextWord.classList.add('active'); btnNextWord.innerText = currentStudyIndex === studyQueue.length - 1 ? "학습 완료! 퀴즈 풀기 🎮" : "다음 ➔";
+        } else { wordInput.classList.remove('matched'); btnNextWord.classList.remove('active'); btnNextWord.innerText = isReviewMode ? "뜻을 입력하세요" : "낱말을 입력하세요"; }
     });
-
     wordInput.addEventListener('keydown', (e) => { if(e.key === 'Enter' && btnNextWord.classList.contains('active')) nextWord(); });
 
-    function nextWord() { if (currentStudyIndex < studyQueue.length - 1) { currentStudyIndex++; renderStudyWord(); } else { generateQuiz(); } }
+    function nextWord() { if (currentStudyIndex < studyQueue.length - 1) { currentStudyIndex++; renderStudyWord(); } else generateQuiz(); }
 
     function generateQuiz() {
         missedWords = []; currentQuizIdx = 0; score = 0; quizQueue = [];
@@ -1099,27 +984,20 @@
             let options = [ { text: target.w, isCorrect: true }, { text: wrongs[0].w, isCorrect: false }, { text: wrongs[1].w, isCorrect: false }, { text: wrongs[2].w, isCorrect: false } ].sort(() => 0.5 - Math.random());
             quizQueue.push({ question: `💡 다음 뜻을 가진 올바른 낱말은 무엇일까요?<br><br><span style="color:var(--primary); font-size:1.35rem;">" ${target.m} "</span>`, options: options, targetObj: target });
         });
-        document.getElementById('quizDayLabel').innerText = isReviewMode ? "복습 확인 퀴즈" : `Day ${currentDay} 확인 퀴즈`;
+        document.getElementById('quizDayLabel').innerText = isReviewMode ? "복습 퀴즈" : `Day ${currentDay} 퀴즈`;
         showScreen('quizScreen'); renderQuiz();
     }
 
     function renderQuiz() {
-        currentSelectedOption = null; quizActionBtn.style.display = 'none';
-        let q = quizQueue[currentQuizIdx];
+        currentSelectedOption = null; quizActionBtn.style.display = 'none'; let q = quizQueue[currentQuizIdx];
         document.getElementById('quizProgressLabel').innerText = `${currentQuizIdx + 1} / ${quizQueue.length}`;
-        document.getElementById('quizQuestion').innerHTML = q.question;
-        document.getElementById('progressFill').style.width = `${(currentQuizIdx / quizQueue.length) * 100}%`;
+        document.getElementById('quizQuestion').innerHTML = q.question; document.getElementById('progressFill').style.width = `${(currentQuizIdx / quizQueue.length) * 100}%`;
         const optionsDiv = document.getElementById('quizOptions'); optionsDiv.innerHTML = '';
         q.options.forEach(opt => {
             const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt.text;
-            btn.onclick = () => selectOption(btn, opt.isCorrect, q); optionsDiv.appendChild(btn);
+            btn.onclick = () => { document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); currentSelectedOption = { isCorrect:opt.isCorrect, targetQ:q }; quizActionBtn.style.display = 'block'; };
+            optionsDiv.appendChild(btn);
         });
-    }
-
-    function selectOption(btn, isCorrect, targetQ) {
-        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected'); currentSelectedOption = { isCorrect, targetQ };
-        quizActionBtn.style.display = 'block'; 
     }
 
     function submitAndNext() {
@@ -1130,38 +1008,26 @@
     }
 
     function saveAndShowResult() {
-        try {
-            document.getElementById('resultScore').innerText = `${score} / ${quizQueue.length}`;
-            let prevRecord = dailyRecords[currentDay] || { score: 0, total: 0, cleared: false, lastStudyIndex: 0 };
-            if(!isReviewMode) {
-                let maxScore = Math.max(prevRecord.score || 0, score);
-                dailyRecords[currentDay] = { score: maxScore, total: quizQueue.length, cleared: (maxScore === quizQueue.length) || prevRecord.cleared, lastStudyIndex: studyQueue.length, isQuizInProgress: false };
-            } else {
-                if(missedWords.length === 0) { dailyRecords[currentDay] = { score: prevRecord.total || WORDS_PER_DAY, total: prevRecord.total || WORDS_PER_DAY, cleared: true, lastStudyIndex: prevRecord.lastStudyIndex, isQuizInProgress: false }; }
-            }
-            localStorage.setItem('dailyRecords', JSON.stringify(dailyRecords)); syncToFirebase();
-            document.getElementById('btnGoHome').onclick = goToHome;
-
-            let title = document.getElementById('resultTitle');
-            let comment = document.getElementById('resultComment');
-            let reviewBtn = document.getElementById('btnReviewMissed');
-
-            if(missedWords.length === 0) {
-                if(title) title.innerText = "🏆 완벽합니다!";
-                if(comment) comment.innerText = "모든 낱말을 완벽하게 맞췄습니다. 대단해요!";
-                if(reviewBtn) reviewBtn.style.display = 'none';
-            } else {
-                if(title) title.innerText = "💪 조금 더 힘내세요!";
-                if(comment) comment.innerHTML = `앗! <b>${missedWords.length}개</b>의 단어를 헷갈리셨네요.<br>오답 노트에서 뜻을 쓰며 다시 복습하고 도전해 보세요.`;
-                if(reviewBtn) reviewBtn.style.display = 'block';
-            }
-        } catch(e) { console.error(e); }
+        document.getElementById('resultScore').innerText = `${score} / ${quizQueue.length}`;
+        let prevRecord = dailyRecords[currentDay] || { score: 0, total: 0, cleared: false, lastStudyIndex: 0 };
+        if(!isReviewMode) {
+            let maxScore = Math.max(prevRecord.score || 0, score);
+            dailyRecords[currentDay] = { score: maxScore, total: quizQueue.length, cleared: (maxScore === quizQueue.length) || prevRecord.cleared, lastStudyIndex: studyQueue.length, isQuizInProgress: false };
+        } else {
+            if(missedWords.length === 0) dailyRecords[currentDay] = { score: prevRecord.total || WORDS_PER_DAY, total: prevRecord.total || WORDS_PER_DAY, cleared: true, lastStudyIndex: prevRecord.lastStudyIndex, isQuizInProgress: false };
+        }
+        localStorage.setItem('dailyRecords', JSON.stringify(dailyRecords)); syncToFirebase();
         
-        showScreen('resultScreen'); 
+        let title = document.getElementById('resultTitle'), comment = document.getElementById('resultComment'), reviewBtn = document.getElementById('btnReviewMissed');
+        if(missedWords.length === 0) {
+            title.innerText = "🏆 완벽합니다!"; comment.innerText = "모든 낱말을 완벽하게 맞췄습니다!"; reviewBtn.style.display = 'none';
+        } else {
+            title.innerText = "💪 조금 더 힘내세요!"; comment.innerHTML = `<b>${missedWords.length}개</b>의 단어를 헷갈리셨네요.<br>복습하고 다시 도전해 보세요.`; reviewBtn.style.display = 'block';
+        }
+        document.getElementById('btnGoHome').onclick = goToHome; showScreen('resultScreen'); 
     }
 
-
-    // ====== [단어 스피드런(마스터) 게임 로직] ====== 
+    // ====== [단어 스피드런(마스터)] ====== 
     let draggedChip = null, draggedWord = null, dragClone = null;
 
     function formatTime(ms) {
@@ -1172,71 +1038,51 @@
 
     function updateMasterTimer() {
         if (!masterStartTime) return;
-        let elapsed = Date.now() - masterStartTime;
-        document.getElementById('masterTimerDisplay').innerText = formatTime(elapsed);
+        document.getElementById('masterTimerDisplay').innerText = formatTime(Date.now() - masterStartTime);
         masterTimerReq = requestAnimationFrame(updateMasterTimer);
     }
 
     function startMasterGame(stage) {
-        masterStage = stage;
-        let startIdx = (stage - 1) * MASTER_WORDS_PER_STAGE;
-        masterWords = rawWords.slice(startIdx, startIdx + MASTER_WORDS_PER_STAGE);
-        masterTargetQueue = [...masterWords].sort(() => 0.5 - Math.random());
-        masterCurrentIdx = 0;
-        document.getElementById('masterTitle').innerText = `${stage}탄 스피드런 도전`;
+        masterStage = stage; let startIdx = (stage - 1) * MASTER_WORDS_PER_STAGE;
+        masterWords = rawWords.slice(startIdx, startIdx + MASTER_WORDS_PER_STAGE); masterTargetQueue = [...masterWords].sort(() => 0.5 - Math.random());
+        masterCurrentIdx = 0; document.getElementById('masterTitle').innerText = `${stage}탄 스피드런 도전`;
         renderMasterTarget(); renderMasterChips();
-        masterStartTime = Date.now();
-        if(masterTimerReq) cancelAnimationFrame(masterTimerReq);
-        masterTimerReq = requestAnimationFrame(updateMasterTimer);
+        masterStartTime = Date.now(); if(masterTimerReq) cancelAnimationFrame(masterTimerReq); masterTimerReq = requestAnimationFrame(updateMasterTimer);
         showScreen('masterGameScreen');
     }
 
     function renderMasterTarget() {
         if(masterCurrentIdx >= masterTargetQueue.length) return;
-        let currentTarget = masterTargetQueue[masterCurrentIdx];
-        document.getElementById('masterTargetMean').innerText = currentTarget.m;
+        document.getElementById('masterTargetMean').innerText = masterTargetQueue[masterCurrentIdx].m;
         document.getElementById('masterProgressLabel').innerText = `${masterCurrentIdx + 1} / ${masterTargetQueue.length} 단어 찾는 중`;
     }
 
     function renderMasterChips() {
         const grid = document.getElementById('masterChipGrid'); grid.innerHTML = '';
-        let chips = [...masterWords].sort((a, b) => a.w.localeCompare(b.w, 'ko'));
-        chips.forEach(w => {
+        [...masterWords].sort((a, b) => a.w.localeCompare(b.w, 'ko')).forEach(w => {
             let btn = document.createElement('button'); btn.className = 'word-chip'; btn.innerText = w.w;
-            setupMasterDrag(btn, w); grid.appendChild(btn);
+            let localTimer = null;
+            btn.addEventListener('pointerdown', e => { if(btn.style.visibility==='hidden') return; if(e.pointerType==='touch') localTimer = setTimeout(()=>initDrag(e,btn,w),150); else initDrag(e,btn,w); });
+            btn.addEventListener('pointermove', e => { if(e.pointerType==='touch' && !dragClone){ clearTimeout(localTimer); localTimer=null;} });
+            const cancelTouch = () => { clearTimeout(localTimer); localTimer=null; }; btn.addEventListener('pointerup', cancelTouch); btn.addEventListener('pointercancel', cancelTouch);
+            grid.appendChild(btn);
         });
-    }
-
-    function setupMasterDrag(btn, wordObj) {
-        let localTimer = null;
-        btn.addEventListener('pointerdown', (e) => {
-            if(btn.style.visibility === 'hidden') return;
-            if (e.pointerType === 'touch') { localTimer = setTimeout(() => { localTimer = null; initDrag(e, btn, wordObj); }, 150); } else { initDrag(e, btn, wordObj); }
-        });
-        btn.addEventListener('pointermove', (e) => { if(e.pointerType === 'touch' && !dragClone) { clearTimeout(localTimer); localTimer = null; } });
-        const cancelTouch = () => { clearTimeout(localTimer); localTimer = null; };
-        btn.addEventListener('pointerup', cancelTouch); btn.addEventListener('pointercancel', cancelTouch);
     }
 
     function initDrag(e, btn, wordObj) {
         draggedChip = btn; draggedWord = wordObj; dragClone = btn.cloneNode(true);
-        dragClone.classList.add('dragging-clone'); document.body.appendChild(dragClone);
-        moveClone(e.clientX, e.clientY);
-        document.addEventListener('pointermove', onPointerMove, {passive: false});
-        document.addEventListener('pointerup', onPointerUp); document.addEventListener('pointercancel', onPointerUp);
+        dragClone.classList.add('dragging-clone'); document.body.appendChild(dragClone); moveClone(e.clientX, e.clientY);
+        document.addEventListener('pointermove', onPointerMove, {passive: false}); document.addEventListener('pointerup', onPointerUp); document.addEventListener('pointercancel', onPointerUp);
         btn.setPointerCapture(e.pointerId); if(navigator.vibrate) navigator.vibrate(30);
     }
 
-    function moveClone(x, y) {
-        if(!dragClone) return;
-        dragClone.style.left = (x - dragClone.offsetWidth / 2) + 'px'; dragClone.style.top = (y - dragClone.offsetHeight / 2) + 'px';
-    }
+    function moveClone(x, y) { if(!dragClone) return; dragClone.style.left = (x - dragClone.offsetWidth/2) + 'px'; dragClone.style.top = (y - dragClone.offsetHeight/2) + 'px'; }
 
     function onPointerMove(e) {
         if(dragClone) {
             e.preventDefault(); moveClone(e.clientX, e.clientY);
             let dropBox = document.getElementById('masterTargetBox'); let rect = dropBox.getBoundingClientRect();
-            if(e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) { dropBox.classList.add('drag-over'); } else { dropBox.classList.remove('drag-over'); }
+            if(e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) dropBox.classList.add('drag-over'); else dropBox.classList.remove('drag-over');
         }
     }
 
@@ -1244,191 +1090,170 @@
         document.removeEventListener('pointermove', onPointerMove); document.removeEventListener('pointerup', onPointerUp); document.removeEventListener('pointercancel', onPointerUp);
         let dropBox = document.getElementById('masterTargetBox'); dropBox.classList.remove('drag-over');
         if(dragClone) {
-            let cloneRect = dragClone.getBoundingClientRect(); let cx = cloneRect.left + cloneRect.width / 2; let cy = cloneRect.top + cloneRect.height / 2;
-            let rect = dropBox.getBoundingClientRect();
-            if(cx >= rect.left && cx <= rect.right && cy >= rect.top && cy <= rect.bottom) { handleMasterDrop(); }
+            let rect = dropBox.getBoundingClientRect(), cx = dragClone.getBoundingClientRect().left + dragClone.offsetWidth/2, cy = dragClone.getBoundingClientRect().top + dragClone.offsetHeight/2;
+            if(cx >= rect.left && cx <= rect.right && cy >= rect.top && cy <= rect.bottom) handleMasterDrop();
             dragClone.remove(); dragClone = null;
         }
-        if(draggedChip) { draggedChip.releasePointerCapture(e.pointerId); draggedChip = null; }
+        if(draggedChip) { try { draggedChip.releasePointerCapture(e.pointerId); } catch(err) {} draggedChip = null; }
     }
 
     function handleMasterDrop() {
-        let currentTarget = masterTargetQueue[masterCurrentIdx];
-        if(draggedWord.w === currentTarget.w) {
+        if(draggedWord.w === masterTargetQueue[masterCurrentIdx].w) {
             draggedChip.style.visibility = 'hidden'; showCorrectEffect(); masterCurrentIdx++;
-            if(masterCurrentIdx < masterTargetQueue.length) { renderMasterTarget(); } else { finishMasterGame(); }
-        } else {
-            masterStartTime -= 5000; showBombEffect();
-        }
+            if(masterCurrentIdx < masterTargetQueue.length) renderMasterTarget(); else finishMasterGame();
+        } else { masterStartTime -= 5000; showBombEffect(); }
     }
 
-    function showCorrectEffect() {
-        const overlay = document.getElementById('correctOverlay'); const dropBox = document.getElementById('masterTargetBox');
-        overlay.style.display = 'flex'; dropBox.classList.add('correct-box-highlight');
-        setTimeout(() => { overlay.style.display = 'none'; dropBox.classList.remove('correct-box-highlight'); }, 500);
-    }
-    function showBombEffect() {
-        const overlay = document.getElementById('bombOverlay'); overlay.style.display = 'flex';
-        if(navigator.vibrate) navigator.vibrate([100, 50, 100]); setTimeout(() => { overlay.style.display = 'none'; }, 800);
-    }
-
+    function showCorrectEffect() { let o = document.getElementById('correctOverlay'), b = document.getElementById('masterTargetBox'); o.style.display='flex'; b.classList.add('correct-box-highlight'); setTimeout(()=>{o.style.display='none'; b.classList.remove('correct-box-highlight');}, 500); }
+    function showBombEffect() { let o = document.getElementById('bombOverlay'); o.style.display='flex'; if(navigator.vibrate) navigator.vibrate([100,50,100]); setTimeout(()=>o.style.display='none', 800); }
     function quitMasterGame() { if(masterTimerReq) cancelAnimationFrame(masterTimerReq); goToHome(); }
 
     function finishMasterGame() {
         if(masterTimerReq) cancelAnimationFrame(masterTimerReq);
-        let finalTime = Date.now() - masterStartTime;
-        let prevRecord = masterRecords[masterStage]; let isNewBest = false;
-
+        let finalTime = Date.now() - masterStartTime; let prevRecord = masterRecords[masterStage]; let isNewBest = false;
         if(!prevRecord || finalTime < prevRecord.bestTime) {
             masterRecords[masterStage] = { bestTime: finalTime, date: new Date().toISOString() };
             localStorage.setItem('masterRecords', JSON.stringify(masterRecords)); isNewBest = true; syncToFirebase();
-            if(isFirebaseActive) {
-                getDB().ref('rankings/stage_' + masterStage + '/' + getUserKey()).set({ name: userProfile.studentName, classInfo: userProfile.gradeClass, time: finalTime });
-            }
+            if(isFirebaseActive) getDB().ref('rankings/stage_' + masterStage + '/' + getUserKey()).set({ name: userProfile.studentName, classInfo: userProfile.gradeClass, time: finalTime });
         }
-        
-        try {
-            document.getElementById('resultTitle').innerText = "👑 스피드런 클리어!";
-            document.getElementById('resultScore').innerText = formatTime(finalTime);
-            document.getElementById('btnReviewMissed').style.display = 'none';
-            let comment = `대단합니다! ${masterTargetQueue.length}개의 단어를 모두 찾았습니다.`;
-            if(isNewBest) comment += "<br>🎉 <b>최고 기록을 경신했습니다!</b>";
-            document.getElementById('resultComment').innerHTML = comment;
-            document.getElementById('btnGoHome').onclick = goToHome;
-        } catch(e) { console.error(e); }
-
-        showScreen('resultScreen');
+        document.getElementById('resultTitle').innerText = "👑 스피드런 클리어!"; document.getElementById('resultScore').innerText = formatTime(finalTime); document.getElementById('btnReviewMissed').style.display = 'none';
+        document.getElementById('resultComment').innerHTML = `대단합니다! 모든 단어를 찾았습니다.` + (isNewBest ? "<br>🎉 <b>최고 기록을 경신했습니다!</b>" : "");
+        document.getElementById('btnGoHome').onclick = goToHome; showScreen('resultScreen');
     }
 
-
     // =========================================================
-    // ☔ 산성비 (Rain) 로직
+    // 🏰 디펜스 방어 게임 
     // =========================================================
-
     function updateRainWordBank() {
         let bank = document.getElementById('rainWordBank');
-        if(activeRainDrops.length === 0) {
-            bank.innerHTML = '<span style="color:#94a3b8;">여기에 힌트 단어가 나타납니다.</span>';
-            return;
-        }
+        if(activeRainDrops.length === 0) { bank.innerHTML = '<span style="color:#94a3b8;">여기에 힌트 단어가 나타납니다.</span>'; return; }
         
         let activeWords = activeRainDrops.map(d => d.word);
         let hints = [...activeWords];
-        let targetHintCount = Math.max(5, activeWords.length + 3);
-        
-        let poolWords = rainWordsPool.map(w => w.w);
-        let availableDistractors = poolWords.filter(w => !activeWords.includes(w));
-        availableDistractors.sort(() => Math.random() - 0.5);
-        
-        while(hints.length < targetHintCount && availableDistractors.length > 0) {
-            hints.push(availableDistractors.pop());
-        }
+        let availableDistractors = rainWordsPool.map(w => w.w).filter(w => !activeWords.includes(w)).sort(()=>Math.random()-0.5);
+        while(hints.length < Math.max(5, activeWords.length + 3) && availableDistractors.length > 0) hints.push(availableDistractors.pop());
         hints.sort(() => Math.random() - 0.5); 
         
         bank.innerHTML = '<span style="color:#facc15; font-weight:bold; margin-right:10px;">💡 보기:</span>';
-        hints.forEach(w => {
-            let span = document.createElement('span'); span.className = 'rain-hint-chip'; span.innerText = w; bank.appendChild(span);
-        });
+        hints.forEach(w => { let span = document.createElement('span'); span.className = 'rain-hint-chip'; span.innerText = w; bank.appendChild(span); });
     }
 
     function startRainGame(stage) {
         rainStage = stage;
-        let startIdx = (stage - 1) * MASTER_WORDS_PER_STAGE;
-        rainWordsPool = rawWords.slice(startIdx, startIdx + MASTER_WORDS_PER_STAGE);
+        rainWordsPool = rawWords.slice((stage - 1) * MASTER_WORDS_PER_STAGE, stage * MASTER_WORDS_PER_STAGE);
         rainWordsQueue = [...rainWordsPool].sort(() => 0.5 - Math.random());
-        activeRainDrops = []; rainHP = 10; rainScore = 0; rainDropIdCounter = 0;
+        activeRainDrops = []; rainHP = 10; rainTimeMs = 0; rainDropIdCounter = 0;
         
-        document.getElementById('rainTitle').innerText = `${stage}탄 산성비 방어`;
+        document.getElementById('rainTitle').innerText = `${stage}탄 성벽 방어`;
         document.getElementById('rainHPDisplay').innerText = rainHP;
-        document.getElementById('rainScoreDisplay').innerText = rainScore;
-        document.getElementById('rainSky').innerHTML = ''; 
+        document.getElementById('rainScoreDisplay').innerText = "00:00.0";
         
-        let rainInput = document.getElementById('rainInput'); rainInput.value = '';
+        let sky = document.getElementById('rainSky');
+        Array.from(sky.children).forEach(c => { if(c.id !== 'defenseCastle') c.remove(); }); 
         
-        showScreen('rainGameScreen');
-        updateRainWordBank(); rainInput.focus();
+        document.getElementById('rainInput').value = '';
+        showScreen('rainGameScreen'); updateRainWordBank(); document.getElementById('rainInput').focus();
 
-        lastRainTime = 0; rainSpawnTimer = 4000;  
-        
+        lastRainTime = performance.now(); rainSpawnTimer = 3000;  
         if(rainTimerReq) cancelAnimationFrame(rainTimerReq);
         rainTimerReq = requestAnimationFrame(updateRainLoop);
     }
 
     function spawnRainDrop() {
-        if(rainHP <= 0 || rainWordsQueue.length === 0) return;
+        if(rainHP <= 0) return;
+        if(rainWordsQueue.length === 0) rainWordsQueue = [...rainWordsPool].sort(() => 0.5 - Math.random());
 
         let wordObj = rainWordsQueue.pop(); 
         let sky = document.getElementById('rainSky');
         
         let drop = document.createElement('div');
         drop.className = 'rain-drop'; drop.id = 'rain_drop_' + rainDropIdCounter; drop.innerText = wordObj.m; 
-
-        drop.style.visibility = 'hidden'; sky.appendChild(drop);
-        let dropWidth = drop.offsetWidth;
+        sky.appendChild(drop);
         
-        let skyWidth = sky.clientWidth;
-        let maxX = skyWidth - dropWidth - 20; if(maxX < 0) maxX = 0;
-        let randomX = Math.floor(Math.random() * maxX) + 10;
+        let skyW = sky.clientWidth, skyH = sky.clientHeight;
+        let side = Math.floor(Math.random() * 4);
+        let startX, startY;
         
-        drop.style.left = randomX + 'px'; drop.style.top = '-50px'; drop.style.visibility = 'visible';
+        if (side === 0) { startX = Math.random() * skyW; startY = -50; } // Top
+        else if (side === 1) { startX = skyW + 50; startY = Math.random() * skyH; } // Right
+        else if (side === 2) { startX = Math.random() * skyW; startY = skyH + 50; } // Bottom
+        else { startX = -50; startY = Math.random() * skyH; } // Left
 
-        activeRainDrops.push({ id: drop.id, word: wordObj.w, y: -50, speed: 0.2 + Math.random() * 0.2 });
+        drop.style.left = startX + 'px'; drop.style.top = startY + 'px';
+        
+        let cx = skyW / 2, cy = skyH / 2;
+        let dx = cx - startX, dy = cy - startY;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+        let vx = dx / dist, vy = dy / dist;
+
+        let speedMultiplier = 1.0 + Math.floor(rainTimeMs / 30000) * 0.5;
+        let baseSpeed = 0.5 + Math.random() * 0.5;
+
+        activeRainDrops.push({ id: drop.id, word: wordObj.w, x: startX, y: startY, vx: vx, vy: vy, speed: baseSpeed * speedMultiplier });
         rainDropIdCounter++; updateRainWordBank(); 
     }
 
     function updateRainLoop(time) {
         if(rainHP <= 0) return; 
 
-        if (!lastRainTime) lastRainTime = time;
         let deltaTime = time - lastRainTime;
         if (deltaTime > 50) deltaTime = 16; 
         lastRainTime = time;
+        rainTimeMs += deltaTime;
+        document.getElementById('rainScoreDisplay').innerText = formatTime(rainTimeMs);
 
-        let sky = document.getElementById('rainSky'); let skyHeight = sky.clientHeight;
-        if(skyHeight === 0) { rainTimerReq = requestAnimationFrame(updateRainLoop); return; }
+        let sky = document.getElementById('rainSky'); 
+        let cx = sky.clientWidth / 2, cy = sky.clientHeight / 2;
 
+        let spawnInterval = Math.max(1000, 4000 - Math.floor(rainTimeMs / 20000) * 500);
         rainSpawnTimer += deltaTime;
-        if (rainSpawnTimer >= 4000) { rainSpawnTimer = 0; spawnRainDrop(); }
+        if (rainSpawnTimer >= spawnInterval) { rainSpawnTimer = 0; spawnRainDrop(); }
 
         for (let i = activeRainDrops.length - 1; i >= 0; i--) {
-            let dropData = activeRainDrops[i]; let el = document.getElementById(dropData.id);
-            
+            let d = activeRainDrops[i]; let el = document.getElementById(d.id);
             if (el) {
-                dropData.y += dropData.speed * (deltaTime / 16); el.style.top = dropData.y + 'px';
+                d.x += d.vx * d.speed * (deltaTime / 16);
+                d.y += d.vy * d.speed * (deltaTime / 16);
+                el.style.left = d.x + 'px'; el.style.top = d.y + 'px';
 
-                if (dropData.y > skyHeight - 30) {
+                let distToCenter = Math.sqrt(Math.pow(cx - d.x, 2) + Math.pow(cy - d.y, 2));
+                if (distToCenter < 60) {
                     el.remove(); activeRainDrops.splice(i, 1); rainHP--;
                     document.getElementById('rainHPDisplay').innerText = rainHP;
                     updateRainWordBank(); 
-                    sky.style.backgroundColor = 'rgba(239, 68, 68, 0.3)';
-                    setTimeout(() => { sky.style.backgroundColor = ''; }, 100);
+                    
+                    let castle = document.getElementById('defenseCastle');
+                    castle.classList.add('hit');
+                    setTimeout(() => castle.classList.remove('hit'), 150);
 
-                    if (rainHP <= 0) { endRainGame(false); return; }
+                    if (rainHP <= 0) { endRainGame(); return; }
                 }
             }
         }
-
-        if (rainWordsQueue.length === 0 && activeRainDrops.length === 0 && rainHP > 0) { endRainGame(true); return; }
         rainTimerReq = requestAnimationFrame(updateRainLoop);
     }
 
     document.getElementById('rainInput').addEventListener('keydown', (e) => {
         if(e.key === 'Enter') {
             let val = e.target.value.replace(/\s+/g, ''); if(!val) return;
-            let hit = false; activeRainDrops.sort((a,b) => b.y - a.y); 
-
+            let sky = document.getElementById('rainSky'); 
+            let cx = sky.clientWidth / 2, cy = sky.clientHeight / 2;
+            
+            let hitIdx = -1; let minDist = Infinity;
             for(let i=0; i<activeRainDrops.length; i++) {
                 if(activeRainDrops[i].word.replace(/\s+/g, '') === val) {
-                    let dropEl = document.getElementById(activeRainDrops[i].id);
-                    if(dropEl) { dropEl.classList.add('hit'); setTimeout(() => dropEl.remove(), 200); }
-                    activeRainDrops.splice(i, 1);
-                    updateRainWordBank(); rainScore += 10;
-                    document.getElementById('rainScoreDisplay').innerText = rainScore;
-                    e.target.value = ''; hit = true; break; 
+                    let d = activeRainDrops[i];
+                    let dist = Math.sqrt(Math.pow(cx - d.x, 2) + Math.pow(cy - d.y, 2));
+                    if(dist < minDist) { minDist = dist; hitIdx = i; }
                 }
             }
 
-            if(!hit) {
+            if(hitIdx !== -1) {
+                let dropEl = document.getElementById(activeRainDrops[hitIdx].id);
+                if(dropEl) { dropEl.classList.add('hit'); setTimeout(() => dropEl.remove(), 200); }
+                activeRainDrops.splice(hitIdx, 1); updateRainWordBank();
+                e.target.value = ''; 
+            } else {
                 e.target.value = ''; e.target.style.borderColor = '#ef4444'; e.target.classList.add('shake');
                 setTimeout(() => { e.target.classList.remove('shake'); e.target.style.borderColor = ''; }, 300);
             }
@@ -1437,602 +1262,317 @@
 
     function quitRainGame() { if(rainTimerReq) cancelAnimationFrame(rainTimerReq); goToHome(); }
 
-    function endRainGame(isWin) {
+    function endRainGame() {
         if(rainTimerReq) cancelAnimationFrame(rainTimerReq);
-
         try {
-            document.getElementById('btnReviewMissed').style.display = 'none';
-
-            if(isWin) {
-                let prevRecord = rainRecords[rainStage]; let isNewBest = false;
-                if(!prevRecord || rainScore > prevRecord.bestScore) {
-                    rainRecords[rainStage] = { bestScore: rainScore, cleared: true, date: new Date().toISOString() };
-                    localStorage.setItem('rainRecords', JSON.stringify(rainRecords));
-                    isNewBest = true; syncToFirebase();
-                    
-                    if(isFirebaseActive) {
-                        getDB().ref('rankings_rain/stage_' + rainStage + '/' + getUserKey()).set({
-                            name: userProfile.studentName, classInfo: userProfile.gradeClass, score: rainScore
-                        });
-                    }
-                }
-                document.getElementById('resultTitle').innerText = "🌟 방어 성공!";
-                document.getElementById('resultScore').innerText = `${rainScore}점`;
-                let msg = `훌륭합니다! 50개의 단어 뜻을 모두 막아냈습니다.`;
-                if(isNewBest) msg += "<br>🎉 <b>최고 점수를 갱신했습니다!</b>";
-                document.getElementById('resultComment').innerHTML = msg;
-            } else {
-                document.getElementById('resultTitle').innerText = "💥 방어 실패...";
-                document.getElementById('resultScore').innerText = `${rainScore}점`;
-                document.getElementById('resultComment').innerHTML = "단어가 바닥에 닿아 건물이 무너졌습니다.<br>포기하지 말고 다시 도전해 보세요!";
+            let prevRecord = rainRecords[rainStage] || { bestTimeMs: 0 }; 
+            let isNewBest = false;
+            if(rainTimeMs > prevRecord.bestTimeMs) {
+                rainRecords[rainStage] = { bestTimeMs: rainTimeMs, cleared: true, date: new Date().toISOString() };
+                localStorage.setItem('rainRecords', JSON.stringify(rainRecords));
+                isNewBest = true; syncToFirebase();
+                if(isFirebaseActive) getDB().ref('rankings_rain/stage_' + rainStage + '/' + getUserKey()).set({ name: userProfile.studentName, classInfo: userProfile.gradeClass, score: rainTimeMs });
             }
+            document.getElementById('btnReviewMissed').style.display = 'none';
+            document.getElementById('resultTitle').innerText = "💥 성벽 붕괴!";
+            document.getElementById('resultScore').innerText = `생존 시간: ${formatTime(rainTimeMs)}`;
+            let msg = `치열한 방어였습니다!`;
+            if(isNewBest) msg += "<br>🎉 <b>최고 생존 기록을 갱신했습니다!</b>";
+            document.getElementById('resultComment').innerHTML = msg;
             document.getElementById('btnGoHome').onclick = goToHome;
         } catch (e) { console.error(e); }
         showScreen('resultScreen');
     }
 
+
     // =========================================================
-    // 🏁 땅따먹기 (Land Grab) 로직 - 대기실 & 팀전 기능 포함
+    // 🏁 땅따먹기 (Land Grab) 
     // =========================================================
 
     function joinLandGrabRoom(stage) {
-        if(!isFirebaseActive) {
-            alert("서버 연결이 필요합니다. 관리자에게 문의하세요.");
-            return;
-        }
-
-        // 🔥 동시 접속 다중 방 구현 (방 이름 직접 입력)
-        let roomCode = prompt(`${stage}탄 땅따먹기에 접속합니다.\n[방 이름]을 입력하세요. (예: 1모둠, 자유방)\n같은 방 이름을 입력한 친구들과 함께 게임합니다.`);
+        if(!isFirebaseActive) { alert("서버 연결이 필요합니다."); return; }
+        let roomCode = prompt(`${stage}탄 땅따먹기에 접속합니다.\n[방 이름]을 입력하세요. (예: 1모둠, 자유방)`);
         if(!roomCode || roomCode.trim() === '') return;
-        currentLandRoomCode = roomCode.trim();
-
-        currentLandStage = stage;
+        currentLandRoomCode = roomCode.trim(); currentLandStage = stage;
         landRoomRef = getDB().ref(`landGrabRooms/stage_${stage}_${currentLandRoomCode}`);
         
-        let startDay = (stage - 1) * 4 + 1;
-        let endDay = stage * 4;
+        let startDay = (stage - 1) * 4 + 1, endDay = Math.min(stage * 4, TOTAL_DAYS);
         let titleTxt = `${stage}탄 (${startDay}~${endDay}일차) - [${currentLandRoomCode}]방`;
-        document.getElementById('lobbyStageTitleText').innerText = titleTxt;
-        document.getElementById('landGameStageTitle').innerText = titleTxt;
+        document.getElementById('lobbyStageTitleText').innerText = titleTxt; document.getElementById('landGameStageTitle').innerText = titleTxt;
 
         landRoomRef.once('value').then(snap => {
-            let data = snap.val() || {};
-            let players = data.players || {};
-            
-            // 유령방(Ghost Room) 필터링 로직 강화
-            let validPlayers = {};
-            let hostExists = false;
-            
+            let data = snap.val() || {}, players = data.players || {}, validPlayers = {}, hostExists = false;
             Object.keys(players).forEach(k => {
-                if(players[k] && players[k].name) {
-                    validPlayers[k] = players[k];
-                    if(k === data.host) hostExists = true;
-                }
+                if(players[k] && players[k].name) { validPlayers[k] = players[k]; if(k === data.host) hostExists = true; }
             });
-            
-            players = validPlayers;
-            let pCount = Object.keys(players).length;
+            players = validPlayers; let pCount = Object.keys(players).length;
 
-            // 방장(host)이 나갔거나, 유효한 사람이 아무도 없으면 기존 데이터 무시하고 방 초기화
-            if (pCount === 0 || (data.host && !hostExists)) {
-                data = {};
-                players = {};
-                pCount = 0;
-            } else if(data.status === 'playing' && !players[getUserKey()]) {
-                alert("이미 게임이 진행 중입니다! 끝나면 다시 시도해주세요.\n(오류로 인해 게임이 계속 진행 중이라면 선생님께 '관리자 모드 -> 땅따먹기 방 폭파'를 요청하세요.)");
-                return;
-            }
+            if (pCount === 0 || (data.host && !hostExists)) { data = {}; players = {}; pCount = 0; } 
+            else if(data.status === 'playing' && !players[getUserKey()]) { alert("진행 중인 게임입니다!"); return; }
+            if(!players[getUserKey()] && pCount >= 25) { alert("방이 꽉 찼습니다."); return; }
 
-            if(!players[getUserKey()] && pCount >= 25) {
-                alert("방이 꽉 찼습니다 (최대 25명).");
-                return;
-            }
-
-            // 첫 번째 접속자면 방장이 됨
             if(pCount === 0 || !data.host) {
-                landRoomRef.child('host').set(getUserKey());
-                landRoomRef.child('status').set('waiting');
-                landRoomRef.child('mode').set('solo');
+                landRoomRef.child('host').set(getUserKey()); landRoomRef.child('status').set('waiting'); landRoomRef.child('mode').set('solo');
             }
 
-            // 고유 색상 및 팀 임시 배정 (팀전 대비)
             myLandColor = PLAYER_COLORS[pCount % PLAYER_COLORS.length];
-            let initialTeam = (pCount % 2 === 0) ? 'A' : 'B';
-            if (data.mode === 'solo' || !data.mode) initialTeam = 'none';
+            let initialTeam = (data.mode === 'solo' || !data.mode) ? 'none' : ((pCount % 2 === 0) ? 'A' : 'B');
 
-            // 내 정보 등록
-            landRoomRef.child('players/' + getUserKey()).set({
-                name: userProfile.studentName,
-                color: myLandColor,
-                team: initialTeam,
-                score: 0,
-                penaltyUntil: 0
-            });
-            
-            // 갑자기 끄면 자동으로 방에서 나가게 설정
+            landRoomRef.child('players/' + getUserKey()).set({ name: userProfile.studentName, color: myLandColor, team: initialTeam, score: 0, penaltyUntil: 0 });
             landRoomRef.child('players/' + getUserKey()).onDisconnect().remove();
 
-            inLandGrabRoom = true;
-            document.getElementById('lobbyModeSelect').value = data.mode || 'solo';
-            
-            showScreen('landLobbyScreen');
-
-            // 실시간 리스너 연결 (대기실 + 게임 모두 처리)
-            landRoomRef.on('value', handleLandRoomUpdate);
+            inLandGrabRoom = true; document.getElementById('lobbyModeSelect').value = data.mode || 'solo';
+            showScreen('landLobbyScreen'); landRoomRef.on('value', handleLandRoomUpdate);
         });
     }
 
     function handleLandRoomUpdate(snap) {
-        if(!inLandGrabRoom) return;
-        let data = snap.val();
-        
-        // 데이터가 없거나 내 정보가 없으면 로비로 튕김
-        if(!data || !data.players || !data.players[getUserKey()]) {
-            quitLandLobby();
-            return;
-        }
+        if(!inLandGrabRoom) return; let data = snap.val();
+        if(!data || !data.players || !data.players[getUserKey()]) return quitLandLobby();
 
-        let players = data.players || {};
-        let hostKey = data.host;
-        let isHost = (hostKey === getUserKey());
+        let players = data.players || {}, hostKey = data.host, isHost = (hostKey === getUserKey());
+        if (hostKey && !players[hostKey] && !isHost) { alert("방장이 퇴장하여 방이 폭파되었습니다."); return quitLandLobby(); }
 
-        // 방장이 퇴장한 경우 게임 폭파
-        if (hostKey && !players[hostKey] && !isHost) {
-            alert("방장이 게임을 종료하거나 퇴장하여 게임이 강제 종료되었습니다.");
-            quitLandLobby();
-            return;
-        }
+        let modeSelect = document.getElementById('lobbyModeSelect'), hostActions = document.getElementById('lobbyHostActions'), guestMsg = document.getElementById('lobbyGuestMessage'), resetBtn = document.getElementById('btnLandReset');
+        if(modeSelect) modeSelect.disabled = !isHost; if(hostActions) hostActions.style.display = isHost ? 'flex' : 'none';
+        if(guestMsg) guestMsg.style.display = isHost ? 'none' : 'block'; if(resetBtn) resetBtn.style.display = isHost ? 'block' : 'none';
 
-        // 권한에 따른 UI 숨김/표시 처리
-        let modeSelect = document.getElementById('lobbyModeSelect');
-        let hostActions = document.getElementById('lobbyHostActions');
-        let guestMsg = document.getElementById('lobbyGuestMessage');
-        let resetBtn = document.getElementById('btnLandReset');
-
-        if(modeSelect) modeSelect.disabled = !isHost;
-        if(hostActions) hostActions.style.display = isHost ? 'flex' : 'none';
-        if(guestMsg) guestMsg.style.display = isHost ? 'none' : 'block';
-        if(resetBtn) resetBtn.style.display = isHost ? 'block' : 'none';
-
-        let status = data.status || 'waiting';
-
-        if(status === 'waiting') {
-            if(!document.getElementById('landLobbyScreen').classList.contains('active')) {
-                showScreen('landLobbyScreen');
-            }
+        if((data.status || 'waiting') === 'waiting') {
+            if(!document.getElementById('landLobbyScreen').classList.contains('active')) showScreen('landLobbyScreen');
             renderLandLobby(data);
-        } else if(status === 'playing') {
-            if(!document.getElementById('landGameScreen').classList.contains('active')) {
-                initLandGameUI(data);
-                showScreen('landGameScreen');
-            }
+        } else if(data.status === 'playing') {
+            if(!document.getElementById('landGameScreen').classList.contains('active')) { initLandGameUI(data); showScreen('landGameScreen'); }
             renderLandGame(data);
         }
     }
 
-    // 대기실 UI 렌더링
     function renderLandLobby(data) {
-        let players = data.players || {};
-        let mode = data.mode || 'solo';
-        
+        let players = data.players || {}, mode = data.mode || 'solo';
         document.getElementById('lobbyModeSelect').value = mode;
-
         if(mode === 'solo') {
-            document.getElementById('lobbySoloUI').style.display = 'block';
-            document.getElementById('lobbyTeamUI').style.display = 'none';
-            document.getElementById('btnRandomTeam').style.display = 'none';
-
-            let listEl = document.getElementById('lobbySoloList');
-            listEl.innerHTML = '';
-            Object.values(players).forEach(p => {
-                let div = document.createElement('div'); div.className = 'lobby-player';
-                div.innerHTML = `<div class="land-color-dot" style="background-color:${p.color}"></div> ${p.name}`;
-                listEl.appendChild(div);
-            });
+            document.getElementById('lobbySoloUI').style.display = 'block'; document.getElementById('lobbyTeamUI').style.display = 'none'; document.getElementById('btnRandomTeam').style.display = 'none';
+            let listEl = document.getElementById('lobbySoloList'); listEl.innerHTML = '';
+            Object.values(players).forEach(p => { let div = document.createElement('div'); div.className = 'lobby-player'; div.innerHTML = `<div class="land-color-dot" style="background-color:${p.color}"></div> ${p.name}`; listEl.appendChild(div); });
         } else {
-            document.getElementById('lobbySoloUI').style.display = 'none';
-            document.getElementById('lobbyTeamUI').style.display = 'block';
-            let isHost = (data.host === getUserKey());
-            document.getElementById('btnRandomTeam').style.display = isHost ? 'block' : 'none';
-
-            let listA = document.getElementById('lobbyTeamAList'); listA.innerHTML = '';
-            let listB = document.getElementById('lobbyTeamBList'); listB.innerHTML = '';
-
-            Object.values(players).forEach(p => {
-                let div = document.createElement('div'); div.className = 'lobby-player';
-                div.innerHTML = `👤 ${p.name}`;
-                if(p.team === 'A') listA.appendChild(div);
-                else listB.appendChild(div);
-            });
+            document.getElementById('lobbySoloUI').style.display = 'none'; document.getElementById('lobbyTeamUI').style.display = 'block'; document.getElementById('btnRandomTeam').style.display = (data.host === getUserKey()) ? 'block' : 'none';
+            let listA = document.getElementById('lobbyTeamAList'); listA.innerHTML = ''; let listB = document.getElementById('lobbyTeamBList'); listB.innerHTML = '';
+            Object.values(players).forEach(p => { let div = document.createElement('div'); div.className = 'lobby-player'; div.innerHTML = `👤 ${p.name}`; if(p.team === 'A') listA.appendChild(div); else listB.appendChild(div); });
         }
     }
 
-    // 모드 변경 (방장 전용)
-    function changeLandMode() {
-        let newMode = document.getElementById('lobbyModeSelect').value;
-        landRoomRef.child('mode').set(newMode);
-        if(newMode === 'team') randomizeLandTeams();
-    }
-
-    // 팀 선택하기 (누구나 가능)
-    function joinLandTeam(team) {
-        landRoomRef.child(`players/${getUserKey()}/team`).set(team);
-    }
-
-    // 완전 랜덤 팀 배정 (방장 전용)
+    function changeLandMode() { let newMode = document.getElementById('lobbyModeSelect').value; landRoomRef.child('mode').set(newMode); if(newMode === 'team') randomizeLandTeams(); }
+    function joinLandTeam(team) { landRoomRef.child(`players/${getUserKey()}/team`).set(team); }
     function randomizeLandTeams() {
         landRoomRef.child('players').once('value').then(snap => {
-            let players = snap.val() || {};
-            let keys = Object.keys(players);
-            keys.sort(() => Math.random() - 0.5); // 셔플
-            
-            let updates = {};
-            keys.forEach((k, idx) => {
-                updates[`${k}/team`] = (idx % 2 === 0) ? 'A' : 'B';
-            });
+            let keys = Object.keys(snap.val() || {}).sort(() => Math.random() - 0.5), updates = {};
+            keys.forEach((k, idx) => updates[`${k}/team`] = (idx % 2 === 0) ? 'A' : 'B');
             landRoomRef.child('players').update(updates);
         });
     }
 
-    // 🚀 게임 시작 (방장 전용)
     function startLandGame() {
         landRoomRef.once('value').then(snap => {
-            let data = snap.val() || {};
-            let startIdx = (currentLandStage - 1) * LAND_WORDS_PER_STAGE;
-            let stageWords = rawWords.slice(startIdx, startIdx + LAND_WORDS_PER_STAGE);
-            
-            if(stageWords.length < LAND_WORDS_PER_STAGE) {
-                let needed = LAND_WORDS_PER_STAGE - stageWords.length;
-                let pool = rawWords.filter(w => !stageWords.includes(w)).sort(()=>0.5-Math.random());
-                stageWords = stageWords.concat(pool.slice(0, needed));
-            }
-            stageWords.sort(() => 0.5 - Math.random());
-            let boardData = stageWords.map(w => ({ w: w.w, m: w.m, owner: "" }));
-
-            // 모든 유저 점수 및 패널티 리셋
-            let currentPlayers = data.players || {};
-            Object.keys(currentPlayers).forEach(k => {
-                currentPlayers[k].score = 0;
-                currentPlayers[k].penaltyUntil = 0;
-            });
-
-            landRoomRef.update({
-                status: 'playing',
-                board: boardData,
-                players: currentPlayers
-            }).catch(err => {
-                alert("게임 시작 중 오류가 발생했습니다.");
-                console.error("Firebase Update Error: ", err);
-            });
+            let data = snap.val() || {}, stageWords = rawWords.slice((currentLandStage - 1) * LAND_WORDS_PER_STAGE, currentLandStage * LAND_WORDS_PER_STAGE);
+            if(stageWords.length < LAND_WORDS_PER_STAGE) stageWords = stageWords.concat(rawWords.filter(w => !stageWords.includes(w)).sort(()=>0.5-Math.random()).slice(0, LAND_WORDS_PER_STAGE - stageWords.length));
+            let boardData = stageWords.sort(() => 0.5 - Math.random()).map(w => ({ w: w.w, m: w.m, owner: "" }));
+            let currentPlayers = data.players || {}; Object.keys(currentPlayers).forEach(k => { currentPlayers[k].score = 0; currentPlayers[k].penaltyUntil = 0; });
+            landRoomRef.update({ status: 'playing', board: boardData, players: currentPlayers });
         });
     }
 
-    // 게임 UI 초기화 (최초 1회 진입 시)
     function initLandGameUI(data) {
-        currentSelectedLandIndex = -1;
-        document.getElementById('landTargetMean').innerText = "👇 빈 땅을 클릭하여 문제를 확인하세요.";
-        document.getElementById('landInput').value = '';
-        document.getElementById('landInput').disabled = true;
-        document.getElementById('landSubmitBtn').disabled = true;
-        
-        let boardEl = document.getElementById('landBoard');
-        boardEl.innerHTML = '';
-        for(let i=0; i<100; i++) {
-            let cell = document.createElement('div');
-            cell.className = 'land-cell';
-            cell.onclick = () => selectLand(i);
-            boardEl.appendChild(cell);
-        }
-
-        if(landPenaltyInterval) clearInterval(landPenaltyInterval);
-        landPenaltyInterval = setInterval(checkLandPenalty, 1000);
+        currentSelectedLandIndex = -1; document.getElementById('landTargetMean').innerText = "👇 빈 땅을 클릭하여 문제를 확인하세요.";
+        document.getElementById('landInput').value = ''; document.getElementById('landInput').disabled = true; document.getElementById('landSubmitBtn').disabled = true;
+        let boardEl = document.getElementById('landBoard'); boardEl.innerHTML = '';
+        for(let i=0; i<100; i++) { let cell = document.createElement('div'); cell.className = 'land-cell'; cell.onclick = () => selectLand(i); boardEl.appendChild(cell); }
+        if(landPenaltyInterval) clearInterval(landPenaltyInterval); landPenaltyInterval = setInterval(checkLandPenalty, 1000);
     }
 
-    function getPlayerInitial(name) { return name.charAt(0); }
-
-    // 실제 게임 실시간 렌더링
     function renderLandGame(data) {
-        let players = data.players || {};
-        let board = data.board || [];
-        currentLandBoardData = board;
-        let mode = data.mode || 'solo';
-        
-        // 내 상태 업데이트 (색상 처리)
+        let players = data.players || {}, board = data.board || []; currentLandBoardData = board; let mode = data.mode || 'solo';
         let myData = players[getUserKey()];
         if(myData) {
-            let displayColor = (mode==='team') ? (myData.team==='A' ? 'var(--team-a)' : 'var(--team-b)') : myData.color;
-            document.getElementById('landMyColorBox').style.backgroundColor = displayColor;
-            document.getElementById('landMyScoreDisplay').innerText = myData.score || 0;
-            myLandPenaltyUntil = myData.penaltyUntil || 0;
-            checkLandPenalty(); 
+            document.getElementById('landMyColorBox').style.backgroundColor = (mode==='team') ? (myData.team==='A' ? 'var(--team-a)' : 'var(--team-b)') : myData.color;
+            document.getElementById('landMyScoreDisplay').innerText = myData.score || 0; myLandPenaltyUntil = myData.penaltyUntil || 0; checkLandPenalty(); 
         }
 
-        // 보드 렌더링
         let boardEl = document.getElementById('landBoard');
         for(let i=0; i<100; i++) {
-            let cellData = board[i];
-            let cellEl = boardEl.children[i];
-            if(!cellEl) continue;
-
+            let cellData = board[i], cellEl = boardEl.children[i]; if(!cellEl) continue;
             if(cellData && cellData.owner && cellData.owner !== "") {
                 let ownerData = players[cellData.owner];
                 if(ownerData) {
                     cellEl.style.backgroundColor = (mode==='team') ? (ownerData.team==='A' ? 'var(--team-a)' : 'var(--team-b)') : ownerData.color;
-                    cellEl.classList.add('claimed');
-                    cellEl.classList.remove('selected');
-                    cellEl.innerText = getPlayerInitial(ownerData.name);
+                    cellEl.classList.add('claimed'); cellEl.classList.remove('selected'); cellEl.innerText = ownerData.name.charAt(0);
                 }
             } else {
-                cellEl.style.backgroundColor = '#f8fafc';
-                cellEl.classList.remove('claimed');
-                cellEl.innerText = '';
-                if(i === currentSelectedLandIndex) cellEl.classList.add('selected');
-                else cellEl.classList.remove('selected');
+                cellEl.style.backgroundColor = '#f8fafc'; cellEl.classList.remove('claimed'); cellEl.innerText = '';
+                if(i === currentSelectedLandIndex) cellEl.classList.add('selected'); else cellEl.classList.remove('selected');
             }
         }
 
-        // 뺏기거나 선택 해제
-        if(currentSelectedLandIndex !== -1) {
-            let cell = board[currentSelectedLandIndex];
-            if(cell && cell.owner && cell.owner !== "") {
-                currentSelectedLandIndex = -1;
-                document.getElementById('landTargetMean').innerText = "❌ 다른 사람이 차지했습니다. 빈 땅을 다시 선택하세요.";
-                document.getElementById('landInput').disabled = true;
-                document.getElementById('landSubmitBtn').disabled = true;
-                document.getElementById('landInteractionBox').className = 'land-interaction';
-            }
+        if(currentSelectedLandIndex !== -1 && board[currentSelectedLandIndex] && board[currentSelectedLandIndex].owner !== "") {
+            currentSelectedLandIndex = -1; document.getElementById('landTargetMean').innerText = "❌ 다른 사람이 차지했습니다.";
+            document.getElementById('landInput').disabled = true; document.getElementById('landSubmitBtn').disabled = true; document.getElementById('landInteractionBox').className = 'land-interaction';
         }
 
-        // 남은 단어 목록 (힌트) 렌더링
-        let wordBankList = document.getElementById('landWordBankList');
-        let unclaimedWords = board.filter(c => !c.owner || c.owner === "").map(c => c.w);
-        unclaimedWords.sort((a, b) => a.localeCompare(b, 'ko')); // 가나다 순 정렬
-        wordBankList.innerHTML = '';
-        unclaimedWords.forEach(w => {
-            let s = document.createElement('span'); s.className = 'land-word-chip'; s.innerText = w;
-            wordBankList.appendChild(s);
-        });
+        let wordBankList = document.getElementById('landWordBankList'); wordBankList.innerHTML = '';
+        board.filter(c => !c.owner || c.owner === "").map(c => c.w).sort((a,b)=>a.localeCompare(b,'ko')).forEach(w => { let s = document.createElement('span'); s.className = 'land-word-chip'; s.innerText = w; wordBankList.appendChild(s); });
 
-        // 리더보드 & 팀 점수 렌더링
-        let lbEl = document.getElementById('landLeaderboard');
-        let teamScoreBoard = document.getElementById('landTeamScoreBoard');
-        
+        let lbEl = document.getElementById('landLeaderboard'), teamScoreBoard = document.getElementById('landTeamScoreBoard');
         if(mode === 'team') {
-            teamScoreBoard.style.display = 'flex';
-            lbEl.innerHTML = ''; 
-            let scoreA = 0, scoreB = 0;
-            Object.values(players).forEach(p => {
-                if(p.team === 'A') scoreA += (p.score || 0);
-                if(p.team === 'B') scoreB += (p.score || 0);
-            });
-            document.getElementById('landScoreA').innerText = scoreA;
-            document.getElementById('landScoreB').innerText = scoreB;
+            teamScoreBoard.style.display = 'flex'; lbEl.innerHTML = ''; let scoreA = 0, scoreB = 0;
+            Object.values(players).forEach(p => { if(p.team === 'A') scoreA += (p.score||0); if(p.team === 'B') scoreB += (p.score||0); });
+            document.getElementById('landScoreA').innerText = scoreA; document.getElementById('landScoreB').innerText = scoreB;
         } else {
-            teamScoreBoard.style.display = 'none';
-            lbEl.innerHTML = '';
-            let sortedPlayers = Object.values(players).sort((a,b) => (b.score || 0) - (a.score || 0));
-            sortedPlayers.forEach((p, idx) => {
-                if((p.score || 0) > 0 || idx < 5) {
+            teamScoreBoard.style.display = 'none'; lbEl.innerHTML = '';
+            Object.values(players).sort((a,b) => (b.score||0) - (a.score||0)).forEach((p, idx) => {
+                if((p.score||0)>0 || idx<5) {
                     let chip = document.createElement('div'); chip.className = 'land-player-chip';
-                    chip.innerHTML = `<div class="land-color-dot" style="background-color:${p.color}"></div> ${p.name} <b style="color:var(--primary);">${p.score||0}땅</b>`;
-                    lbEl.appendChild(chip);
+                    chip.innerHTML = `<div class="land-color-dot" style="background-color:${p.color}"></div> ${p.name} <b style="color:var(--primary);">${p.score||0}땅</b>`; lbEl.appendChild(chip);
                 }
             });
         }
 
-        // 게임 종료 체크 (100개 모두 찼는지)
-        let filledCount = board.filter(c => c && c.owner && c.owner !== "").length;
-        if(filledCount === 100 && board.length === 100) {
-            endLandGrabGame(data);
-        }
+        if(board.filter(c => c && c.owner && c.owner !== "").length === 100 && board.length === 100) endLandGrabGame(data);
     }
 
     function selectLand(index) {
-        if(myLandPenaltyUntil > Date.now()) return; 
-        
-        let cellData = currentLandBoardData[index];
-        if(!cellData || (cellData.owner && cellData.owner !== "")) return;
-
-        currentSelectedLandIndex = index;
-        
-        let boardEl = document.getElementById('landBoard');
-        for(let i=0; i<100; i++) {
-            if(i === index) boardEl.children[i].classList.add('selected');
-            else boardEl.children[i].classList.remove('selected');
-        }
-
-        let meanBox = document.getElementById('landTargetMean');
-        let inputEl = document.getElementById('landInput');
-        
+        if(myLandPenaltyUntil > Date.now() || !currentLandBoardData[index] || currentLandBoardData[index].owner) return;
+        currentSelectedLandIndex = index; let boardEl = document.getElementById('landBoard');
+        for(let i=0; i<100; i++) { if(i === index) boardEl.children[i].classList.add('selected'); else boardEl.children[i].classList.remove('selected'); }
         document.getElementById('landInteractionBox').className = 'land-interaction active';
-        meanBox.innerHTML = `<span style="color:var(--primary);">💡 [${index+1}번 땅]</span><br>${cellData.m}`;
-        inputEl.disabled = false;
-        inputEl.value = '';
-        inputEl.focus();
-        document.getElementById('landSubmitBtn').disabled = false;
+        document.getElementById('landTargetMean').innerHTML = `<span style="color:var(--primary);">💡 [${index+1}번 땅]</span><br>${currentLandBoardData[index].m}`;
+        document.getElementById('landInput').disabled = false; document.getElementById('landInput').value = ''; document.getElementById('landInput').focus(); document.getElementById('landSubmitBtn').disabled = false;
     }
 
-    document.getElementById('landInput').addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') submitLandGrabWord();
-    });
+    document.getElementById('landInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') submitLandGrabWord(); });
 
     function submitLandGrabWord() {
         if(currentSelectedLandIndex === -1 || myLandPenaltyUntil > Date.now()) return;
-
-        let inputEl = document.getElementById('landInput');
-        let val = inputEl.value.replace(/\s+/g, '');
-        if(!val) return;
-
-        let cellData = currentLandBoardData[currentSelectedLandIndex];
-        let correctWord = cellData.w.replace(/\s+/g, '');
-
-        if(val === correctWord) {
-            const cellRef = landRoomRef.child(`board/${currentSelectedLandIndex}`);
-            cellRef.transaction(currentData => {
-                if(currentData && (!currentData.owner || currentData.owner === "")) {
-                    currentData.owner = getUserKey();
-                    return currentData;
-                }
-                return; // 누군가 이미 먹었으면 중단
+        let inputEl = document.getElementById('landInput'), val = inputEl.value.replace(/\s+/g, ''); if(!val) return;
+        if(!currentLandBoardData[currentSelectedLandIndex]) return; // 보드 데이터 없으면 중단
+        if(val === currentLandBoardData[currentSelectedLandIndex].w.replace(/\s+/g, '')) {
+            landRoomRef.child(`board/${currentSelectedLandIndex}`).transaction(currentData => {
+                if(currentData && (!currentData.owner || currentData.owner === "")) { currentData.owner = getUserKey(); return currentData; } return;
             }, (error, committed) => {
                 if(committed) {
                     landRoomRef.child(`players/${getUserKey()}/score`).transaction(s => (s||0)+1);
-                    inputEl.value = '';
-                    currentSelectedLandIndex = -1;
-                    document.getElementById('landTargetMean').innerText = "🎉 점령 성공! 다음 땅을 선택하세요.";
-                    document.getElementById('landInteractionBox').className = 'land-interaction';
-                    inputEl.disabled = true;
-                    document.getElementById('landSubmitBtn').disabled = true;
-                } else {
-                    inputEl.value = '';
-                    document.getElementById('landTargetMean').innerText = "❌ 간발의 차이로 빼앗겼습니다!";
-                }
+                    inputEl.value = ''; currentSelectedLandIndex = -1; document.getElementById('landTargetMean').innerText = "🎉 점령 성공! 다음 땅을 선택하세요.";
+                    document.getElementById('landInteractionBox').className = 'land-interaction'; inputEl.disabled = true; document.getElementById('landSubmitBtn').disabled = true;
+                } else { inputEl.value = ''; document.getElementById('landTargetMean').innerText = "❌ 간발의 차이로 빼앗겼습니다!"; }
             });
         } else {
-            // 오답 10초 패널티 부과
-            inputEl.value = '';
-            inputEl.classList.add('shake');
-            setTimeout(()=> inputEl.classList.remove('shake'), 300);
-            
-            let penaltyTime = Date.now() + 10000;
-            landRoomRef.child(`players/${getUserKey()}/penaltyUntil`).set(penaltyTime);
-            currentSelectedLandIndex = -1;
-            
-            let boardEl = document.getElementById('landBoard');
-            for(let i=0; i<100; i++) boardEl.children[i].classList.remove('selected');
+            inputEl.value = ''; inputEl.classList.add('shake'); setTimeout(()=> inputEl.classList.remove('shake'), 300);
+            landRoomRef.child(`players/${getUserKey()}/penaltyUntil`).set(Date.now() + 10000); currentSelectedLandIndex = -1;
+            for(let i=0; i<100; i++) document.getElementById('landBoard').children[i].classList.remove('selected');
         }
     }
 
     function checkLandPenalty() {
         if(!inLandGrabRoom) return;
-        let inputEl = document.getElementById('landInput');
-        let box = document.getElementById('landInteractionBox');
-        let meanBox = document.getElementById('landTargetMean');
-        let btn = document.getElementById('landSubmitBtn');
-
+        let inputEl = document.getElementById('landInput'), box = document.getElementById('landInteractionBox'), meanBox = document.getElementById('landTargetMean'), btn = document.getElementById('landSubmitBtn');
         let now = Date.now();
         if(myLandPenaltyUntil > now) {
-            let leftSec = Math.ceil((myLandPenaltyUntil - now) / 1000);
-            box.className = 'land-interaction penalty';
-            meanBox.innerText = `💥 오답입니다! 잠시 휴식하세요.`;
-            inputEl.disabled = true;
-            inputEl.placeholder = `🚨 ${leftSec}초 대기...`;
-            btn.disabled = true;
+            box.className = 'land-interaction penalty'; meanBox.innerText = `💥 오답입니다! 잠시 휴식하세요.`; inputEl.disabled = true; inputEl.placeholder = `🚨 ${Math.ceil((myLandPenaltyUntil-now)/1000)}초 대기...`; btn.disabled = true;
         } else {
-            if(box.classList.contains('penalty')) {
-                box.className = 'land-interaction';
-                meanBox.innerText = "👇 빈 땅을 클릭하여 문제를 확인하세요.";
-                inputEl.placeholder = "단어 입력";
-            }
+            if(box.classList.contains('penalty')) { box.className = 'land-interaction'; meanBox.innerText = "👇 빈 땅을 클릭하여 문제를 확인하세요."; inputEl.placeholder = "단어 입력"; }
         }
     }
 
     function endLandGrabGame(data) {
-        if(!inLandGrabRoom) return; // 중복 호출 방지
-        if(landRoomRef) landRoomRef.off('value', handleLandRoomUpdate);
-        inLandGrabRoom = false;
-        if(landPenaltyInterval) clearInterval(landPenaltyInterval);
-
-        let players = data.players || {};
-        let mode = data.mode || 'solo';
-        let myData = players[getUserKey()];
-        let myScore = myData ? (myData.score || 0) : 0;
-        let comment = "";
+        if(!inLandGrabRoom) return; landRoomRef.off('value', handleLandRoomUpdate); inLandGrabRoom = false; if(landPenaltyInterval) clearInterval(landPenaltyInterval);
+        let players = data.players || {}, mode = data.mode || 'solo', myData = players[getUserKey()], myScore = myData ? (myData.score || 0) : 0;
+        let comment = "", winStatus = "loss";
 
         if(mode === 'team') {
-            let scoreA = 0, scoreB = 0;
-            Object.values(players).forEach(p => {
-                if(p.team === 'A') scoreA += (p.score || 0);
-                if(p.team === 'B') scoreB += (p.score || 0);
-            });
-            let winTeam = scoreA > scoreB ? "A팀 (블루)" : (scoreB > scoreA ? "B팀 (레드)" : "무승부");
-            comment = `모든 땅이 점령되었습니다!<br><br>🏆 <b>최종 결과: ${winTeam} 승리!</b><br>(A팀 ${scoreA}땅 vs B팀 ${scoreB}땅)`;
+            let scoreA = 0, scoreB = 0; Object.values(players).forEach(p => { if(p.team === 'A') scoreA += (p.score||0); if(p.team === 'B') scoreB += (p.score||0); });
+            let myTeam = myData ? myData.team : null;
+            if (scoreA === scoreB) winStatus = "draw";
+            else if (scoreA > scoreB && myTeam === 'A') winStatus = "win";
+            else if (scoreB > scoreA && myTeam === 'B') winStatus = "win";
+
+            let winTeamStr = scoreA > scoreB ? "A팀 (블루)" : (scoreB > scoreA ? "B팀 (레드)" : "무승부");
+            comment = `모든 땅이 점령되었습니다!<br>🏆 <b>결과: ${winTeamStr} 승리!</b><br>(A팀 ${scoreA}땅 vs B팀 ${scoreB}땅)`;
         } else {
-            let sortedPlayers = Object.values(players).sort((a,b) => (b.score || 0) - (a.score || 0));
+            let sortedPlayers = Object.values(players).sort((a,b) => (b.score||0) - (a.score||0));
+            let topScore = sortedPlayers.length > 0 ? sortedPlayers[0].score : 0;
+            if (myScore === topScore && topScore > 0) winStatus = "win"; // 1등이면 승리
             let winner = sortedPlayers[0];
-            if(winner) {
-                comment = `모든 땅이 점령되었습니다!<br><br>🏆 <b>최종 1위: ${winner.name} (${winner.score || 0}땅)</b>`;
-            } else {
-                comment = `게임이 종료되었습니다!`;
-            }
+            comment = winner ? `모든 땅이 점령되었습니다!<br>🏆 <b>최종 1위: ${winner.name} (${winner.score || 0}땅)</b>` : `게임이 종료되었습니다!`;
         }
         
-        // 🔥 나의 최고기록 저장 및 랭킹 등록
-        let prevRecord = landRecords[currentLandStage];
-        if(!prevRecord || myScore > prevRecord.bestScore) {
-            landRecords[currentLandStage] = { bestScore: myScore, date: new Date().toISOString() };
-            localStorage.setItem('landRecords', JSON.stringify(landRecords));
-            syncToFirebase();
+        // 📈 전적 산출 및 저장 로직
+        let prevRecord = landRecords[currentLandStage] || {};
+        
+        prevRecord.soloFirsts = prevRecord.soloFirsts || 0; prevRecord.soloPlays = prevRecord.soloPlays || 0;
+        prevRecord.teamWins = prevRecord.teamWins || 0; prevRecord.teamDraws = prevRecord.teamDraws || 0;
+        prevRecord.teamLosses = prevRecord.teamLosses || 0; prevRecord.teamPlays = prevRecord.teamPlays || 0;
+
+        if (mode === 'team') {
+            prevRecord.teamPlays++;
+            if (winStatus === "win") prevRecord.teamWins++;
+            else if (winStatus === "draw") prevRecord.teamDraws++;
+            else prevRecord.teamLosses++;
             
-            if(isFirebaseActive) {
-                getDB().ref('rankings_land/stage_' + currentLandStage + '/' + getUserKey()).set({
-                    name: userProfile.studentName, classInfo: userProfile.gradeClass, score: myScore
+            if(isFirebaseActive && getUserKey()) {
+                getDB().ref('rankings_land_team/stage_' + currentLandStage + '/' + getUserKey()).set({
+                    name: userProfile.studentName, classInfo: userProfile.gradeClass, 
+                    teamWins: prevRecord.teamWins, teamDraws: prevRecord.teamDraws, teamLosses: prevRecord.teamLosses
+                });
+            }
+        } else {
+            prevRecord.soloPlays++;
+            if (winStatus === "win") prevRecord.soloFirsts++;
+            
+            if(isFirebaseActive && getUserKey()) {
+                getDB().ref('rankings_land_solo/stage_' + currentLandStage + '/' + getUserKey()).set({
+                    name: userProfile.studentName, classInfo: userProfile.gradeClass, 
+                    soloFirsts: prevRecord.soloFirsts, soloPlays: prevRecord.soloPlays
                 });
             }
         }
 
-        document.getElementById('btnReviewMissed').style.display = 'none';
-        document.getElementById('resultTitle').innerText = "🏁 게임 종료!";
-        document.getElementById('resultScore').innerText = `나의 기록: ${myScore} 땅`;
-        document.getElementById('resultComment').innerHTML = comment;
-        
-        // 나가기를 누르면 내 데이터를 지우고 로비로
-        document.getElementById('btnGoHome').onclick = () => {
-            landRoomRef.child('players/' + getUserKey()).remove();
-            quitLandLobby();
-        };
+        landRecords[currentLandStage] = prevRecord;
+        localStorage.setItem('landRecords', JSON.stringify(landRecords));
+        syncToFirebase();
 
+        document.getElementById('btnReviewMissed').style.display = 'none';
+        document.getElementById('resultTitle').innerText = winStatus === "win" ? "🏆 승리!" : (winStatus === "draw" ? "🤝 무승부" : "💀 패배...");
+        document.getElementById('resultScore').innerText = `내 점령: ${myScore}땅`;
+        
+        let resultMsg = mode === 'team' ? "팀전 전적이 기록되었습니다." : "개인전 1등 여부가 기록되었습니다.";
+        document.getElementById('resultComment').innerHTML = comment + `<br><br>` + resultMsg;
+        
+        document.getElementById('btnGoHome').onclick = () => { landRoomRef.child('players/' + getUserKey()).remove(); quitLandLobby(); };
         showScreen('resultScreen');
     }
 
-    // 게임 화면(플레이 중)에서 나가기 버튼 클릭 시 호출
     function quitLandGrabGame() {
-        if(!confirm("게임을 나가시겠습니까?\n(나의 점령 기록은 유지되며, 다른 플레이어의 게임은 계속됩니다.)")) return;
-        inLandGrabRoom = false;
-        if(landPenaltyInterval) clearInterval(landPenaltyInterval);
+        if(!confirm("게임을 나가시겠습니까?")) return; inLandGrabRoom = false; if(landPenaltyInterval) clearInterval(landPenaltyInterval);
         if(landRoomRef) {
             landRoomRef.off('value', handleLandRoomUpdate);
             landRoomRef.child('players').once('value').then(snap => {
-                let pCount = snap.exists() ? Object.keys(snap.val()).length : 0;
-                if (pCount <= 1) {
-                    landRoomRef.remove();
-                } else {
-                    landRoomRef.child('players/' + getUserKey()).remove();
-                }
+                if((snap.exists() ? Object.keys(snap.val()).length : 0) <= 1) landRoomRef.remove();
+                else landRoomRef.child('players/' + getUserKey()).remove();
             });
         }
-        document.getElementById('landBoard').innerHTML = '';
-        goToHome();
+        document.getElementById('landBoard').innerHTML = ''; goToHome();
     }
 
     function quitLandLobby() {
-        inLandGrabRoom = false;
-        if(landPenaltyInterval) clearInterval(landPenaltyInterval);
+        inLandGrabRoom = false; if(landPenaltyInterval) clearInterval(landPenaltyInterval);
         if(landRoomRef) {
             landRoomRef.off('value', handleLandRoomUpdate);
-            // 내가 마지막 인원이면 방을 완전히 삭제
             landRoomRef.child('players').once('value').then(snap => {
-                let pCount = snap.exists() ? Object.keys(snap.val()).length : 0;
-                if (pCount <= 1) { 
-                    landRoomRef.remove();
-                } else {
-                    landRoomRef.child('players/' + getUserKey()).remove();
-                }
+                if((snap.exists() ? Object.keys(snap.val()).length : 0) <= 1) landRoomRef.remove();
+                else landRoomRef.child('players/' + getUserKey()).remove();
             });
         }
-        document.getElementById('landBoard').innerHTML = '';
-        goToHome();
+        document.getElementById('landBoard').innerHTML = ''; goToHome();
     }
 
-    function resetLandGrabRoom() {
-        // 방장 전용: 게임 종료 및 방 폭파
-        if(confirm("게임을 종료하고 방을 폭파하시겠습니까?\n(모든 플레이어가 대기실에서 튕기게 됩니다.)")) {
-            landRoomRef.remove().then(() => {
-                alert("방이 정상적으로 종료되었습니다.");
-                quitLandLobby();
-            });
-        }
-    }
+    function resetLandGrabRoom() { if(confirm("방을 폭파하시겠습니까?")) landRoomRef.remove().then(() => { alert("종료됨"); quitLandLobby(); }); }
 
 </script>
 </body>
