@@ -417,7 +417,7 @@
                 <div class="land-leaderboard">
                     <h3 style="display:flex; justify-content:space-between; align-items:center;"><span>📊 현재 점령 현황</span><button id="btnLandReset" style="display:none; font-size:0.8rem; padding:4px 8px; border-radius:6px; background:var(--error); color:white; border:none; cursor:pointer;" onclick="resetLandGrabRoom()">방 폭파</button></h3>
                     <div id="landTeamScoreBoard" class="land-team-score-board" style="display:none;"><span class="score-a">A: <span id="landScoreA">0</span></span><span class="score-b">B: <span id="landScoreB">0</span></span></div>
-                    <div class="land-players" id="landLeaderboard"></div>
+                    <div id="landLeaderboard" class="land-players"></div>
                 </div>
                 <div class="land-word-bank">
                     <h4>💡 남은 단어 목록 (가나다순 힌트)</h4>
@@ -526,6 +526,20 @@
     const TOTAL_LAND_STAGES = Math.ceil(rawWords.length / LAND_WORDS_PER_STAGE);
     const PLAYER_COLORS = ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#38bdf8', '#d946ef', '#ec4899', '#9f1239', '#ea580c', '#4d7c0f', '#047857', '#0f766e', '#1d4ed8', '#6b21a8'];
 
+    // 🔧 수정: 색상 배열(19개)보다 참가자가 많아도(최대 25명) 겹치지 않도록,
+    // 정해둔 색을 다 쓰면 골든 앵글 방식으로 새 색상을 계속 만들어냄
+    function getPlayerColor(index) {
+        if (index >= 0 && index < PLAYER_COLORS.length) return PLAYER_COLORS[index];
+        const hue = (index * 137.508) % 360;
+        return `hsl(${hue.toFixed(0)}, 70%, 45%)`;
+    }
+
+    // 🔧 추가: 정답 비교 시 공백뿐 아니라 마침표/쉼표 등 문장부호도 무시하도록 하는 공용 함수
+    // (뜻풀이 중 "인정|따뜻한 마음. 혹은 사실로 받아들임"처럼 문장부호가 섞인 경우를 대비)
+    function normalizeForCompare(str) {
+        return String(str || '').replace(/[\s.,·~!?"'"'()]/g, '');
+    }
+
     function safeParseJSON(key, fallback) {
         try { return JSON.parse(localStorage.getItem(key)) || fallback; } 
         catch(e) { localStorage.removeItem(key); return fallback; }
@@ -617,9 +631,12 @@
         }
     }
 
+    // 🔧 수정: 파이어베이스 경로에 쓸 수 없는 문자 목록에 슬래시(/)를 추가
+    // (기존엔 . # $ [ ] 만 제거하고 /는 그대로 남아있어서, 반 이름에 "6/1"처럼 쓰면
+    //  파이어베이스가 이걸 경로 구분자로 인식해 학생 데이터가 엉뚱한 곳에 저장되는 문제가 있었음)
     function getUserKey() {
         if(!userProfile) return null;
-        return `${userProfile.school}_${userProfile.gradeClass}_${userProfile.studentNum}_${userProfile.studentName}`.replace(/[\.\#\$\[\]]/g, ""); 
+        return `${userProfile.school}_${userProfile.gradeClass}_${userProfile.studentNum}_${userProfile.studentName}`.replace(/[\.\#\$\[\]\/]/g, ""); 
     }
 
     function syncToFirebase() {
@@ -629,7 +646,6 @@
         });
     }
 
-    // 💡 수정한 부분: 관리자 접속 시 1234 하드코딩된 부분 삭제
     function openAdmin() {
         let pwd = prompt("👨‍🏫 선생님 전용 관리자 암호를 입력하세요.\n(기본 암호: 1234)");
         if(pwd === adminPassword) { showScreen('adminScreen'); fetchAdminData(); } 
@@ -677,6 +693,13 @@
         }
     }
 
+    // 🔧 수정: 학교명/이름 등에 쉼표가 들어있어도 엑셀 열이 밀리지 않도록 CSV 필드 이스케이프 추가
+    function csvField(v) {
+        let s = String(v === undefined || v === null ? '' : v);
+        if (/[",\n]/.test(s)) s = '"' + s.replace(/"/g, '""') + '"';
+        return s;
+    }
+
     function downloadAdminCSV() {
         if(!isFirebaseActive) return;
         getDB().ref('students').once('value').then(snapshot => {
@@ -686,7 +709,7 @@
                 let d = child.val();
                 if(!d || !d.profile) return; // 프로필 없는 항목 건너뜀
                 let clearedCount = d.daily ? Object.values(d.daily).filter(r => r.cleared).length : 0;
-                csvRows.push([d.profile.school, d.profile.gradeClass, d.profile.studentNum, d.profile.studentName, clearedCount, d.lastUpdated||'기록없음'].join(','));
+                csvRows.push([d.profile.school, d.profile.gradeClass, d.profile.studentNum, d.profile.studentName, clearedCount, d.lastUpdated||'기록없음'].map(csvField).join(','));
             });
             let blob = new Blob(['\uFEFF' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
             let link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `단어마스터_전체학생결과.csv`;
@@ -926,6 +949,9 @@
         dailyRecords[currentDay] = record; localStorage.setItem('dailyRecords', JSON.stringify(dailyRecords)); syncToFirebase(); goToHome();
     }
 
+    // 🔧 수정: "이어서 하시겠습니까?" 계열 확인창을 취소했을 때
+    // 예전에는 무조건 1번 단어부터 다시 시작했는데, 이미 끝낸 학습을 억지로 다시 하게 되는
+    // 문제가 있어서 취소 시에는 그냥 홈 화면에 머물도록 변경 (기존 진행 기록은 그대로 보존됨)
     function startStudyDay(dayNum) {
         currentDay = dayNum; isReviewMode = false;
         let startIdx = (dayNum - 1) * WORDS_PER_DAY; studyQueue = rawWords.slice(startIdx, startIdx + WORDS_PER_DAY);
@@ -935,11 +961,13 @@
                 if(confirm(`Day ${currentDay} 퀴즈를 풀던 중이었습니다. 이어서 푸시겠습니까?`)) {
                     currentStudyIndex = record.lastStudyIndex; currentQuizIdx = record.currentQuizIdx || 0; score = record.currentScore || 0; missedWords = record.savedMissedWords || []; quizQueue = record.savedQuizQueue || [];
                     document.getElementById('quizDayLabel').innerText = `Day ${currentDay} 확인 퀴즈 (이어하기)`; showScreen('quizScreen'); renderQuiz(); return;
-                } else { record.isQuizInProgress = false; dailyRecords[currentDay] = record; }
+                } else { return; }
             } else if (record.lastStudyIndex >= studyQueue.length) {
                 if(confirm(`Day ${currentDay} 학습은 마쳤습니다. 퀴즈를 푸시겠습니까?`)) { generateQuiz(); return; }
+                else { return; }
             } else {
                 if(confirm(`이전에 학습하던 ${record.lastStudyIndex + 1}번째 단어부터 이어서 하시겠습니까?`)) { currentStudyIndex = record.lastStudyIndex; startFlashcards(); return; }
+                else { return; }
             }
         }
         currentStudyIndex = 0; startFlashcards();
@@ -966,10 +994,12 @@
         btnNextWord.innerText = isReviewMode ? "뜻을 입력하세요" : "낱말을 입력하세요"; wordInput.focus();
     }
 
+    // 🔧 수정: 공백만 지우고 비교하던 것을, 마침표/쉼표 등 문장부호도 무시하도록 normalizeForCompare 사용
+    // (복습 모드에서 뜻풀이에 포함된 문장부호까지 완벽히 입력해야만 정답 처리되던 문제 완화)
     wordInput.addEventListener('input', (e) => {
         if(!document.getElementById('studyScreen').classList.contains('active')) return;
         const currentObj = studyQueue[currentStudyIndex]; const targetText = isReviewMode ? currentObj.m : currentObj.w;
-        if(e.target.value.replace(/\s+/g, '') === targetText.replace(/\s+/g, '')) {
+        if(normalizeForCompare(e.target.value) === normalizeForCompare(targetText)) {
             wordInput.classList.add('matched'); btnNextWord.classList.add('active'); btnNextWord.innerText = currentStudyIndex === studyQueue.length - 1 ? "학습 완료! 퀴즈 풀기 🎮" : "다음 ➔";
         } else { wordInput.classList.remove('matched'); btnNextWord.classList.remove('active'); btnNextWord.innerText = isReviewMode ? "뜻을 입력하세요" : "낱말을 입력하세요"; }
     });
@@ -1234,15 +1264,16 @@
         rainTimerReq = requestAnimationFrame(updateRainLoop);
     }
 
+    // 🔧 수정: 단어 비교도 normalizeForCompare로 통일 (공백/문장부호 차이에 좀 더 관대하게)
     document.getElementById('rainInput').addEventListener('keydown', (e) => {
         if(e.key === 'Enter') {
-            let val = e.target.value.replace(/\s+/g, ''); if(!val) return;
+            let val = normalizeForCompare(e.target.value); if(!val) return;
             let sky = document.getElementById('rainSky'); 
             let cx = sky.clientWidth / 2, cy = sky.clientHeight / 2;
             
             let hitIdx = -1; let minDist = Infinity;
             for(let i=0; i<activeRainDrops.length; i++) {
-                if(activeRainDrops[i].word.replace(/\s+/g, '') === val) {
+                if(normalizeForCompare(activeRainDrops[i].word) === val) {
                     let d = activeRainDrops[i];
                     let dist = Math.sqrt(Math.pow(cx - d.x, 2) + Math.pow(cy - d.y, 2));
                     if(dist < minDist) { minDist = dist; hitIdx = i; }
@@ -1285,42 +1316,76 @@
         showScreen('resultScreen');
     }
 
-
     // =========================================================
     // 🏁 땅따먹기 (Land Grab) 
     // =========================================================
 
+    // 🔧 수정: 방 입장 로직을 트랜잭션으로 재작성
+    // - 기존에는 "인원수를 한 번 읽고(.once) 그 값으로 방장/색상/팀을 정한 뒤 쓰기"였는데,
+    //   여러 학생이 거의 동시에 들어오면 다들 같은 인원수(예: 0명)를 읽어서
+    //   색상이 겹치거나 방장이 뒤죽박죽되는 문제가 있었음.
+    // - landRoomRef 자체를 하나의 트랜잭션으로 묶어서, 파이어베이스가 동시 입장을
+    //   한 명씩 순서대로 처리하도록 함 (더 이상 인원수 경쟁이 생기지 않음).
+    // - 방 이름(roomCode)에서도 파이어베이스 경로에 쓸 수 없는 문자를 제거함.
     function joinLandGrabRoom(stage) {
         if(!isFirebaseActive) { alert("서버 연결이 필요합니다."); return; }
-        let roomCode = prompt(`${stage}탄 땅따먹기에 접속합니다.\n[방 이름]을 입력하세요. (예: 1모둠, 자유방)`);
-        if(!roomCode || roomCode.trim() === '') return;
-        currentLandRoomCode = roomCode.trim(); currentLandStage = stage;
+        let roomCodeRaw = prompt(`${stage}탄 땅따먹기에 접속합니다.\n[방 이름]을 입력하세요. (예: 1모둠, 자유방)`);
+        if(!roomCodeRaw || roomCodeRaw.trim() === '') return;
+        let roomCode = roomCodeRaw.trim().replace(/[\.\#\$\[\]\/]/g, "");
+        if(roomCode === '') { alert("방 이름에 사용할 수 없는 문자만 입력하셨습니다. 다른 이름으로 다시 시도해주세요."); return; }
+        currentLandRoomCode = roomCode; currentLandStage = stage;
         landRoomRef = getDB().ref(`landGrabRooms/stage_${stage}_${currentLandRoomCode}`);
         
         let startDay = (stage - 1) * 4 + 1, endDay = Math.min(stage * 4, TOTAL_DAYS);
         let titleTxt = `${stage}탄 (${startDay}~${endDay}일차) - [${currentLandRoomCode}]방`;
         document.getElementById('lobbyStageTitleText').innerText = titleTxt; document.getElementById('landGameStageTitle').innerText = titleTxt;
 
-        landRoomRef.once('value').then(snap => {
-            let data = snap.val() || {}, players = data.players || {}, validPlayers = {}, hostExists = false;
+        let myKey = getUserKey();
+
+        landRoomRef.transaction(data => {
+            data = data || {};
+            let players = data.players || {}, validPlayers = {}, hostExists = false;
             Object.keys(players).forEach(k => {
                 if(players[k] && players[k].name) { validPlayers[k] = players[k]; if(k === data.host) hostExists = true; }
             });
-            players = validPlayers; let pCount = Object.keys(players).length;
+            players = validPlayers;
+            let pCount = Object.keys(players).length;
 
-            if (pCount === 0 || (data.host && !hostExists)) { data = {}; players = {}; pCount = 0; } 
-            else if(data.status === 'playing' && !players[getUserKey()]) { alert("진행 중인 게임입니다!"); return; }
-            if(!players[getUserKey()] && pCount >= 25) { alert("방이 꽉 찼습니다."); return; }
-
-            if(pCount === 0 || !data.host) {
-                landRoomRef.child('host').set(getUserKey()); landRoomRef.child('status').set('waiting'); landRoomRef.child('mode').set('solo');
+            // 방장이 없거나(모두 나간 뒤) 유효하지 않으면 방을 새로 시작
+            if (pCount === 0 || (data.host && !hostExists)) {
+                data = { host: myKey, status: 'waiting', mode: 'solo', players: {} };
+                players = {}; pCount = 0;
             }
 
-            myLandColor = PLAYER_COLORS[pCount % PLAYER_COLORS.length];
-            let initialTeam = (data.mode === 'solo' || !data.mode) ? 'none' : ((pCount % 2 === 0) ? 'A' : 'B');
+            if (players[myKey]) {
+                // 이미 참여 중(재접속 등)이면 그대로 유지
+                data.players = players;
+                return data;
+            }
+            if (data.status === 'playing') return; // 진행 중인 방 → 새 참가 불가, 트랜잭션 중단
+            if (pCount >= 25) return; // 정원 초과 → 트랜잭션 중단
 
-            landRoomRef.child('players/' + getUserKey()).set({ name: userProfile.studentName, color: myLandColor, team: initialTeam, score: 0, penaltyUntil: 0 });
-            landRoomRef.child('players/' + getUserKey()).onDisconnect().remove();
+            let myColor = getPlayerColor(pCount);
+            let myTeam = (data.mode === 'solo' || !data.mode) ? 'none' : ((pCount % 2 === 0) ? 'A' : 'B');
+            players[myKey] = { name: userProfile.studentName, color: myColor, team: myTeam, score: 0, penaltyUntil: 0 };
+            data.players = players;
+            if (!data.host) data.host = myKey;
+            if (!data.status) data.status = 'waiting';
+            if (!data.mode) data.mode = 'solo';
+            return data;
+        }, (error, committed, snapshot) => {
+            if (error) { alert("입장 중 오류가 발생했습니다. 다시 시도해주세요."); return; }
+            if (!committed) {
+                let d = (snapshot && snapshot.val()) || {};
+                if (d.status === 'playing') alert("진행 중인 게임입니다!");
+                else alert("방이 꽉 찼습니다.");
+                return;
+            }
+
+            let data = snapshot.val();
+            myLandColor = data.players[myKey] ? data.players[myKey].color : '#999999';
+
+            landRoomRef.child('players/' + myKey).onDisconnect().remove();
 
             inLandGrabRoom = true; document.getElementById('lobbyModeSelect').value = data.mode || 'solo';
             showScreen('landLobbyScreen'); landRoomRef.on('value', handleLandRoomUpdate);
@@ -1449,11 +1514,12 @@
 
     document.getElementById('landInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') submitLandGrabWord(); });
 
+    // 🔧 수정: 단어 비교를 normalizeForCompare로 통일
     function submitLandGrabWord() {
         if(currentSelectedLandIndex === -1 || myLandPenaltyUntil > Date.now()) return;
-        let inputEl = document.getElementById('landInput'), val = inputEl.value.replace(/\s+/g, ''); if(!val) return;
+        let inputEl = document.getElementById('landInput'), val = normalizeForCompare(inputEl.value); if(!val) return;
         if(!currentLandBoardData[currentSelectedLandIndex]) return; // 보드 데이터 없으면 중단
-        if(val === currentLandBoardData[currentSelectedLandIndex].w.replace(/\s+/g, '')) {
+        if(val === normalizeForCompare(currentLandBoardData[currentSelectedLandIndex].w)) {
             landRoomRef.child(`board/${currentSelectedLandIndex}`).transaction(currentData => {
                 if(currentData && (!currentData.owner || currentData.owner === "")) { currentData.owner = getUserKey(); return currentData; } return;
             }, (error, committed) => {
@@ -1549,14 +1615,31 @@
         showScreen('resultScreen');
     }
 
+    // 🔧 추가: 방 나가기 정리 로직을 공용 함수로 분리
+    // 기존에는 "남은 인원 <= 1명이면 방 전체 삭제"였는데, 이 인원수를 셀 때
+    // 내가 이미(예: 순간적인 접속 끊김 onDisconnect로) players 목록에서 빠진 뒤라면
+    // "1명"이 사실 아직 게임 중인 다른 학생일 수 있어 그 학생 방까지 삭제되는 문제가 있었음.
+    // → "나를 제외한 다른 유효 참가자가 있는지"로 판단 기준을 바꿔서, 다른 사람이
+    //   남아있으면 절대 방을 삭제하지 않고 내 자리만 정리하도록 함.
+    function leaveLandRoomCleanup(onDone) {
+        if(!landRoomRef) { if(onDone) onDone(); return; }
+        let myKey = getUserKey();
+        landRoomRef.child('players').once('value').then(snap => {
+            let players = snap.exists() ? (snap.val() || {}) : {};
+            let otherKeys = Object.keys(players).filter(k => k !== myKey && players[k] && players[k].name);
+            if(otherKeys.length === 0) {
+                landRoomRef.remove().then(() => { if(onDone) onDone(); }).catch(() => { if(onDone) onDone(); });
+            } else {
+                landRoomRef.child('players/' + myKey).remove().then(() => { if(onDone) onDone(); }).catch(() => { if(onDone) onDone(); });
+            }
+        }).catch(() => { if(onDone) onDone(); });
+    }
+
     function quitLandGrabGame() {
         if(!confirm("게임을 나가시겠습니까?")) return; inLandGrabRoom = false; if(landPenaltyInterval) clearInterval(landPenaltyInterval);
         if(landRoomRef) {
             landRoomRef.off('value', handleLandRoomUpdate);
-            landRoomRef.child('players').once('value').then(snap => {
-                if((snap.exists() ? Object.keys(snap.val()).length : 0) <= 1) landRoomRef.remove();
-                else landRoomRef.child('players/' + getUserKey()).remove();
-            });
+            leaveLandRoomCleanup();
         }
         document.getElementById('landBoard').innerHTML = ''; goToHome();
     }
@@ -1565,10 +1648,7 @@
         inLandGrabRoom = false; if(landPenaltyInterval) clearInterval(landPenaltyInterval);
         if(landRoomRef) {
             landRoomRef.off('value', handleLandRoomUpdate);
-            landRoomRef.child('players').once('value').then(snap => {
-                if((snap.exists() ? Object.keys(snap.val()).length : 0) <= 1) landRoomRef.remove();
-                else landRoomRef.child('players/' + getUserKey()).remove();
-            });
+            leaveLandRoomCleanup();
         }
         document.getElementById('landBoard').innerHTML = ''; goToHome();
     }
