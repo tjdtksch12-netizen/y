@@ -624,7 +624,11 @@
 
     function logout() {
         if(confirm("로그아웃 하시겠습니까?\n(기기에 저장된 임시 기록은 사라지지만, 서버 기록은 유지됩니다.)")) {
-            localStorage.clear(); userProfile = null; dailyRecords = {}; masterRecords = {}; rainRecords = {}; landRecords = {};
+            // 🔧 수정: localStorage.clear()가 adminPwd까지 지워버려서, 다음 사람이 로그인하는
+            // 짧은 순간 기본 암호(1234)가 다시 유효해지는 문제가 있었음.
+            // → 학생 데이터 키만 콕 집어 지우고 adminPwd는 보존하도록 변경.
+            ['userProfile','dailyRecords','masterRecords','rainRecords','landRecords'].forEach(k => localStorage.removeItem(k));
+            userProfile = null; dailyRecords = {}; masterRecords = {}; rainRecords = {}; landRecords = {};
             document.getElementById('userProfileBar').style.display = 'none'; document.getElementById('mainTabs').style.display = 'none';
             document.getElementById('inputClass').value = ''; document.getElementById('inputNum').value = ''; document.getElementById('inputName').value = '';
             showScreen('loginScreen');
@@ -647,7 +651,8 @@
     }
 
     function openAdmin() {
-        let pwd = prompt("👨‍🏫 선생님 전용 관리자 암호를 입력하세요.\n(기본 암호: 1234)");
+        // 🔧 수정: 안내 문구에 기본 암호(1234)가 그대로 노출되어 있었음 → 힌트 제거
+        let pwd = prompt("👨‍🏫 선생님 전용 관리자 암호를 입력하세요.");
         if(pwd === adminPassword) { showScreen('adminScreen'); fetchAdminData(); } 
         else if(pwd !== null) { alert("암호가 틀렸습니다."); }
     }
@@ -1365,7 +1370,13 @@
             if (data.status === 'playing') return; // 진행 중인 방 → 새 참가 불가, 트랜잭션 중단
             if (pCount >= 25) return; // 정원 초과 → 트랜잭션 중단
 
-            let myColor = getPlayerColor(pCount);
+            // 🔧 수정: getPlayerColor(pCount)는 "현재 인원 수"를 그대로 색상 인덱스로 썼는데,
+            // 중간에 누가 나간 뒤 새로 들어오면 남아있는 다른 사람과 색이 겹치는 문제가 있었음.
+            // → 지금 남아있는 사람들이 실제로 쓰고 있는 색을 피해서 배정하도록 변경.
+            let usedColors = new Set(Object.values(players).map(p => p.color));
+            let colorIdx = 0;
+            while (usedColors.has(getPlayerColor(colorIdx))) colorIdx++;
+            let myColor = getPlayerColor(colorIdx);
             let myTeam = (data.mode === 'solo' || !data.mode) ? 'none' : ((pCount % 2 === 0) ? 'A' : 'B');
             players[myKey] = { name: userProfile.studentName, color: myColor, team: myTeam, score: 0, penaltyUntil: 0 };
             data.players = players;
@@ -1439,7 +1450,13 @@
     function startLandGame() {
         landRoomRef.once('value').then(snap => {
             let data = snap.val() || {}, stageWords = rawWords.slice((currentLandStage - 1) * LAND_WORDS_PER_STAGE, currentLandStage * LAND_WORDS_PER_STAGE);
-            if(stageWords.length < LAND_WORDS_PER_STAGE) stageWords = stageWords.concat(rawWords.filter(w => !stageWords.includes(w)).sort(()=>0.5-Math.random()).slice(0, LAND_WORDS_PER_STAGE - stageWords.length));
+            if(stageWords.length < LAND_WORDS_PER_STAGE) {
+                // 🔧 수정: 100개가 안 채워질 때 기존엔 전체 973개 중에서 무작위로 보충했음 →
+                // 이 스테이지 잠금 조건상 학습했어야 할 범위(endDay까지) 안에서만 보충하도록 제한.
+                let endDay = Math.min(currentLandStage * 4, TOTAL_DAYS);
+                let coveredPool = rawWords.slice(0, endDay * WORDS_PER_DAY);
+                stageWords = stageWords.concat(coveredPool.filter(w => !stageWords.includes(w)).sort(()=>0.5-Math.random()).slice(0, LAND_WORDS_PER_STAGE - stageWords.length));
+            }
             let boardData = stageWords.sort(() => 0.5 - Math.random()).map(w => ({ w: w.w, m: w.m, owner: "" }));
             let currentPlayers = data.players || {}; Object.keys(currentPlayers).forEach(k => { currentPlayers[k].score = 0; currentPlayers[k].penaltyUntil = 0; });
             landRoomRef.update({ status: 'playing', board: boardData, players: currentPlayers });
