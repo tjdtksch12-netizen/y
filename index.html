@@ -130,6 +130,12 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pri)}
 .zbody canvas{border:2px solid var(--line);border-radius:12px}
 .zbar{display:flex;gap:12px;justify-content:center;padding:10px;flex-wrap:wrap}
 .zbar .btn{font-size:24px;padding:12px 28px}
+.rtbl{width:100%;border-collapse:collapse;font-size:14px}.rtbl th,.rtbl td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.rtbl td.l,.rtbl th.l{text-align:left;white-space:normal}.rtbl th{color:var(--mute);font-size:12px}
+.rtbl tbody tr[data-act]{cursor:pointer}.rtbl tbody tr[data-act]:hover{background:#f7f8fd}.rtbl tr.pick{background:#eef0ff}
+.rscroll{overflow-x:auto}.mo{color:var(--ok);font-weight:900}.mx{color:var(--bad);font-weight:900}
+.chips .chip2.o{border-color:#86efac;background:#f0fdf4}.chips .chip2.x{border-color:#fda4af;background:#fff1f2}
+.brow.off{opacity:.5}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#1f2540;color:#fff;padding:12px 20px;border-radius:99px;z-index:99;font-weight:700;max-width:90%}
 </style>
 </head>
@@ -260,8 +266,13 @@ function dispValue(q, v) {
 /* ---------- 순위·표 ---------- */
 function okCount(p) { return entriesOf(p.oks).filter(([, v]) => v == 1).length; }
 function totalExcept(p, ex) { let s = 0; entriesOf(p.scores).forEach(([k, v]) => { if (k !== String(ex)) s += +v || 0; }); return s; }
+const namedPlayers = v => { const o = {}; entriesOf(v).forEach(([k, p]) => { if (p && p.name) o[k] = p; }); return o; };   // 나간 학생(left)도 포함
+const cleanPlayers = v => { const o = {}; entriesOf(v).forEach(([k, p]) => { if (p && p.name && !p.left) o[k] = p; }); return o; };   // 화면에 보이는 명단
+const nameKey = n => encodeURIComponent(normS(n)).replace(/\./g, '%2E') || '_';
+const ymd = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const dayLabel = s => { const d = new Date(s + 'T00:00:00'); return isNaN(d) ? s : s + ' (' + '일월화수목금토'[d.getDay()] + ')'; };
 function ranked(players) {
-  const arr = entriesOf(players).map(([id, p]) => ({ id, name: p.name || '?', score: +p.score || 0, ok: okCount(p) }));
+  const arr = entriesOf(players).map(([id, p]) => ({ id, name: p.name || '?', score: +p.score || 0, ok: okCount(p), on: p.on !== false }));
   arr.sort((a, b) => b.score - a.score || b.ok - a.ok || byName(a, b));
   let prev = null, rank = 0;
   arr.forEach((p, i) => { if (prev === null || p.score !== prev) { rank = i + 1; prev = p.score; } p.rank = rank; });
@@ -274,9 +285,9 @@ function boardHTML(list, o = {}) {
   let rows = list.slice(0, o.limit || list.length);
   if (o.me && !rows.find(r => r.id === o.me)) { const m = list.find(r => r.id === o.me); if (m) rows = rows.concat([{ ...m, sep: true }]); }
   const flat = o.noRank || !list.some(r => r.score > 0);   // 점수가 아직 없으면 메달·순위를 붙이지 않아요
-  return '<div class="board">' + rows.map(r => `<div class="brow ${r.id === o.me ? 'me' : ''} ${!flat && r.rank <= 3 ? 'top' + r.rank : ''} ${r.sep ? 'sep' : ''}">` +
+  return '<div class="board">' + rows.map(r => `<div class="brow ${o.kick && r.on === false ? 'off' : ''} ${r.id === o.me ? 'me' : ''} ${!flat && r.rank <= 3 ? 'top' + r.rank : ''} ${r.sep ? 'sep' : ''}">` +
     (flat ? '<span class="rk">·</span>' : `<span class="rk">${r.rank <= 3 ? ['🥇', '🥈', '🥉'][r.rank - 1] : r.rank}</span>`) +
-    `<span class="nm">${esc(r.name)}</span>` +
+    `<span class="nm">${esc(r.name)}${o.kick && r.on === false ? ' <small>🔌</small>' : ''}</span>` +
     (o.noRank ? `<span class="sc">✔ ${r.ok}</span>` : `<span class="ok">${r.ok}개</span><span class="sc">${r.score}점</span>`) +
     (o.kick ? `<button class="x" data-act="kick" data-id="${esc(r.id)}" title="내보내기">✕</button>` : '') + '</div>').join('') + '</div>';
 }
@@ -292,10 +303,10 @@ function fitText(el, box, max, min) {
   }
   el.style.fontSize = best + 'px';
 }
-function strokesToStr(st) {
-  let arr = st.map(s => [s.c, s.w].concat(s.p));
-  let str = JSON.stringify(arr);
-  if (str.length > 150000) { arr = st.map(s => [s.c, s.w].concat(s.p.filter((_, i) => i < 2 || i >= s.p.length - 2 || Math.floor(i / 2) % 2 === 0))); str = JSON.stringify(arr); }
+const thinPts = (p, k) => { if (k <= 1 || p.length <= 4) return p; const o = [], n = p.length / 2; for (let i = 0; i < n; i++) if (i % k === 0 || i === n - 1) o.push(p[2 * i], p[2 * i + 1]); return o; };
+function strokesToStr(st) {   // 그림 데이터가 너무 크면 점을 솎아 서버 부담을 줄여요
+  let k = 1, str;
+  do { str = JSON.stringify(st.map(s => [s.c, s.w].concat(thinPts(s.p, k)))); k++; } while (str.length > 60000 && k <= 6);
   return str;
 }
 function strFromStrokes(str) { try { return JSON.parse(str).map(r => ({ c: r[0], w: r[1], p: r.slice(2) })); } catch (e) { return []; } }
@@ -419,16 +430,20 @@ async function joinRoom(code, name, silent) {
     if (!meta) return fail('그런 방이 없어요. 코드를 다시 확인해 주세요.');
     const sess = LS.get('quizsess', null);
     let pid = sess && sess.code === code ? sess.pid : null;
-    const players = (await db.ref(`quizboard/${code}/players`).once('value')).val() || {};
+    const players = namedPlayers((await db.ref(`quizboard/${code}/players`).once('value')).val());
     if (pid && !players[pid]) pid = null;
     if (!pid) {
       const same = entriesOf(players).find(([, p]) => normS(p.name) === normS(name));
-      if (same) { if (silent || confirm('같은 이름으로 이미 참여 중이에요. 이어서 할까요?')) pid = same[0]; else return fail('이름 앞에 번호를 붙여 다시 입장해 주세요. (예: 3번 홍길동)'); }
+      if (same) {   // 같은 이름이면 기존 자리를 이어받아요 (접속 중인 이름일 때만 한 번 확인)
+        if (same[1].on === true && !silent && !confirm('같은 이름의 학생이 지금 접속 중이에요.\n내가 맞다면 [확인]을 눌러 이어서 해요.')) return fail('이름 앞에 번호를 붙여 다시 입장해 주세요. (예: 3번 홍길동)');
+        pid = same[0];
+      }
     }
     if (!pid) {
       pid = db.ref(`quizboard/${code}/players`).push().key;
       await db.ref(`quizboard/${code}/players/${pid}`).set({ name, score: 0, joinedAt: TS });
     }
+    if (players[pid] && players[pid].left) await db.ref(`quizboard/${code}/players/${pid}/left`).remove();   // 나갔던 학생이 돌아오면 점수 그대로 복구
     LS.set('quizname', name); LS.set('quizsess', { code, pid, name });
     startStudent(code, pid, name);
   } catch (e) { fail('접속에 실패했어요. 잠시 후 다시 시도해 주세요.'); }
@@ -444,9 +459,18 @@ function startStudent(code, pid, name) {
   listen(R('questions'), v => { if (!S) return; S.qs = toArr(v).map(q => ({ n: q.n || 0, text: q.text || '', choices: toArr(q.choices), image: q.image || '' })); renderAll(); });
   listen(R('state'), v => { if (!S) return; S.state = v; onStateChange(); });
   listen(R('reveal'), v => { if (!S) return; S.reveal = v || {}; renderAll(); });
-  listen(R('players'), v => { if (!S) return; S.players = v || {}; if (!S.players[pid] && S.meta) { LS.del('quizsess'); toast('참가자 목록에서 빠졌어요. 다시 입장해 주세요.'); return renderHome(); } refreshDyn(); });
+  listen(R('players'), v => { if (!S) return; S.players = cleanPlayers(v); if (!S.players[pid] && S.meta) { LS.del('quizsess'); toast('참가자 목록에서 빠졌어요. 다시 입장해 주세요.'); return renderHome(); } refreshDynSoon(); });
+  // 접속 상태: 연결이 끊기면 서버가 on=false로 표시 (교사 화면에서 🔌로 보임)
+  const conn = db.ref('.info/connected'), me = R(`players/${pid}`);
+  const hc = conn.on('value', s => {
+    if (s.val() !== true || !S || S.pid !== pid) return;
+    me.child('name').once('value').then(n => { if (!n.exists() || !S) return; const on = me.child('on'); on.onDisconnect().set(false); on.set(true); }).catch(() => {});
+  });
+  unsubs.push(() => { conn.off('value', hc); try { me.child('on').onDisconnect().cancel(); } catch (e) {} });
   tick = setInterval(studentTick, 250);
 }
+let rdT = null;
+function refreshDynSoon() { if (rdT) return; rdT = setTimeout(() => { rdT = null; refreshDyn(); }, 300); }
 const submitted = () => !!S.myAns && !S.editing;
 const locKey = () => 'qb_loc:' + S.code + ':' + S.curKey;
 function saveLoc() { if (!S || !S.curKey || S.curKey === 'none') return; LS.set(locKey(), { txt: S.draft || '', pick: S.pick || '', strokes: S.strokes.length ? strokesToStr(S.strokes) : '', dims: S.dims }); }
@@ -730,6 +754,7 @@ function renderTHome() {
   app.innerHTML = `<div class="wrap narrow">
     <div class="hero"><div class="logo">👩‍🏫</div><h1>교사용</h1></div>
     <div class="card"><button class="btn primary big" style="margin-top:0" data-act="newRoom">＋ 새 퀴즈 만들기</button>
+      <button class="btn big" data-act="openRecords">📁 지난 퀴즈 기록 보기</button>
       <button class="btn big" data-act="dlTemplate">📥 엑셀 양식 내려받기</button></div>
     <div class="card"><h3>방 코드로 열기</h3><div class="row"><input type="text" id="open-code" inputmode="numeric" maxlength="6" placeholder="예: 1234" class="grow"><button class="btn" data-act="openByCode">열기</button></div><div class="note">다른 기기에서 만든 방이나, 목록에서 사라진 방을 다시 열 수 있어요.</div></div>
     <div class="card"><h3>내 퀴즈방</h3>${rooms.length ? rooms.map(r => `<div class="row" style="margin:8px 0"><div class="grow"><b>${esc(r.title)}</b><div class="muted" style="font-size:13px">코드 ${esc(r.code)} · ${esc(MODE_LABEL[r.mode] || '')} · ${new Date(r.at).toLocaleDateString('ko-KR')}</div></div><button class="btn sm primary" data-act="openRoom" data-code="${esc(r.code)}">열기</button><button class="btn sm danger" data-act="delLocal" data-code="${esc(r.code)}">목록에서 삭제</button></div>`).join('') : '<div class="muted">아직 만든 퀴즈방이 없어요.</div>'}</div>
@@ -881,14 +906,14 @@ function attachQ() {
     T.qUn.push(() => ref.off('value', h));
   });
 }
-async function freshPlayers() { return (await db.ref(`quizboard/${T.code}/players`).once('value')).val() || {}; }
+async function freshPlayers(all) { const v = (await db.ref(`quizboard/${T.code}/players`).once('value')).val(); return all ? namedPlayers(v) : cleanPlayers(v); }
 function joinUrl() { return location.origin + location.pathname + '?room=' + T.code; }
 function renderLive() {
   detach(); view = 'tLive';
   app.innerHTML = `<div class="wrap wide">
   <div class="topbar"><div><div class="muted" style="font-size:12px">방 코드</div><div class="code">${esc(T.code)}</div></div>
     <div class="ttl">${esc(T.meta.title)} <span class="badge">${esc(MODE_LABEL[T.meta.mode])}</span> <span class="badge">${T.meta.input === 'draw' ? '그리기' : T.meta.input === 'none' ? '⭕/❌' : '글씨'}</span></div>
-    <div class="tools"><button class="btn" data-act="showJoin">📣 입장 안내</button><button class="btn" data-act="showBoard">🏆 ${T.meta.showRank ? '순위 크게' : '현황 크게'}</button><button class="btn" data-act="exportRes">📊 결과 엑셀</button><button class="btn" data-act="editRoom">✏️ 설정·문제 수정</button><button class="btn ghost" data-act="tHome">나가기</button></div></div>
+    <div class="tools"><button class="btn" data-act="showJoin">📣 입장 안내</button><button class="btn" data-act="showBoard">🏆 ${T.meta.showRank ? '순위 크게' : '현황 크게'}</button><button class="btn" data-act="exportRes">📊 결과 엑셀</button><button class="btn" data-act="openRecords">📁 지난 기록</button><button class="btn" data-act="editRoom">✏️ 설정·문제 수정</button><button class="btn ghost" data-act="tHome">나가기</button></div></div>
   <div class="live">
     <div class="live-l"><div id="tl-ctrl" class="card"></div>
       <div class="card"><h3>${T.meta.showRank ? '실시간 순위' : '정답 현황'}</h3><div id="tl-board" class="scrollbox"></div></div></div>
@@ -897,16 +922,18 @@ function renderLive() {
   <div class="live2">
     <div class="card"><h3>문항별 정답률</h3><div id="tl-rates"></div></div>
     <div class="card"><h3>방 관리</h3><label style="margin-top:0">원하는 문제부터 시작</label><div class="row"><select id="jump" class="grow">${T.qs.map((q, i) => `<option value="${i}">${i + 1}번</option>`).join('')}</select><button class="btn" data-act="jumpStart">시작</button></div>
-      <div class="row" style="margin-top:12px"><button class="btn sm danger" data-act="resetAll">점수 초기화</button><button class="btn sm danger" data-act="delRoom">방 삭제</button></div></div>
+      <div class="row" style="margin-top:12px"><button class="btn sm" data-act="cleanOff">🧹 접속 끊긴 명단 정리</button><button class="btn sm danger" data-act="resetAll">점수 초기화</button><button class="btn sm danger" data-act="delRoom">방 삭제</button></div></div>
   </div>
   <div id="overlay"></div></div>`;
   const R = p => db.ref(`quizboard/${T.code}/${p}`);
   T.curQ = -2;
   listen(R('state'), v => { if (!T) return; T.state = v || { q: -1, phase: 'idle' }; attachQ(); updateLive(); });
-  listen(R('players'), v => { if (!T) return; T.players = v || {}; updateLive(); });
+  listen(R('players'), v => { if (!T) return; T.players = cleanPlayers(v); updateLive(); });
   tick = setInterval(teacherTick, 250);
 }
-function updateLive() { if (raf) return; raf = true; requestAnimationFrame(() => { raf = false; drawLive(); }); }
+// 학생 수가 많아도 화면을 너무 자주 다시 그리지 않도록 0.25초에 한 번만 갱신해요
+function updateLive() { if (raf) return; raf = true; setTimeout(() => { raf = false; requestAnimationFrame(drawLive); }, 250); }
+function setHTML(el, key, html) { if (!el) return false; if (el._k === key) return false; el._k = key; el.innerHTML = html; return true; }
 function ctrlHTML() {
   const st = T.state, m = T.meta, N = T.qs.length, P = entriesOf(T.players).length;
   if (st.q < 0) return `<div class="center"><div class="emoji">🎉</div><h2>준비됐어요</h2><p class="muted">학생 <b>${P}명</b> 입장 · 총 ${N}문제</p><button class="btn primary big" data-act="primary">1번 문제 시작</button></div>`;
@@ -937,7 +964,11 @@ function ctrlHTML() {
   else if (ph === 'grading') btn = '정답 공개 · 점수 확정 ▶';
   else if (ph === 'revealed') btn = m.grading === 'self' ? (last ? '채점 마감 · 퀴즈 종료' : `채점 마감 · 다음 문제 (${st.q + 2}번)`) : (last ? '퀴즈 종료 · 최종 결과' : `다음 문제 시작 (${st.q + 2}번)`);
   if (btn) h += `<button class="btn primary big" data-act="primary">${btn}</button>`;
-  if (ph === 'finished') h += `<div class="center"><div class="emoji">🏆</div><p class="muted">퀴즈가 끝났어요. 결과를 엑셀로 저장해 보세요.</p></div>`;
+  if (ph !== 'finished') h += `<button class="btn danger big" data-act="endQuiz">🏁 퀴즈 끝내기 (결과 저장)</button>`;
+  if (ph === 'finished') h += `<div class="center"><div class="emoji">🏆</div><p class="muted">퀴즈가 끝났고 결과가 기록으로 저장됐어요.</p></div>
+    <button class="btn primary big" data-act="viewThisRecord">📁 이 퀴즈 기록 보기</button>
+    <button class="btn big" data-act="endQuiz">💾 기록 다시 저장</button>
+    <button class="btn big danger" data-act="delRoom">🧹 방 닫고 정리 (기록은 남아요)</button>`;
   return h;
 }
 function answerBody(q, a) {
@@ -952,8 +983,8 @@ function answerBody(q, a) {
 function drawWall() {
   const st = T.state, m = T.meta, wall = $('#tl-wall'), tools = $('#tl-walltools'); if (!wall) return;
   const list = entriesOf(T.players).map(([id, p]) => ({ id, name: p.name || '?' })).sort(byName);
-  if (!st || st.q < 0) { wall.className = ''; tools.innerHTML = ''; wall.innerHTML = list.length ? list.map(p => `<span class="chip2">${esc(p.name)}</span>`).join('') : '<div class="muted center">아직 입장한 학생이 없어요</div>'; return; }
-  if (st.phase === 'finished') { wall.className = ''; tools.innerHTML = ''; wall.innerHTML = '<div class="muted center">퀴즈가 끝났어요</div>'; return; }
+  if (!st || st.q < 0) { wall._k = null; wall.className = ''; tools.innerHTML = ''; wall.innerHTML = list.length ? list.map(p => `<span class="chip2">${esc(p.name)}</span>`).join('') : '<div class="muted center">아직 입장한 학생이 없어요</div>'; return; }
+  if (st.phase === 'finished') { wall._k = null; wall.className = ''; tools.innerHTML = ''; wall.innerHTML = '<div class="muted center">퀴즈가 끝났어요</div>'; return; }
   const q = T.qs[st.q], ph = st.phase, ans = curAnswers(), dr = curDrafts(), mk = curMarks();
   const showAns = T.peek || ph !== 'open';
   const canMark = ph === 'grading' || (ph === 'revealed' && m.grading === 'self');
@@ -965,7 +996,7 @@ function drawWall() {
   if (T.group && ph === 'grading' && textKind) {
     const g = {}; list.forEach(p => { const a = ans[p.id]; if (!a || a.value == null || a.value === '') return; const k = normS(a.value); (g[k] = g[k] || { v: String(a.value), ids: [] }).ids.push(p.id); });
     const groups = Object.values(g).sort((a, b) => b.ids.length - a.ids.length); T.groups = {};
-    wall.className = '';
+    wall._k = null; wall.className = '';
     wall.innerHTML = groups.length ? groups.map((gr, gi) => {
       T.groups[gi] = gr.ids; const okN = gr.ids.filter(id => mk[id] && mk[id].ok == 1).length, badN = gr.ids.filter(id => mk[id] && mk[id].ok == 0).length;
       const sug = q.answer ? grade(q, gr.v) : null;
@@ -974,7 +1005,7 @@ function drawWall() {
     return;
   }
   wall.className = 'wall' + (T.big ? ' big' : '');
-  wall.innerHTML = list.map(p => {
+  const wallHtml = list.map(p => {
     const a = ans[p.id], d = dr[p.id], k = mk[p.id], pl = T.players[p.id];
     let cls = '', body = '', foot = '', time = '';
     if (a) { cls = 'done'; if (a.t && st.startedAt) time = ((a.t - st.startedAt) / 1000).toFixed(1) + '초'; body = showAns ? answerBody(q, a) : '✔ 제출'; }
@@ -991,6 +1022,8 @@ function drawWall() {
     const zoomable = a && showAns && (a.draw || (a.value !== '(그림)' && a.value !== '✔'));
     return `<div class="tile ${cls}"><div class="th"><span>${esc(p.name)}</span><span>${time}</span></div><div class="tb" ${zoomable ? `data-act="zoom" data-pid="${esc(p.id)}"` : ''}>${body}</div>${foot ? `<div class="tf">${foot}</div>` : ''}</div>`;
   }).join('');
+  const sig = wallHtml + '|' + list.map(p => (ans[p.id] && ans[p.id].draw) ? ans[p.id].draw.length : 0).join(',') + '|' + wall.clientWidth;
+  if (!setHTML(wall, sig, wallHtml)) return;   // 달라진 게 없으면 그림판을 다시 그리지 않아요
   wall.querySelectorAll('.tile').forEach((tile, i) => {
     const cv = tile.querySelector('canvas.tdraw'); if (!cv) return;
     const a = ans[list[i].id]; if (a && a.draw) paintInto(cv, a.draw, (tile.clientWidth || 200) - 16, dimsOf(a), T.big ? 360 : 200);
@@ -1003,10 +1036,10 @@ function ratesHTML() {
 }
 function drawLive() {
   if (view !== 'tLive' || !T || !T.state) return;
-  $('#tl-ctrl').innerHTML = ctrlHTML();
+  { const h = ctrlHTML(); setHTML($('#tl-ctrl'), h, h); }   // 바뀐 부분만 다시 그려서 깜빡임·렉을 줄여요
   const list = listOf(T.players, T.meta.showRank);
-  $('#tl-board').innerHTML = boardHTML(list, { kick: true, noRank: !T.meta.showRank });
-  $('#tl-rates').innerHTML = ratesHTML();
+  { const h = boardHTML(list, { kick: true, noRank: !T.meta.showRank }); setHTML($('#tl-board'), h, h); }
+  { const h = ratesHTML(); setHTML($('#tl-rates'), h, h); }
   drawWall();
   if (T.overlay === 'board' || T.overlay === 'zoom') drawOverlay();
   teacherTick();
@@ -1078,7 +1111,7 @@ async function doFinalizeTeacher() {
   const st = T.state, i = st.q, q = T.qs[i];
   const marks = (await db.ref(`quizboard/${T.code}/marks/${i}`).once('value')).val() || {}, ans = curAnswers();
   const unmarked = entriesOf(ans).filter(([id]) => T.players[id] && !marks[id]).length;
-  if (unmarked > 0 && !confirm(`아직 채점하지 않은 답이 ${unmarked}개 있어요. 오답으로 처리하고 확정할까요?`)) return;
+  if (unmarked > 0 && !confirm(`아직 채점하지 않은 답이 ${unmarked}개 있어요. 오답으로 처리하고 확정할까요?`)) return false;
   const u = await commitScores(i, id => marks[id] && marks[id].ok == 1);
   u[`reveal/${i}`] = { answer: q.answer ? dispAnswer(q) : '', explanation: q.explanation || '' }; u['state/phase'] = 'revealed';
   await baseRef().update(u);
@@ -1096,8 +1129,149 @@ async function stepForward() {
   if (st.phase === 'revealed') {
     if (m.grading === 'self') await doFinalizeSelf();
     if (st.q + 1 < N) return startQ(st.q + 1);
-    return baseRef().child('state/phase').set('finished');
+    return finishQuiz();
   }
+}
+/* ---------- 퀴즈 끝내기 · 기록 저장 ---------- */
+async function finishQuiz() {
+  await baseRef().child('state/phase').set('finished');
+  await saveRecord();
+}
+async function saveRecord() {
+  const m = T.meta, players = await freshPlayers(true), list = ranked(players);   // 중간에 나갔던 학생도 기록에 포함
+  if (!list.length) return toast('참가자가 없어서 기록을 저장하지 않았어요');
+  // 글씨 답만 내려받아요 (그림 데이터는 무거워서 기록에 넣지 않아요)
+  const A = m.input === 'text' ? ((await db.ref(`quizboard/${T.code}/answers`).once('value')).val() || {}) : {};
+  const date = ymd(new Date(now())), id = `${T.code}_${m.createdAt || 0}`;
+  const qs = T.qs.map(q => ({ t: q.text || '', a: q.answer ? dispAnswer(q) : '', p: q.points }));
+  let okSum = 0, totSum = 0;
+  const ps = list.map(p => {
+    const pp = players[p.id];
+    return {
+      n: p.name, s: p.score, k: p.ok, r: p.rank,
+      q: T.qs.map((q, i) => {
+        const a = qOf(A, i)[p.id], o = entriesOf(pp.oks).find(([k]) => k == i), s = entriesOf(pp.scores).find(([k]) => k == i);
+        const ov = o ? +o[1] : -1; if (o) { totSum++; if (ov === 1) okSum++; }
+        return { a: a ? dispValue({ n: qInfo(q).n, choices: q.choices }, a.value) : (m.input === 'draw' && o ? '(그림)' : ''), o: ov, s: s ? +s[1] : 0 };
+      })
+    };
+  });
+  const rec = { code: T.code, title: m.title, mode: m.mode, input: m.input, grading: m.grading, showRank: !!m.showRank, date, at: now(), nq: qs.length, np: ps.length, qs, ps };
+  const idx = { code: T.code, title: m.title, date, at: rec.at, nq: qs.length, np: ps.length, avg: totSum ? Math.round(okSum / totSum * 100) : 0 };
+  const old = (await db.ref(`quizboard/_archive/data/${id}/date`).once('value')).val();
+  const u = {}; if (old && old !== date) u[`quizboard/_archive/index/${old}/${id}`] = null;
+  u[`quizboard/_archive/index/${date}/${id}`] = idx; u[`quizboard/_archive/data/${id}`] = rec;
+  // 학생별 누적 기록 (이름 기준으로 퀴즈마다 한 줄씩 쌓여요)
+  ps.forEach(p => {
+    const x = []; p.q.forEach((c, i) => { if (c.o === 0) x.push(i + 1); });
+    u[`quizboard/_archive/students/${nameKey(p.n)}/${id}`] = { n: p.n, t: m.title, d: date, at: rec.at, s: p.s, k: p.k, nq: qs.length, r: p.r, np: ps.length, sr: !!m.showRank, x };
+  });
+  await db.ref().update(u);
+  toast('✅ 퀴즈 결과가 기록으로 저장됐어요');
+}
+function endQuiz() {
+  const st = T.state, m = T.meta;
+  if (!st || st.q < 0) return toast('아직 퀴즈를 시작하지 않았어요');
+  if (st.phase === 'finished') return guarded(saveRecord);
+  let msg = '퀴즈를 끝내고 결과를 기록으로 저장할까요?';
+  if (st.phase === 'open') msg += `\n(진행 중인 ${st.q + 1}번 문제는 ${m.grading === 'auto' ? '지금 바로 채점돼요' : '점수에 반영되지 않아요'})`;
+  if (!confirm(msg)) return;
+  guarded(async () => {
+    if (st.phase === 'open' && m.grading === 'auto') await doReveal();
+    else if (st.phase === 'grading') { if ((await doFinalizeTeacher()) === false) return; }
+    else if (st.phase === 'revealed' && m.grading === 'self') await doFinalizeSelf();
+    await finishQuiz();
+  });
+}
+
+/* ---------- 교사: 지난 기록 ---------- */
+let REC = null;
+async function renderRecords(filter) {
+  detach(); T = null; S = null; REC = null; view = 'records'; keepAwake(false);
+  app.innerHTML = `<div class="wrap"><div class="topbar"><h2 style="margin:0;flex:1">📁 지난 퀴즈 기록</h2><input type="date" id="rec-date" value="${esc(filter || '')}" style="width:auto"><button class="btn" data-act="recAll">전체</button><button class="btn" data-act="stuView">👤 학생별 누적</button><button class="btn ghost" data-act="tHome">← 교사 홈</button></div><div id="rec-body" class="card muted">불러오는 중…</div></div>`;
+  let idx;
+  try { idx = (await db.ref('quizboard/_archive/index').once('value')).val() || {}; }
+  catch (e) { const b = $('#rec-body'); if (b) b.innerHTML = '<div class="err">기록을 불러오지 못했어요. 연결과 Firebase 규칙을 확인해 주세요.</div>'; return; }
+  if (view !== 'records') return;
+  const days = Object.keys(idx).sort().reverse().filter(d => !filter || d === filter);
+  const html = days.map(d => {
+    const items = Object.entries(idx[d]).map(([id, v]) => Object.assign({ id }, v)).sort((a, b) => b.at - a.at);
+    return `<h3 style="margin-top:14px">${esc(dayLabel(d))} <span class="badge">${items.length}개</span></h3>` + items.map(v => `<div class="grp"><div class="gn" style="flex:1 1 220px"><b style="font-size:16px;color:var(--ink)">${esc(v.title)}</b><br>코드 ${esc(v.code)} · ${new Date(v.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} · 참여 ${v.np}명 · ${v.nq}문제 · 평균 정답률 ${v.avg}%</div><button class="btn primary" data-act="recOpen" data-id="${esc(v.id)}">보기</button></div>`).join('');
+  }).join('');
+  const b = $('#rec-body'); b.className = 'card'; b.innerHTML = html || `<div class="muted center">${filter ? '이 날짜에 저장된 기록이 없어요.' : '아직 저장된 기록이 없어요. 퀴즈를 끝내면 여기에 쌓여요.'}</div>`;
+}
+async function renderRecord(id) {
+  detach(); T = null; S = null; view = 'record';
+  app.innerHTML = '<div class="wrap"><div class="card center muted">불러오는 중…</div></div>';
+  let raw = null;
+  try { raw = (await db.ref(`quizboard/_archive/data/${id}`).once('value')).val(); } catch (e) {}
+  if (!raw) { toast('기록을 찾지 못했어요'); return renderRecords(); }
+  REC = Object.assign({}, raw, { id, qs: toArr(raw.qs), ps: toArr(raw.ps).map(p => Object.assign({}, p, { q: toArr(p.q) })) });
+  if (REC.showRank === false) REC.ps.sort(byNameN);
+  REC.sel = -1; drawRecord();
+}
+const byNameN = (a, b) => String(a.n).localeCompare(String(b.n), 'ko', { numeric: true });
+const markO = o => o === 1 ? '<span class="mo">⭕</span>' : o === 0 ? '<span class="mx">❌</span>' : '<span class="muted">·</span>';
+function drawRecord() {
+  if (view !== 'record' || !REC) return;
+  const R = REC, nq = R.qs.length, rk = R.showRank !== false;
+  const cell = (p, i) => (p.q[i] || { o: -1 });
+  const rates = R.qs.map((q, i) => { let ok = 0, tot = 0; R.ps.forEach(p => { const o = cell(p, i).o; if (o >= 0) { tot++; if (o === 1) ok++; } }); return { ok, tot }; });
+  let h = `<div class="wrap"><div class="topbar"><div class="ttl">${esc(R.title)} <span class="badge">${esc(dayLabel(R.date))}</span> <span class="badge">코드 ${esc(R.code)}</span> <span class="badge">참여 ${R.ps.length}명 · ${nq}문제</span></div>
+  <div class="tools"><button class="btn" data-act="recXlsx">📊 엑셀 저장</button><button class="btn danger" data-act="recDel">🗑 기록 삭제</button><button class="btn ghost" data-act="recBack">← 목록</button></div></div>`;
+  h += `<div class="card"><h3>학생별 결과 <span class="muted" style="font-size:13px">(학생 이름을 누르면 아래에 맞은·틀린 문제가 자세히 나와요)</span></h3><div class="rscroll"><table class="rtbl"><thead><tr>${rk ? '<th>순위</th>' : ''}<th class="l">이름</th>${rk ? '<th>점수</th>' : ''}<th>정답</th>${R.qs.map((_, i) => `<th>${i + 1}</th>`).join('')}</tr></thead><tbody>` +
+    R.ps.map((p, pi) => `<tr data-act="recStu" data-i="${pi}" class="${pi === R.sel ? 'pick' : ''}">${rk ? `<td>${p.r <= 3 ? ['🥇', '🥈', '🥉'][p.r - 1] : p.r}</td>` : ''}<td class="l"><b>${esc(p.n)}</b></td>${rk ? `<td><b>${p.s}</b></td>` : ''}<td>${p.k}/${nq}</td>${R.qs.map((_, i) => `<td>${markO(cell(p, i).o)}</td>`).join('')}</tr>`).join('') +
+    `<tr><td class="l" ${rk ? 'colspan="2"' : ''}><b>정답률</b></td>${rk ? '<td></td>' : ''}<td></td>${rates.map(r => `<td class="muted">${r.tot ? Math.round(r.ok / r.tot * 100) + '%' : '-'}</td>`).join('')}</tr></tbody></table></div></div>`;
+  if (R.sel >= 0 && R.ps[R.sel]) {
+    const p = R.ps[R.sel], okN = [], badN = [], noN = [];
+    R.qs.forEach((_, i) => { const o = cell(p, i).o; (o === 1 ? okN : o === 0 ? badN : noN).push(i + 1); });
+    const chips = (arr, c) => arr.length ? arr.map(n => `<span class="chip2 ${c}">${n}번</span>`).join('') : '<span class="muted">없음</span>';
+    h += `<div class="card" id="rec-detail"><h3>${esc(p.n)} 학생 상세${rk ? ` · ${p.s}점` : ''} · 정답 ${p.k}/${nq}</h3>
+      <div class="chips kv">⭕ 맞은 문제 ${chips(okN, 'o')}</div><div class="chips kv">❌ 틀린 문제 ${chips(badN, 'x')}</div>${noN.length ? `<div class="chips kv">· 채점 안 된 문제 ${chips(noN, '')}</div>` : ''}
+      <div class="rscroll"><table class="rtbl" style="margin-top:10px"><thead><tr><th>번호</th><th class="l">문제</th><th class="l">학생 답</th><th class="l">정답</th><th>결과</th>${rk ? '<th>점수</th>' : ''}</tr></thead><tbody>` +
+      R.qs.map((q, i) => { const c = cell(p, i); return `<tr><td>${i + 1}</td><td class="l">${q.t ? esc(q.t) : '<span class="muted">(PPT 문제)</span>'}</td><td class="l">${c.a ? esc(c.a) : '<span class="muted">-</span>'}</td><td class="l">${q.a ? esc(q.a) : '<span class="muted">-</span>'}</td><td>${markO(c.o)}</td>${rk ? `<td>${c.s || 0}</td>` : ''}</tr>`; }).join('') + '</tbody></table></div></div>';
+  }
+  h += `<div class="card"><h3>문항별 정답률</h3>${rates.map((r, i) => { const pct = r.tot ? Math.round(r.ok / r.tot * 100) : 0; return `<div class="rate"><b style="width:38px">${i + 1}번</b><div class="bar"><i style="width:${pct}%"></i></div><span>${pct}% (${r.ok}/${r.tot})</span></div>`; }).join('')}</div></div>`;
+  app.innerHTML = h;
+}
+/* ---------- 교사: 학생별 누적 기록 ---------- */
+let STU = null;
+async function renderStudents(selKey) {
+  detach(); T = null; S = null; REC = null; view = 'students'; keepAwake(false);
+  app.innerHTML = `<div class="wrap"><div class="topbar"><h2 style="margin:0;flex:1">👤 학생별 누적 기록</h2><input type="text" id="stu-q" placeholder="이름 검색" style="width:160px"><button class="btn ghost" data-act="recAll">← 퀴즈 기록</button></div><div id="stu-body" class="card muted">불러오는 중…</div></div>`;
+  let raw;
+  try { raw = (await db.ref('quizboard/_archive/students').once('value')).val() || {}; }
+  catch (e) { const b = $('#stu-body'); if (b) b.innerHTML = '<div class="err">불러오지 못했어요. 연결과 Firebase 규칙을 확인해 주세요.</div>'; return; }
+  if (view !== 'students') return;
+  STU = { sel: selKey || '', q: '', list: Object.entries(raw).map(([key, recs]) => {
+    const rs = Object.entries(recs || {}).map(([id, r]) => Object.assign({ id }, r, { x: toArr(r.x) })).sort((a, b) => b.at - a.at);
+    const sum = (f) => rs.reduce((t, r) => t + (+r[f] || 0), 0), nq = sum('nq');
+    return { key, name: rs[0] ? rs[0].n : key, rs, cnt: rs.length, score: rs.filter(r => r.sr).reduce((t, r) => t + (+r.s || 0), 0), anyRank: rs.some(r => r.sr), ok: sum('k'), nq, rate: nq ? Math.round(sum('k') / nq * 100) : 0 };
+  }).sort((a, b) => byName(a, b)) };
+  drawStudents();
+}
+function drawStudents() {
+  if (view !== 'students' || !STU) return;
+  const b = $('#stu-body'); if (!b) return;
+  const q = normS(STU.q), L = STU.list.filter(s => !q || normS(s.name).includes(q));
+  let h = L.length ? `<div class="rscroll"><table class="rtbl"><thead><tr><th class="l">이름</th><th>참여 퀴즈</th><th>누적 점수</th><th>정답 / 문항</th><th>정답률</th></tr></thead><tbody>` +
+    L.map(s => `<tr data-act="stuOpen" data-k="${esc(s.key)}" class="${s.key === STU.sel ? 'pick' : ''}"><td class="l"><b>${esc(s.name)}</b></td><td>${s.cnt}회</td><td>${s.anyRank ? s.score + '점' : '-'}</td><td>${s.ok}/${s.nq}</td><td><b>${s.rate}%</b></td></tr>`).join('') + '</tbody></table></div>'
+    : `<div class="muted center">${STU.list.length ? '검색 결과가 없어요.' : '아직 누적된 기록이 없어요. 퀴즈를 끝내면 학생별로 쌓여요.'}</div>`;
+  const s = STU.list.find(x => x.key === STU.sel);
+  if (s) h += `<h3 style="margin-top:18px" id="stu-detail">${esc(s.name)} · 퀴즈별 기록</h3><div class="rscroll"><table class="rtbl"><thead><tr><th>날짜</th><th class="l">퀴즈</th><th>점수</th><th>정답</th><th>순위</th><th class="l">틀린 문제</th><th></th></tr></thead><tbody>` +
+    s.rs.map(r => `<tr><td>${esc(r.d)}</td><td class="l">${esc(r.t)}</td><td>${r.sr ? r.s + '점' : '-'}</td><td>${r.k}/${r.nq}</td><td>${r.sr ? r.r + '/' + r.np : '-'}</td><td class="l">${r.x.length ? r.x.map(n => n + '번').join(', ') : '<span class="muted">없음 🎉</span>'}</td><td><button class="btn sm" data-act="recOpen" data-id="${esc(r.id)}">기록</button></td></tr>`).join('') + '</tbody></table></div>';
+  b.className = 'card'; b.innerHTML = h;
+}
+function recXlsx() {
+  const R = REC, rk = R.showRank !== false;
+  const sum = [['제목', R.title], ['날짜', R.date], ['방식', MODE_LABEL[R.mode] || ''], ['문항 수', R.qs.length], ['참여 학생', R.ps.length]];
+  const rank = rk ? [['순위', '이름', '총점', '정답 수']].concat(R.ps.map(p => [p.r, p.n, p.s, p.k])) : [['이름', '정답 수']].concat(R.ps.map(p => [p.n, p.k]));
+  const det = [['이름', ...R.qs.map((_, i) => `${i + 1}번`), '정답 수']].concat(R.ps.map(p => [p.n, ...R.qs.map((_, i) => { const c = p.q[i] || { o: -1 }; return `${c.a || ''} (${c.o === 1 ? 'O' : c.o === 0 ? 'X' : '-'})`; }), p.k]));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sum), '요약');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rank), rk ? '순위' : '정답수');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(det), '문항별');
+  XLSX.writeFile(wb, `퀴즈기록_${R.title}_${R.date}.xlsx`);
 }
 async function exportRes() {
   try {
@@ -1131,7 +1305,14 @@ async function exportRes() {
 const A = {
   join() { joinRoom(($('#j-code').value || '').trim(), ($('#j-name').value || '').trim()); },
   teacher() { teacherEnter(); },
-  leave() { LS.del('quizsess'); renderHome(); },
+  async leave() {
+    if (S) {
+      if (!confirm('정말 나갈까요?\n나가면 참가자 명단에서 빠져요. (같은 이름으로 다시 입장하면 점수가 이어져요)')) return;
+      const { code, pid } = S; LS.del('quizsess'); detach(); S = null;
+      try { await db.ref(`quizboard/${code}/players/${pid}`).update({ left: true, on: false }); } catch (e) {}
+    } else LS.del('quizsess');
+    renderHome();
+  },
   tHome() { renderTHome(); },
   newRoom() { E = defaultsE(); renderSetup(); },
   openRoom(el) { openRoom(el.dataset.code); },
@@ -1173,8 +1354,31 @@ const A = {
     entriesOf(await freshPlayers()).forEach(([id]) => { u[`players/${id}/scores`] = null; u[`players/${id}/oks`] = null; u[`players/${id}/score`] = 0; });
     await baseRef().update(u); toast('초기화했어요');
   },
+  openRecords() { renderRecords(); },
+  recAll() { renderRecords(); },
+  recBack() { renderRecords(); },
+  recOpen(el) { renderRecord(el.dataset.id); },
+  stuView() { renderStudents(); },
+  stuOpen(el) { STU.sel = el.dataset.k; drawStudents(); const d = $('#stu-detail'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
+  recStu(el) { REC.sel = +el.dataset.i; drawRecord(); const d = $('#rec-detail'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
+  recXlsx() { recXlsx(); },
+  async recDel() {
+    if (!confirm('이 기록을 완전히 삭제할까요? 되돌릴 수 없어요.')) return;
+    const u = {}; u[`quizboard/_archive/data/${REC.id}`] = null; u[`quizboard/_archive/index/${REC.date}/${REC.id}`] = null;
+    REC.ps.forEach(p => { u[`quizboard/_archive/students/${nameKey(p.n)}/${REC.id}`] = null; });
+    try { await db.ref().update(u); toast('기록을 삭제했어요'); renderRecords(); } catch (e) { toast('삭제하지 못했어요'); }
+  },
+  endQuiz() { endQuiz(); },
+  viewThisRecord() { renderRecord(`${T.code}_${T.meta.createdAt || 0}`); },
+  async cleanOff() {
+    const off = entriesOf(T.players).filter(([, p]) => p.on === false);
+    if (!off.length) return toast('접속이 끊긴 학생이 없어요');
+    if (!confirm(`접속이 끊긴 ${off.length}명(${off.map(([, p]) => p.name).join(', ')})을 명단에서 지울까요?\n점수 기록도 함께 사라져요. (같은 이름으로 다시 입장은 가능해요)`)) return;
+    const u = {}; off.forEach(([id]) => { u[`players/${id}`] = null; });
+    await baseRef().update(u); toast(`${off.length}명을 정리했어요`);
+  },
   async delRoom() {
-    if (!confirm('이 방을 완전히 삭제할까요? 학생 기록도 모두 사라져요.')) return;
+    if (!confirm(T.state && T.state.phase === 'finished' ? '이 방(실시간 데이터)을 삭제할까요?\n저장된 기록은 "지난 기록"에 그대로 남아요.' : '이 방을 완전히 삭제할까요? 학생 기록도 모두 사라져요.\n(퀴즈 끝내기로 저장하지 않으면 결과가 남지 않아요)')) return;
     await baseRef().remove(); LS.del('qb_room:' + T.code);
     LS.set('qb_rooms', LS.get('qb_rooms', []).filter(r => r.code !== T.code)); renderTHome();
   },
@@ -1220,9 +1424,11 @@ document.addEventListener('click', e => {
   const fn = A[el.dataset.act]; if (fn) fn(el, e);
 });
 document.addEventListener('input', e => {
+  if (e.target.id === 'stu-q' && STU) { STU.q = e.target.value; drawStudents(); return; }
   if (e.target.id === 'ans' && S) { S.draft = e.target.value; fitInput(e.target); saveLoc(); markWriting(); } else onField(e);
 });
 document.addEventListener('change', e => {
+  if (e.target.id === 'rec-date') { renderRecords(e.target.value); return; }
   if (e.target.dataset.change === 'xfile') { const f = e.target.files[0]; if (f) readFile(f); } else onField(e);
 });
 document.addEventListener('keydown', e => {
