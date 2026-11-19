@@ -25,6 +25,70 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pri)}
 .btn.big{width:100%;padding:15px;font-size:18px;margin-top:14px}.btn.sm{padding:6px 10px;font-size:13px}
 .err{color:var(--bad);margin-top:10px;font-weight:700;min-height:1.2em}
 .foot{text-align:center;margin-top:18px}.foot a{color:var(--mute)}
+.tbl.sheetq .qcol:not(.chcol){display:none}
+.shthumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:8px}
+.shth img{width:100%;border:1px solid var(--line);border-radius:8px;display:block;margin-bottom:4px}
+.wrap.student.sheetmode{max-width:1240px}
+.shwrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:12px;align-items:start;margin-top:10px}
+.shpages{min-width:0}
+.shwrap.solo{display:block;max-width:980px;margin:10px auto 0;padding-bottom:74px}
+.shbar{position:fixed;left:0;right:0;bottom:0;z-index:25;display:flex;align-items:center;gap:12px;justify-content:space-between;background:var(--card,#fff);border-top:1px solid var(--line);box-shadow:0 -4px 18px rgba(0,0,0,.12);padding:10px 16px max(10px,env(safe-area-inset-bottom))}
+.shbar .btn{flex:1;max-width:420px;height:46px;font-size:17px}.shbar .btn.done{background:var(--ok)}
+.shpg{position:relative;background:#eef0f8;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;min-height:220px;overflow:hidden}
+.shpg.ld{background:#fff;min-height:0}
+.shpg img{width:100%;display:block;cursor:zoom-in}
+.shpg.zm{overflow:auto}.shpg .shin{position:relative}.shpg.zm .shin{width:230%}.shpg.zm img{cursor:zoom-out}
+.shinl{position:absolute;box-sizing:border-box;background:rgba(255,246,190,.6);border:2px dashed #f59e0b;border-radius:6px;color:#1d4ed8;font-weight:800;text-align:center;padding:0 4px;line-height:1;font-family:inherit;z-index:2;min-width:0}
+.shch{cursor:pointer;display:flex;align-items:center;justify-content:center}
+.shch:empty::before{content:attr(data-n);color:#c58a1b;font-weight:700;opacity:.75}
+.shinl.essay,.shrv.essay{text-align:left;align-items:flex-start;justify-content:flex-start;padding:4px 6px;line-height:1.35;resize:none;white-space:pre-wrap;overflow:auto}
+textarea.sh-in{height:auto;min-height:84px;font-size:16px;resize:vertical;flex:1;min-width:160px}
+textarea.shinl{height:auto}
+.esq{border-top:1px solid var(--line);padding:10px 0}.esa{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line)}.esa .nm{width:90px;font-weight:800}.esa .tx{flex:1;white-space:pre-wrap;word-break:break-all}
+.shinl::placeholder{color:#c58a1b;opacity:.75}
+.shinl:focus{outline:none;border-style:solid;background:rgba(255,255,255,.92);box-shadow:0 0 0 3px rgba(79,70,229,.35)}
+.shinl:disabled{opacity:.75}
+.shrv{position:absolute;box-sizing:border-box;border:2px solid #94a3b8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;z-index:2;background:rgba(255,255,255,.6);overflow:hidden}
+.shrv.ok{border-color:#16a34a;color:#15803d;background:rgba(220,252,231,.75)}.shrv.bad{border-color:#e11d48;color:#be123c;background:rgba(255,228,230,.8)}
+.shfix{position:absolute;font-size:12px;font-weight:800;color:#be123c;background:#fff1f2;border:1px solid #fda4af;border-radius:6px;padding:1px 6px;z-index:3;transform:translateY(2px);white-space:nowrap}
+.shpop{position:absolute;display:flex;gap:4px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.22);z-index:6}
+.bxpages{margin-top:8px}
+.bxpg{position:relative;margin-bottom:10px;border:1px solid var(--line);user-select:none;-webkit-user-select:none}
+.bxpg img{width:100%;display:block;pointer-events:none}
+.bxpg .pgno{position:absolute;right:8px;top:6px;font-size:11px;background:rgba(0,0,0,.45);color:#fff;border-radius:10px;padding:1px 8px;pointer-events:none}
+.bxpg.placing{cursor:crosshair;touch-action:none}
+.bxb{position:absolute;box-sizing:border-box;border:2px solid #4f46e5;background:rgba(79,70,229,.16);border-radius:4px;cursor:move;touch-action:none}
+.bxb.cur{border-color:#f59e0b;background:rgba(245,158,11,.22)}
+.bxb span{position:absolute;left:-2px;top:-19px;background:#4f46e5;color:#fff;font-size:11px;font-weight:800;border-radius:6px;padding:0 6px;pointer-events:none}
+.bxh{position:absolute;right:-7px;bottom:-7px;width:13px;height:13px;background:#4f46e5;border-radius:3px;cursor:nwse-resize}
+.shpg .pgno{position:absolute;right:8px;top:6px;font-size:11px;background:rgba(0,0,0,.45);color:#fff;border-radius:10px;padding:1px 8px;pointer-events:none}
+.shans{position:sticky;top:8px;max-height:calc(100vh - 16px);overflow:auto;padding:12px}
+.shq{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.shq .no{width:28px;text-align:center;font-size:16px}
+.shopts{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.shb{min-width:44px;height:44px;border:2px solid var(--line);background:#fff;border-radius:12px;font-size:20px;font-weight:800;cursor:pointer;color:var(--ink)}
+.shb.sel{background:var(--pri);border-color:var(--pri);color:#fff}
+.shb.oxs{min-width:64px;font-size:26px}.shb.oxs.o{color:#2563eb}.shb.oxs.x{color:#e11d48}
+.shb.oxs.sel.o{background:#2563eb;color:#fff;border-color:#2563eb}.shb.oxs.sel.x{background:#e11d48;color:#fff;border-color:#e11d48}
+.shb:disabled{opacity:.5}
+.sh-in{flex:1;min-width:120px;height:44px;font-size:18px}
+#sh-submit{margin-top:12px}#sh-submit.done{background:var(--ok)}
+@media(max-width:860px){
+  .shwrap{grid-template-columns:1fr;padding-bottom:48vh}
+  .shwrap.solo{padding-bottom:74px}
+  .shans{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:44vh;z-index:25;border-radius:18px 18px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.18);padding-bottom:max(12px,env(safe-area-inset-bottom))}
+  .shans.min{max-height:58px;overflow:hidden}
+}
+#cdn{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:45;font-size:min(46vw,340px);font-weight:900;color:rgba(225,29,72,.8);text-shadow:0 6px 30px rgba(0,0,0,.25);opacity:0}
+#cdn.on{animation:cdpop 1s ease-out forwards}
+@keyframes cdpop{0%{opacity:0;transform:scale(1.5)}15%{opacity:1;transform:scale(1)}80%{opacity:.9}100%{opacity:0;transform:scale(.85)}}
+#offline{position:fixed;top:0;left:0;right:0;padding:8px 12px;background:#e11d48;color:#fff;text-align:center;font-weight:800;font-size:14px;z-index:60;transform:translateY(-110%);transition:transform .25s}
+#offline.on{transform:none}
+.choices.ox{grid-template-columns:1fr 1fr}
+.oxb{font-size:4.6rem;font-weight:900;line-height:1;padding:24px 0;justify-content:center}.oxb.o{color:#2563eb}.oxb.x{color:#e11d48}
+.gear{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ink);opacity:.14;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .2s;z-index:30}
+.gear svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.gear:hover,.gear:focus-visible{opacity:.7;outline:none}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:0 0 auto}.row>.grow{flex:1 1 160px}
 .topbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
 .topbar .code{font-size:34px;font-weight:900;letter-spacing:4px;color:var(--pri)}
@@ -211,17 +275,17 @@ async function keepAwake(on) {
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && S) keepAwake(true); });
 
 /* ---------- 방식(모드) ---------- */
-const MODE_LABEL = { web: '① 웹앱 문제·정답', ppt: '② PPT 문제 · 웹앱 채점', self: '③ PPT 문제·정답 · 각자 채점' };
+const MODE_LABEL = { web: '① 웹앱 문제·정답', ppt: '② PPT 문제 · 웹앱 채점', self: '③ PPT 문제·정답 · 각자 채점', sheet: '📄 평가지(시험지)' };
 function normMeta(m) {
   const o = Object.assign({}, m || {});
   if (o.mode === 'question') o.mode = 'web'; else if (o.mode === 'answer') o.mode = 'ppt';
-  if (!['web', 'ppt', 'self'].includes(o.mode)) o.mode = 'web';
+  if (!['web', 'ppt', 'self', 'sheet'].includes(o.mode)) o.mode = 'web';
   if (!['text', 'draw', 'none'].includes(o.input)) o.input = o.mode === 'self' ? 'none' : 'text';
   if (o.mode === 'self') o.grading = 'self';
   else { if (o.input === 'none') o.input = 'text'; o.grading = o.grading === 'teacher' ? 'teacher' : 'auto'; if (o.input === 'draw') o.grading = 'teacher'; }
   o.showRank = o.showRank === undefined ? o.mode !== 'self' : !!o.showRank;
   o.timeLimit = +o.timeLimit || 0; o.points = +o.points || 10; o.total = +o.total || 0;
-  o.change = o.change !== false; o.auto = o.auto !== false; o.speed = !!o.speed;
+  o.change = o.change !== false; o.auto = o.auto !== false; o.speed = !!o.speed; o.lenient = o.lenient !== false;
   return o;
 }
 
@@ -229,6 +293,20 @@ function normMeta(m) {
 function qInfo(q) {
   const n = (q.choices || []).length >= 2 ? q.choices.length : ((+q.nChoices >= 2) ? +q.nChoices : 0);
   return n ? { kind: 'choice', n } : { kind: 'text', n: 0 };
+}
+/* 문제 유형: text(단답) · mc(객관식) · ox */
+const OX_O = ['o', 'ㅇ', '⭕', '○', '◯', '참', '맞다', '맞음', 'true', '1'], OX_X = ['x', 'ㅌ', '❌', '×', '✕', '✖', '거짓', '틀리다', '틀림', 'false', '2'];
+function oxNorm(a) { const s = normS(a); return OX_O.includes(s) ? 'O' : OX_X.includes(s) ? 'X' : String(a ?? '').trim(); }
+function rowType(r) {
+  if (['ox', 'mc', 'text', 'essay'].includes(r.type)) return r.type;
+  if (String(r.choicesStr || '').split('|').filter(s => s.trim()).length >= 2 || parseInt(r.nChoices) >= 2) return 'mc';
+  return ['o', 'x', 'ㅇ', 'ㅌ', '⭕', '❌', '○', '×'].includes(normS(r.answer)) ? 'ox' : 'text';
+}
+const TYPE_LABEL = { text: '단답', mc: '객관식', ox: 'O/X', essay: '서술형' };
+let LENIENT = true;   // 답을 너그럽게 채점 (어미·띄어쓰기 무시)
+function normA(s) {
+  s = normS(s);
+  return LENIENT ? s.replace(/(입니다|이에요|예요|이다)$/, '') || s : s;
 }
 function normS(s) {
   s = String(s ?? '').trim().toLowerCase().replace(/[①②③④⑤⑥⑦⑧⑨]/g, c => CIRC9.indexOf(c) + 1);
@@ -238,13 +316,13 @@ function splitAns(a) { return String(a ?? '').split(/[|;｜]/).map(x => x.trim()
 function accepted(q) {
   const info = qInfo(q);
   return splitAns(q.answer).map(a => {
-    let n = normS(a);
-    if (info.kind === 'choice') { const i = (q.choices || []).findIndex(c => normS(c) === n); if (i >= 0) n = String(i + 1); }
+    let n = normA(a);
+    if (info.kind === 'choice') { const i = (q.choices || []).findIndex(c => normS(c) === normS(a)); if (i >= 0) n = String(i + 1); }
     return n;
   });
 }
 function grade(q, val) {
-  const u = normS(val); if (!u) return false;
+  const u = normA(val); if (!u) return false;
   return accepted(q).some(a => a === u || (isNum(a) && isNum(u) && Number(a) === Number(u)));
 }
 function dispAnswer(q) {
@@ -259,6 +337,7 @@ function dispAnswer(q) {
 }
 function dispValue(q, v) {
   if (v == null || v === '') return '';
+  if (q && (q.ox || (q.n === 2 && q.choices && q.choices[0] === 'O' && q.choices[1] === 'X'))) return String(v) === '1' ? 'O' : String(v) === '2' ? 'X' : String(v);
   if (q && q.n >= 2) { const n = parseInt(v); if (n >= 1 && n <= q.n) return CIRC9[n - 1] + (q.choices && q.choices[n - 1] ? ' ' + q.choices[n - 1] : ''); }
   return String(v);
 }
@@ -339,41 +418,44 @@ function paintInto(cv, str, cssW, d, maxH) {
 }
 
 /* ---------- 엑셀 ---------- */
-const HEAD = ['번호', '문제', '보기1', '보기2', '보기3', '보기4', '보기5', '보기수', '정답', '배점', '해설', '이미지URL'];
+const HEAD = ['번호', '유형', '문제', '보기1', '보기2', '보기3', '보기4', '보기5', '보기수', '정답', '배점', '해설', '이미지URL', '쪽', '답칸X', '답칸Y', '답칸너비', '답칸높이', '표시번호'];
 function rowsToAOA(rows) {
   return [HEAD].concat(rows.map((r, i) => {
-    const ch = String(r.choicesStr || '').split('|').map(s => s.trim()).filter(Boolean);
-    return [i + 1, r.text || '', ch[0] || '', ch[1] || '', ch[2] || '', ch[3] || '', ch[4] || '', r.nChoices || '', r.answer || '', r.points || '', r.explanation || '', r.image || ''];
+    const ch = String(r.choicesStr || '').split('|').map(s => s.trim()).filter(Boolean), t = rowType(r);
+    return [i + 1, TYPE_LABEL[t], r.text || '', t === 'ox' ? '' : ch[0] || '', t === 'ox' ? '' : ch[1] || '', t === 'ox' ? '' : ch[2] || '', t === 'ox' ? '' : ch[3] || '', t === 'ox' ? '' : ch[4] || '', t === 'mc' ? r.nChoices || '' : '', r.answer || '', r.points || '', r.explanation || '', r.image || '', r.pg || '', r.bx || '', r.by || '', r.bw || '', r.bh || '', r.lb || ''];
   }));
 }
 function makeWB(rows, guide) {
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.aoa_to_sheet(rowsToAOA(rows));
-  ws['!cols'] = [6, 36, 12, 12, 12, 12, 12, 8, 16, 6, 30, 28].map(w => ({ wch: w }));
+  ws['!cols'] = [6, 9, 36, 12, 12, 12, 12, 12, 8, 16, 6, 30, 28, 6, 8, 8, 8, 8, 9].map(w => ({ wch: w }));
   XLSX.utils.book_append_sheet(wb, ws, '문제');
   if (guide) {
     const g = [['작성 방법'],
       ['1. "문제" 시트의 예시 줄을 지우고 내용을 채워 주세요. 자동 채점이면 정답 칸이 꼭 필요해요.'],
       ['2. 문제·보기 칸은 "① 웹앱 문제·정답" 방식에서만 학생 화면에 나와요. PPT로 문제를 보여주면 비워 둬도 돼요.'],
-      ['3. 객관식: 보기1~5에 글을 적으면 객관식이 돼요. 정답은 번호(예: 2)로 적어요.'],
-      ['4. PPT 문제 객관식: 보기 칸은 비우고 "보기수"만 적으면(예: 4) ①~④ 버튼이 나와요.'],
-      ['5. 단답형: 보기와 보기수를 비워 두면 학생이 직접 입력해요.'],
+      ['3. 유형 칸에 "단답", "객관식", "OX" 중 하나를 적어요. (비우면 자동으로 알아봐요)'],
+      ['4. 객관식: 보기1~5에 글을 적고 정답은 번호(예: 2)로 적어요. PPT 문제면 보기 칸은 비우고 "보기수"만 적어도 돼요(예: 4).'],
+      ['5. OX: 정답에 O 또는 X만 적어요. 학생 화면에 큰 O/X 버튼이 나와요.'],
       ['6. 정답이 여러 가지면 | 로 구분해요. 예) 광합성|광합성작용'],
       ['7. 띄어쓰기·대소문자·쉼표는 무시하고 채점해요. (3.0 과 3 도 같은 답)'],
       ['8. 배점을 비우면 설정한 기본 배점이 적용돼요.'],
       ['9. 이미지URL은 인터넷 주소(https://...)만 가능해요.'],
-      ['10. "③ 각자 채점" 방식은 엑셀이 필요 없어요. 문제 수만 정하면 돼요.']];
+      ['10. "③ 각자 채점" 방식은 엑셀이 필요 없어요. 문제 수만 정하면 돼요.'],
+      ['11. (평가지) 쪽·답칸X·답칸Y·답칸너비·답칸높이: 평가지 안에 답을 쓰는 자리예요. 쪽은 1부터, 나머지는 그 쪽 크기에 대한 % (예: 답칸X 62 = 왼쪽에서 62% 위치). 비워 두면 오른쪽 답 목록으로만 답해요. 표시번호는 평가지에 인쇄된 번호예요(예: 1-(2)). 객관식 보기1~5에 ㉮ ㉯ ㉰ 처럼 적으면 그 글자가 버튼에 나와요.']];
     const gs = XLSX.utils.aoa_to_sheet(g); gs['!cols'] = [{ wch: 90 }];
     XLSX.utils.book_append_sheet(wb, gs, '작성 방법');
   }
   return wb;
 }
 const SAMPLE = [
-  { text: '우리나라의 수도는 어디일까요?', choicesStr: '부산 | 서울 | 대전 | 광주', nChoices: '', answer: '2', points: '', explanation: '우리나라의 수도는 서울이에요.', image: '' },
-  { text: '3 × 4 = ?', choicesStr: '', nChoices: '', answer: '12', points: '', explanation: '3×4=12', image: '' },
-  { text: '', choicesStr: '', nChoices: '4', answer: '3', points: '', explanation: 'PPT 문제: 보기수만 적으면 ①~④ 버튼이 나와요', image: '' },
-  { text: '식물이 빛으로 양분을 만드는 일은?', choicesStr: '', nChoices: '', answer: '광합성|광합성작용', points: '20', explanation: '정답이 여러 개면 | 로 구분', image: '' }
+  { type: 'mc', text: '우리나라의 수도는 어디일까요?', choicesStr: '부산 | 서울 | 대전 | 광주', nChoices: '', answer: '2', points: '', explanation: '우리나라의 수도는 서울이에요.', image: '' },
+  { type: 'ox', text: '고조선은 청동기 시대에 세워진 나라이다.', choicesStr: '', nChoices: '', answer: 'O', points: '', explanation: '', image: '' },
+  { type: 'text', text: '3 × 4 = ?', choicesStr: '', nChoices: '', answer: '12', points: '', explanation: '3×4=12', image: '' },
+  { type: 'mc', text: '', choicesStr: '', nChoices: '4', answer: '3', points: '', explanation: 'PPT 문제: 보기수만 적으면 ①~④ 버튼이 나와요', image: '' },
+  { type: 'text', text: '식물이 빛으로 양분을 만드는 일은?', choicesStr: '', nChoices: '', answer: '광합성|광합성작용', points: '20', explanation: '정답이 여러 개면 | 로 구분', image: '' }
 ];
+const typeFromLabel = s => { const t = normS(s); return /^(ox|o\/x|ㅇㅌ|참거짓)$/.test(t) ? 'ox' : /^(객관식|선택|선택형|mc)$/.test(t) ? 'mc' : /^(단답|단답형|주관식|text)$/.test(t) ? 'text' : /^(서술|서술형|논술|essay)$/.test(t) ? 'essay' : ''; };
 function parseWB(wb) {
   const ws = wb.Sheets['문제'] || wb.Sheets[wb.SheetNames[0]];
   const raw = XLSX.utils.sheet_to_json(ws, { defval: '' });
@@ -384,23 +466,23 @@ function parseWB(wb) {
     const ans = g('정답', '답'), text = g('문제'), nch = g('보기수'), img = g('이미지URL', '이미지');
     const ch = [1, 2, 3, 4, 5].map(i => g('보기' + i)).filter(Boolean);
     if (!ans && !text && !ch.length && !nch && !img) return;   // 완전히 빈 줄만 건너뜀 (정답은 선생님 채점 방식에선 선택)
-    rows.push({ no: g('번호'), text, choicesStr: ch.join(' | '), nChoices: nch, answer: ans, points: g('배점'), explanation: g('해설'), image: img });
+    rows.push({ no: g('번호'), type: typeFromLabel(g('유형', '형식')), text, choicesStr: ch.join(' | '), nChoices: nch, answer: ans, points: g('배점'), explanation: g('해설'), image: img, pg: g('쪽'), bx: g('답칸X'), by: g('답칸Y'), bw: g('답칸너비'), bh: g('답칸높이'), lb: g('표시번호') });
   });
   if (rows.length && rows.every(r => r.no !== '' && !isNaN(r.no))) rows.sort((a, b) => a.no - b.no);
   return rows;
 }
 function rowsToQs(rows, defPts) {
-  return rows.map(r => ({
-    text: r.text || '',
-    choices: String(r.choicesStr || '').split('|').map(s => s.trim()).filter(Boolean),
-    nChoices: parseInt(r.nChoices) || 0,
-    answer: String(r.answer || '').trim(),
-    points: parseFloat(r.points) > 0 ? parseFloat(r.points) : defPts,
-    explanation: r.explanation || '', image: r.image || ''
-  }));
+  return rows.map(r => {
+    const t = rowType(r);
+    let choices = [], nChoices = 0, answer = String(r.answer || '').trim();
+    if (t === 'ox') { choices = ['O', 'X']; nChoices = 2; if (answer) answer = splitAns(answer).map(oxNorm).join('|'); }
+    else if (t === 'mc') { choices = String(r.choicesStr || '').split('|').map(s => s.trim()).filter(Boolean); nChoices = parseInt(r.nChoices) || 0; if (choices.length < 2 && nChoices < 2) nChoices = 4; }
+    const bn = [r.pg, r.bx, r.by, r.bw, r.bh].map(parseFloat), box = bn.every(v => isFinite(v)) && bn[0] >= 1 && bn[3] > 0 && bn[4] > 0 ? { p: bn[0] - 1, x: bn[1], y: bn[2], w: bn[3], h: bn[4] } : null;   // 평가지 안에 답을 쓰는 자리 (쪽 번호, 위치·크기는 쪽 대비 %)
+    return { type: t, text: r.text || '', choices, nChoices, answer, points: parseFloat(r.points) > 0 ? parseFloat(r.points) : defPts, explanation: r.explanation || '', image: r.image || '', box, label: String(r.lb || '').trim() };
+  });
 }
 function rowsFromPub(pub) {
-  return pub.map(p => ({ text: p.text || '', choicesStr: toArr(p.choices).join(' | '), nChoices: toArr(p.choices).length ? '' : (p.n >= 2 ? String(p.n) : ''), answer: '', points: '', explanation: '', image: p.image || '' }));
+  return pub.map(p => ({ type: p.ox ? 'ox' : '', text: p.text || '', choicesStr: toArr(p.choices).join(' | '), nChoices: toArr(p.choices).length ? '' : (p.n >= 2 ? String(p.n) : ''), answer: '', points: '', explanation: '', image: p.image || '' }));
 }
 
 /* ======================= 학생 ======================= */
@@ -410,14 +492,14 @@ function renderHome() {
   const room = new URLSearchParams(location.search).get('room') || '';
   app.innerHTML = `
   <div class="wrap narrow">
-    <div class="hero"><div class="logo">📝</div><h1>퀴즈판</h1><p class="muted">선생님이 알려준 방 코드와 이름을 입력해요</p></div>
+    <button class="gear" data-act="teacher" aria-label="교사용"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    <div class="hero"><div class="logo">📝</div><h1>퀴즈판</h1></div>
     <div class="card">
       <label>방 코드</label><input id="j-code" type="text" inputmode="numeric" maxlength="6" value="${esc(room)}" placeholder="예: 1234">
       <label>이름</label><input id="j-name" type="text" maxlength="14" value="${esc(LS.get('quizname', ''))}" placeholder="예: 3번 홍길동">
       <button class="btn primary big" data-act="join">입장하기</button>
       <div id="j-err" class="err"></div>
     </div>
-    <div class="foot"><a href="#" data-act="teacher">교사용 ▸</a></div>
   </div>`;
 }
 async function joinRoom(code, name, silent) {
@@ -454,12 +536,15 @@ function startStudent(code, pid, name) {
   S = { code, pid, name, meta: null, qs: [], state: null, players: {}, reveal: {}, myAns: null, myMark: null, pick: null, draft: '', curKey: null, qUnsubs: [], strokes: [], tool: { c: 0, w: 9, eraser: false }, hideTools: false, editing: false, cardOpen: true, penAt: 0, pageKey: '', cardKey: 'off', draftSent: {}, autoDone: {}, k: 1, cv: null, dims: LDIM };
   app.innerHTML = `<div class="wrap student"><div class="shead"><b id="s-title"></b><span class="chip" id="s-chip"></span></div><div id="s-body"></div><div class="foot"><a href="#" data-act="leave">나가기</a></div></div><div id="s-card" class="card-ov"></div>`;
   keepAwake(true);
+  S.sh = null; S.sheetKey = null; S.sheetSub = undefined;
   const R = p => db.ref(`quizboard/${code}/${p}`);
+  listen(R('sheetKey'), v => { if (!S) return; S.sheetKey = v || null; if (S.meta && S.meta.mode === 'sheet') renderAll(); });
+  listen(R(`sheetAns/${pid}`), v => { if (!S) return; S.sheetSub = v || null; if (S.meta && S.meta.mode === 'sheet') renderAll(); });
   listen(R('meta'), v => { if (!S) return; if (!v) { LS.del('quizsess'); toast('방이 사라졌어요'); return renderHome(); } S.meta = normMeta(v); $('#s-title').textContent = S.meta.title || '퀴즈'; renderAll(); });
-  listen(R('questions'), v => { if (!S) return; S.qs = toArr(v).map(q => ({ n: q.n || 0, text: q.text || '', choices: toArr(q.choices), image: q.image || '' })); renderAll(); });
+  listen(R('questions'), v => { if (!S) return; S.qs = toArr(v).map(q => ({ n: q.n || 0, ox: !!q.ox && (q.n || 0) === 2, essay: !!q.essay, box: q.box || null, label: q.lb || '', text: q.text || '', choices: toArr(q.choices), image: q.image || '' })); renderAll(); });
   listen(R('state'), v => { if (!S) return; S.state = v; onStateChange(); });
   listen(R('reveal'), v => { if (!S) return; S.reveal = v || {}; renderAll(); });
-  listen(R('players'), v => { if (!S) return; S.players = cleanPlayers(v); if (!S.players[pid] && S.meta) { LS.del('quizsess'); toast('참가자 목록에서 빠졌어요. 다시 입장해 주세요.'); return renderHome(); } refreshDynSoon(); });
+  listen(R('players'), v => { if (!S) return; S.players = cleanPlayers(v); if (!S.players[pid] && S.meta) { LS.del('quizsess'); toast('참가자 목록에서 빠졌어요. 다시 입장해 주세요.'); return renderHome(); } if (S.meta && S.meta.mode === 'sheet') renderAll(); else refreshDynSoon(); });
   // 접속 상태: 연결이 끊기면 서버가 on=false로 표시 (교사 화면에서 🔌로 보임)
   const conn = db.ref('.info/connected'), me = R(`players/${pid}`);
   const hc = conn.on('value', s => {
@@ -504,7 +589,7 @@ function onStateChange() {
 function revealOf() { const st = S.state; if (!st || st.q < 0) return null; const e = entriesOf(S.reveal).find(([k]) => k == st.q); return e ? e[1] : null; }
 function renderAll() { if (!S || !S.meta) return; renderPage(); renderCard(); refreshDyn(); }
 function cardActive() {
-  const st = S.state, m = S.meta; if (!st || st.q < 0 || !m || m.input === 'none') return false;
+  const st = S.state, m = S.meta; if (!st || st.q < 0 || !m || m.input === 'none' || m.mode === 'sheet') return false;
   const ph = st.phase, sub = submitted();
   if (ph === 'open') return m.input === 'draw' ? (!sub || S.cardOpen) : (sub && S.cardOpen);
   if (ph === 'grading') return sub && S.cardOpen;
@@ -512,7 +597,7 @@ function cardActive() {
   return false;
 }
 const qheadHTML = () => `<div class="qhead">${S.state.q + 1}번 <small>/ 총 ${S.meta.total || S.qs.length}문제</small></div>`;
-function waitHTML() { return `<div class="card center"><div class="emoji">⏳</div><h2>잠시만 기다려요</h2><p class="muted">선생님이 퀴즈를 시작하면 문제 화면이 나와요.</p></div><div class="card"><h3>${S.meta.showRank ? '현재 순위' : '내 기록'}</h3><div id="s-board"></div></div>`; }
+function waitHTML() { return `<div class="card center"><div class="emoji">⏳</div><h2>잠시만 기다려요</h2></div><div class="card"><h3>${S.meta.showRank ? '현재 순위' : '내 기록'}</h3><div id="s-board"></div></div>`; }
 function finalHTML() { return `<div class="card center"><div class="emoji">🏆</div><h2>퀴즈 끝!</h2><div id="s-final" class="kv"></div></div><div class="card"><h3>${S.meta.showRank ? '최종 순위' : '내 기록'}</h3><div id="s-board"></div></div>`; }
 function openHTML(q) {
   const m = S.meta;
@@ -528,7 +613,9 @@ function openHTML(q) {
   } else if (m.input === 'draw') {
     h += `<div class="muted">그림 화면이 열려 있어요</div>`;
   } else {
-    if (q.n >= 2) {
+    if (q.ox) {
+      h += '<div class="choices ox">' + [['1', 'O', 'o'], ['2', 'X', 'x']].map(([v, t, c]) => `<button class="ch big oxb ${c} ${S.pick == v ? 'sel' : ''}" data-act="pick" data-v="${v}">${t}</button>`).join('') + '</div>';
+    } else if (q.n >= 2) {
       h += '<div class="choices">' + Array.from({ length: q.n }, (_, i) => `<button class="ch big ${S.pick == String(i + 1) ? 'sel' : ''}" data-act="pick" data-v="${i + 1}"><b>${CIRC9[i]}</b>${m.mode === 'web' && q.choices[i] ? `<span>${esc(q.choices[i])}</span>` : ''}</button>`).join('') + '</div>';
     } else {
       h += `<textarea id="ans" class="bigin" rows="3" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="정답을 입력하세요"></textarea>`;
@@ -539,13 +626,13 @@ function openHTML(q) {
   return h + '</div>';
 }
 function gradingHTML() {
-  return `<div class="card center"><div class="emoji">✏️</div><h2>선생님이 채점 중이에요</h2><p class="muted">${submitted() ? '내 답을 들어서 보여 주세요' : '제출한 답이 없어요'}</p>${submitted() && S.meta.input !== 'none' ? '<button class="btn big" data-act="cardOpen">내 답 크게 보기 🔍</button>' : ''}</div>`;
+  return `<div class="card center"><div class="emoji">✏️</div><h2>선생님이 채점 중이에요</h2><p class="muted">${submitted() ? '내 답을 들어요 ✋' : '제출한 답이 없어요'}</p>${submitted() && S.meta.input !== 'none' ? '<button class="btn big" data-act="cardOpen">내 답 크게 보기 🔍</button>' : ''}</div>`;
 }
 function revealedHTML() {
   const m = S.meta, rv = revealOf() || {};
   let h = `<div class="card">${qheadHTML()}`;
   if (m.grading === 'self') {
-    h += `<h3>PPT의 정답을 보고 스스로 채점해요</h3><div class="selfbtns"><button id="sb-1" class="sbtn-ok" data-act="selfMark" data-ok="1">⭕ 맞았어요</button><button id="sb-0" class="sbtn-bad" data-act="selfMark" data-ok="0">❌ 틀렸어요</button></div><div id="s-selfnote" class="sub"></div>`;
+    h += `<h3>내 답은?</h3><div class="selfbtns"><button id="sb-1" class="sbtn-ok" data-act="selfMark" data-ok="1">⭕ 맞았어요</button><button id="sb-0" class="sbtn-bad" data-act="selfMark" data-ok="0">❌ 틀렸어요</button></div><div id="s-selfnote" class="sub"></div>`;
     if (submitted() && m.input !== 'none') h += '<button class="btn big" data-act="cardOpen">내 답 크게 보기 🔍</button>';
   } else {
     h += '<div id="s-result"></div>';
@@ -563,6 +650,7 @@ function fitInput(a) {
 function renderPage() {
   const body = $('#s-body'); if (!body) return;
   const m = S.meta, st = S.state;
+  if (m.mode === 'sheet') return renderSheetPage(body);
   const key = JSON.stringify([S.curKey, st && st.phase, submitted(), S.cardOpen, S.editing, S.qs.length, m.mode, m.input, m.grading, !!revealOf()]);
   if (key === S.pageKey) return; S.pageKey = key;
   let h;
@@ -594,8 +682,8 @@ function renderCard() {
 function fillTextCard(q) {
   const box = $('#cd-fit'), v = S.myAns ? String(S.myAns.value) : '';
   let sub = '';
-  if (q.n >= 2) { const n = parseInt(v); if (S.meta.mode === 'web' && q.choices[n - 1]) sub = `<div class="cd-sub">${esc(q.choices[n - 1])}</div>`; }
-  box.innerHTML = `<div class="cd-fitbox" id="cd-fitbox"><span class="cd-txt" id="cd-t">${esc(v)}</span></div>${sub}`;
+  if (q.n >= 2 && !q.ox) { const n = parseInt(v); if (S.meta.mode === 'web' && q.choices[n - 1]) sub = `<div class="cd-sub">${esc(q.choices[n - 1])}</div>`; }
+  box.innerHTML = `<div class="cd-fitbox" id="cd-fitbox"><span class="cd-txt" id="cd-t">${esc(q.ox ? dispValue(q, v) : v)}</span></div>${sub}`;
   fitText($('#cd-t'), $('#cd-fitbox'), 640, 20);
 }
 function layoutCanvas() {
@@ -699,6 +787,7 @@ function refreshDyn() {
 }
 function studentTick() {
   if (!S || !S.state || !S.meta) return;
+  if (S.meta.mode === 'sheet') return sheetTick();
   const st = S.state; if (st.phase !== 'open') return;
   let txt = '', pct = 0, over = false;
   if (st.endsAt) {
@@ -754,63 +843,84 @@ function renderTHome() {
   app.innerHTML = `<div class="wrap narrow">
     <div class="hero"><div class="logo">👩‍🏫</div><h1>교사용</h1></div>
     <div class="card"><button class="btn primary big" style="margin-top:0" data-act="newRoom">＋ 새 퀴즈 만들기</button>
+      <button class="btn big" data-act="shLib">📄 평가지 보관함 (PDF 올리기)</button>
       <button class="btn big" data-act="openRecords">📁 지난 퀴즈 기록 보기</button>
       <button class="btn big" data-act="dlTemplate">📥 엑셀 양식 내려받기</button></div>
-    <div class="card"><h3>방 코드로 열기</h3><div class="row"><input type="text" id="open-code" inputmode="numeric" maxlength="6" placeholder="예: 1234" class="grow"><button class="btn" data-act="openByCode">열기</button></div><div class="note">다른 기기에서 만든 방이나, 목록에서 사라진 방을 다시 열 수 있어요.</div></div>
+    <div class="card"><h3>방 코드로 열기</h3><div class="row"><input type="text" id="open-code" inputmode="numeric" maxlength="6" placeholder="예: 1234" class="grow"><button class="btn" data-act="openByCode">열기</button></div></div>
     <div class="card"><h3>내 퀴즈방</h3>${rooms.length ? rooms.map(r => `<div class="row" style="margin:8px 0"><div class="grow"><b>${esc(r.title)}</b><div class="muted" style="font-size:13px">코드 ${esc(r.code)} · ${esc(MODE_LABEL[r.mode] || '')} · ${new Date(r.at).toLocaleDateString('ko-KR')}</div></div><button class="btn sm primary" data-act="openRoom" data-code="${esc(r.code)}">열기</button><button class="btn sm danger" data-act="delLocal" data-code="${esc(r.code)}">목록에서 삭제</button></div>`).join('') : '<div class="muted">아직 만든 퀴즈방이 없어요.</div>'}</div>
     <div class="foot"><a href="#" data-act="leave">← 학생 화면으로</a></div></div>`;
 }
-const defaultsE = () => ({ code: null, title: '', mode: 'web', input: 'text', grading: 'auto', timeLimit: 0, points: 10, speed: false, change: true, auto: true, showRank: true, nSelf: 10, createdAt: 0, rows: [] });
+const defaultsE = () => ({ code: null, title: '', mode: 'web', input: 'text', grading: 'auto', timeLimit: 0, points: 10, speed: false, lenient: true, change: true, auto: true, showRank: true, nSelf: 10, createdAt: 0, rows: [] });
 function fixE() {
   if (E.mode === 'self') { E.grading = 'self'; if (!['none', 'text', 'draw'].includes(E.input)) E.input = 'none'; }
   else { if (E.input === 'none') E.input = 'text'; if (E.grading === 'self') E.grading = 'auto'; if (E.input === 'draw') E.grading = 'teacher'; }
 }
-const emptyRow = () => ({ text: '', choicesStr: '', nChoices: '', answer: '', points: '', explanation: '', image: '' });
+const emptyRow = () => ({ type: '', text: '', choicesStr: '', nChoices: '', answer: '', points: '', explanation: '', image: '', pg: '', bx: '', by: '', bw: '', bh: '', lb: '' });
+const bxLabel = (r, i) => E.placing === i ? '✋ 드래그' : r.pg ? `📍 ${r.pg}쪽` : '📍 지정';
+function ansCell(r, i, t) {   // 유형별 정답 입력칸: O/X와 객관식은 고르기, 단답은 직접 쓰기
+  const a = String(r.answer || '').trim();
+  if (t === 'ox') { const o = oxNorm(a); return `<select data-f="answer" data-i="${i}" style="width:auto"><option value="">선택</option><option value="O" ${o === 'O' ? 'selected' : ''}>O</option><option value="X" ${o === 'X' ? 'selected' : ''}>X</option></select>`; }
+  if (t === 'mc') {
+    const n = Math.min(9, Math.max(2, String(r.choicesStr || '').split('|').filter(s => s.trim()).length || parseInt(r.nChoices) || 4));
+    const lab = String(r.choicesStr || '').split('|').map(x => x.trim()).filter(Boolean);
+    if (!a || (/^\d$/.test(a) && +a >= 1 && +a <= n)) return `<select data-f="answer" data-i="${i}" style="width:auto"><option value="">선택</option>${Array.from({ length: n }, (_, k) => `<option value="${k + 1}" ${a == k + 1 ? 'selected' : ''}>${CIRC9[k]}${lab[k] && E.sheet ? ' ' + esc(lab[k]) : ''}</option>`).join('')}</select>`;
+  }
+  return `<input type="text" data-f="answer" data-i="${i}" value="${esc(r.answer)}" ${t === 'essay' ? 'placeholder="모범답안 (선택)"' : ''}>`;
+}
+/* 문제·정답 표 (퀴즈 만들기·평가지 올리기 공통) */
+function qTableHTML() {
+  const rowsHTML = E.rows.map((r, i) => { const t = rowType(r), mc = t === 'mc'; return `<tr>
+    <td class="no">${i + 1}</td>
+    ${E.sheet ? `<td><input type="text" data-f="lb" data-i="${i}" value="${esc(r.lb)}" placeholder="${i + 1}" style="width:72px"></td>` : ''}
+    <td><select data-f="type" data-i="${i}" style="width:auto">${['text', 'mc', 'ox'].concat(E.sheet ? ['essay'] : []).map(k => `<option value="${k}" ${t === k ? 'selected' : ''}>${TYPE_LABEL[k]}</option>`).join('')}</select></td>
+    <td class="qcol"><input type="text" data-f="text" data-i="${i}" value="${esc(r.text)}"></td>
+    <td class="qcol chcol"><input type="text" data-f="choicesStr" data-i="${i}" value="${mc ? esc(r.choicesStr) : ''}" placeholder="${mc ? '보기1 | 보기2 | …' : '-'}" ${mc ? '' : 'disabled'}></td>
+    <td><input type="number" data-f="nChoices" data-i="${i}" value="${mc ? esc(r.nChoices) : ''}" placeholder="${mc ? '4' : '-'}" min="0" max="9" style="width:64px" ${mc ? '' : 'disabled'}></td>
+    <td>${ansCell(r, i, t)}</td>
+    ${E.sheet ? `<td class="bxcol" style="white-space:nowrap"><button class="btn sm bxbtn ${E.placing === i ? 'primary' : ''}" data-act="bxPlace" data-i="${i}">${bxLabel(r, i)}</button>${r.pg ? `<button class="btn sm" data-act="bxClear" data-i="${i}">✕</button>` : ''}</td>` : ''}
+    <td><input type="number" data-f="points" data-i="${i}" value="${esc(r.points)}" min="0" style="width:64px"></td>
+    <td><input type="text" data-f="explanation" data-i="${i}" value="${esc(r.explanation)}"></td>
+    <td class="qcol"><input type="text" data-f="image" data-i="${i}" value="${esc(r.image)}"></td>
+    <td><button class="btn sm danger" data-act="delRow" data-i="${i}">✕</button></td></tr>`; }).join('');
+  return `    <div class="row"><input type="file" id="xfile" accept=".xlsx,.xls,.csv" data-change="xfile" class="grow">
+      <button class="btn" data-act="dlTemplate">📥 양식 다운로드</button>
+      <button class="btn" data-act="dlQuestions">💾 현재 내용 엑셀로 저장</button></div>
+    <div class="note">정답이 여러 개면 <b>|</b> 로 구분 (예: 광합성|광합성작용)</div>
+    <div class="row" style="margin:10px 0">빠르게 만들기 → 문제 수 <input type="number" id="bn" value="10" min="1" max="100" style="width:72px"> 유형 <select id="bt" style="width:auto"><option value="mc">객관식</option><option value="ox">O/X</option><option value="text">단답</option></select> <span id="bcw">보기 수 <input type="number" id="bc" value="4" min="2" max="9" style="width:72px"></span><button class="btn" data-act="makeBlank">표 만들기</button></div>
+    <div class="tbl ${E.mode === 'web' ? '' : 'dimq'}${E.sheet ? ' sheetq' : ''}"><table><thead><tr><th>#</th>${E.sheet ? '<th>표시번호</th>' : ''}<th>유형</th><th class="qcol">문제</th><th class="qcol chcol">${E.sheet ? '보기 글자 (㉮|㉯|㉰ …)' : '보기 (| 로 구분)'}</th><th>보기수</th><th>정답${E.grading === 'auto' ? ' *' : ''}</th>${E.sheet ? '<th>답칸</th>' : ''}<th>배점</th><th>해설</th><th class="qcol">이미지URL</th><th></th></tr></thead><tbody>${rowsHTML || '<tr><td colspan="10" class="muted" style="padding:14px">아직 문제가 없어요. 엑셀을 올리거나 아래 버튼으로 추가해 주세요.</td></tr>'}</tbody></table></div>
+    <button class="btn" style="margin-top:10px" data-act="addRow">＋ 문제 추가</button>`;
+}
+const rerender = () => E && E.sheet ? renderSheetEdit() : renderSetup();
 function renderSetup() {
   detach(); view = 'tSetup'; fixE();
   const rad = (f, val, title, desc) => `<label class="mcard ${E[f] === val ? 'on' : ''}"><input type="radio" name="${f}" data-scope="set" data-f="${f}" value="${val}" ${E[f] === val ? 'checked' : ''}><div><b>${title}</b><span>${desc}</span></div></label>`;
   const self = E.mode === 'self';
-  const rowsHTML = E.rows.map((r, i) => `<tr>
-    <td class="no">${i + 1}</td>
-    <td class="qcol"><input type="text" data-f="text" data-i="${i}" value="${esc(r.text)}"></td>
-    <td class="qcol"><input type="text" data-f="choicesStr" data-i="${i}" value="${esc(r.choicesStr)}" placeholder="보기1 | 보기2 | …"></td>
-    <td><input type="number" data-f="nChoices" data-i="${i}" value="${esc(r.nChoices)}" min="0" max="9" style="width:64px"></td>
-    <td><input type="text" data-f="answer" data-i="${i}" value="${esc(r.answer)}"></td>
-    <td><input type="number" data-f="points" data-i="${i}" value="${esc(r.points)}" min="0" style="width:64px"></td>
-    <td><input type="text" data-f="explanation" data-i="${i}" value="${esc(r.explanation)}"></td>
-    <td class="qcol"><input type="text" data-f="image" data-i="${i}" value="${esc(r.image)}"></td>
-    <td><button class="btn sm danger" data-act="delRow" data-i="${i}">✕</button></td></tr>`).join('');
   const inputSec = self
-    ? `<div class="opts">${rad('input', 'none', '입력 없음', 'PPT 정답 공개 후 ⭕/❌만 체크해요. (보드에 직접 쓰는 오프라인 골든벨)')}${rad('input', 'text', '글씨', '큰 글씨로 입력해서 들어 보여요. 기기 안에서만 쓰여요.')}${rad('input', 'draw', '그리기', '화면에 손글씨·그림으로 써요. 기기 안에서만 쓰여요.')}</div>`
-    : `<div class="opts">${rad('input', 'text', '글씨', '타이핑·객관식 번호 선택')}${rad('input', 'draw', '그리기', '손글씨·그림 — 선생님이 보면서 직접 채점해요')}</div>` +
-      (E.input === 'draw' ? '<div class="note">그리기 답은 자동 채점이 안 되어 “선생님이 직접 채점”으로 진행돼요.</div>' :
-        `<label>채점 방식</label><div class="opts">${rad('grading', 'auto', '자동 채점', '등록한 정답과 비교해요 (정답 필수)')}${rad('grading', 'teacher', '선생님이 직접', '학생 답을 보며 ⭕/❌ — 정답 등록은 선택(추천 표시용)')}</div>`);
+    ? `<div class="opts">${rad('input', 'none', '입력 없음', '⭕/❌만 체크')}${rad('input', 'text', '글씨', '큰 글씨로 입력')}${rad('input', 'draw', '그리기', '손글씨·그림')}</div>`
+    : `<div class="opts">${rad('input', 'text', '글씨', '타이핑·객관식 번호 선택')}${rad('input', 'draw', '그리기', '손글씨·그림')}</div>` +
+      (E.input === 'draw' ? '<div class="note">그리기는 선생님이 직접 채점해요</div>' :
+        `<label>채점</label><div class="opts">${rad('grading', 'auto', '자동', '정답과 비교')}${rad('grading', 'teacher', '선생님이 직접', '⭕/❌ 체크')}</div>`);
   app.innerHTML = `<div class="wrap">
   <div class="topbar"><h2 style="margin:0;flex:1">${E.code ? '퀴즈 수정 · 코드 ' + esc(E.code) : '새 퀴즈 만들기'}</h2><button class="btn ghost" data-act="cancelSetup">취소</button></div>
   <div class="card"><h3>① 퀴즈 제목</h3><input type="text" data-scope="set" data-f="title" value="${esc(E.title)}" placeholder="예: 5학년 사회 단원평가 골든벨"></div>
   <div class="card"><h3>② 진행 방식</h3><div class="opts">
-    ${rad('mode', 'web', '① 웹앱 문제·정답', '학생 화면에 문제가 나오고, 정답은 웹앱에 등록해요.')}
-    ${rad('mode', 'ppt', '② PPT 문제 · 웹앱 채점', '문제는 PPT로 보여주고 학생은 답만 입력해요. 채점은 웹앱이 하거나 선생님이 직접 해요.')}
-    ${rad('mode', 'self', '③ PPT 문제·정답 · 각자 채점', '오프라인 골든벨처럼 문제·정답을 PPT로 보여주고 학생이 스스로 ⭕/❌ 체크해요.')}
+    ${rad('mode', 'web', '① 웹앱 문제', '문제·정답을 웹앱에')}
+    ${rad('mode', 'ppt', '② PPT 문제', '답만 웹앱에 입력')}
+    ${rad('mode', 'self', '③ 각자 채점', '학생이 스스로 ⭕/❌')}
   </div></div>
   <div class="card"><h3>③ 답 입력 · 채점</h3>${inputSec}</div>
   <div class="card"><h3>④ 규칙</h3>
     <div class="opts"><div><label>제한시간(초, 0=없음)</label><input type="number" min="0" data-scope="set" data-f="timeLimit" value="${esc(E.timeLimit)}"></div>
     <div><label>기본 배점</label><input type="number" min="1" data-scope="set" data-f="points" value="${esc(E.points)}"></div></div>
     <label class="chk"><input type="checkbox" data-scope="set" data-f="showRank" ${E.showRank ? 'checked' : ''}> 점수·순위 보이기 ${self ? '(끄면 정답 수만 보여요)' : ''}</label>
-    ${self ? '' : `<label class="chk"><input type="checkbox" data-scope="set" data-f="speed" ${E.speed ? 'checked' : ''}> 빠르게 맞히면 보너스 점수 (제한시간 설정 시, 최대 +50%)</label>`}
+    ${self ? '' : `<label class="chk"><input type="checkbox" data-scope="set" data-f="speed" ${E.speed ? 'checked' : ''}> 빨리 맞히면 보너스</label>`}
+    ${self || E.input === 'draw' ? '' : `<label class="chk"><input type="checkbox" data-scope="set" data-f="lenient" ${E.lenient ? 'checked' : ''}> 답을 너그럽게 채점 (띄어쓰기·"~입니다/~이다" 무시)</label>`}
     <label class="chk"><input type="checkbox" data-scope="set" data-f="change" ${E.change ? 'checked' : ''}> 제출 후 답 바꾸기 허용</label>
-    <label class="chk"><input type="checkbox" data-scope="set" data-f="auto" ${E.auto ? 'checked' : ''}> 제한시간이 끝나면 자동으로 다음 단계로 (정답 공개 / 채점 시작)</label>
+    <label class="chk"><input type="checkbox" data-scope="set" data-f="auto" ${E.auto ? 'checked' : ''}> 시간이 끝나면 자동으로 넘어가기</label>
   </div>
   <div class="card"><h3>⑤ ${self ? '문제 수' : '문제 · 정답'}</h3>
-  ${self ? `<label style="margin-top:0">문제 수</label><input type="number" min="1" max="100" data-scope="set" data-f="nSelf" value="${esc(E.nSelf)}" style="max-width:160px"><div class="note">문제와 정답은 PPT로 보여주니 웹앱에는 등록하지 않아도 돼요. 문제 수만 정하면 끝!</div>` : `
-    <div class="row"><input type="file" id="xfile" accept=".xlsx,.xls,.csv" data-change="xfile" class="grow">
-      <button class="btn" data-act="dlTemplate">📥 양식 다운로드</button>
-      <button class="btn" data-act="dlQuestions">💾 현재 내용 엑셀로 저장</button></div>
-    <div class="note">엑셀을 올리면 아래 표에 채워져요. 표에서 직접 고치거나 추가할 수도 있어요. 정답이 여러 개면 <b>|</b> 로 구분해요. (예: 광합성|광합성작용)</div>
-    <div class="row" style="margin:10px 0">빠르게 만들기 → 문제 수 <input type="number" id="bn" value="10" min="1" max="100" style="width:72px"> 객관식 보기 수 <input type="number" id="bc" value="4" min="0" max="9" style="width:72px"> <span class="muted" style="font-size:13px">(0 = 단답형)</span><button class="btn" data-act="makeBlank">표 만들기</button></div>
-    <div class="tbl ${E.mode === 'web' ? '' : 'dimq'}"><table><thead><tr><th>#</th><th class="qcol">문제</th><th class="qcol">보기 (| 로 구분)</th><th>보기수</th><th>정답${E.grading === 'auto' ? ' *' : ''}</th><th>배점</th><th>해설</th><th class="qcol">이미지URL</th><th></th></tr></thead><tbody>${rowsHTML || '<tr><td colspan="9" class="muted" style="padding:14px">아직 문제가 없어요. 엑셀을 올리거나 아래 버튼으로 추가해 주세요.</td></tr>'}</tbody></table></div>
-    <button class="btn" style="margin-top:10px" data-act="addRow">＋ 문제 추가</button>
+  ${self ? `<label style="margin-top:0">문제 수</label><input type="number" min="1" max="100" data-scope="set" data-f="nSelf" value="${esc(E.nSelf)}" style="max-width:160px">` : `
+    ${qTableHTML()}
     <div class="note">${E.mode === 'web' ? '문제·보기·이미지는 학생 화면에 나와요.' : '흐리게 보이는 칸(문제·보기·이미지)은 PPT로 보여주므로 학생에게 나오지 않아요.'} ${E.grading === 'auto' ? '자동 채점이라 정답은 꼭 필요해요(*).' : '정답은 선택이에요. 적어 두면 채점할 때 “추천 ⭕”으로 표시돼요.'}</div>`}
   </div>
   <button class="btn primary big" data-act="saveRoom">${E.code ? '저장하기' : '저장하고 퀴즈방 열기'}</button>
@@ -820,7 +930,15 @@ function onField(e) {
   const el = e.target, f = el.dataset.f; if (!f || !E) return;
   if (e.type === 'input' && (el.type === 'radio' || el.type === 'checkbox')) return;
   const v = el.type === 'checkbox' ? el.checked : el.value;
-  if (el.dataset.i !== undefined) { E.rows[+el.dataset.i][f] = v; return; }
+  if (el.dataset.i !== undefined) {
+    const r = E.rows[+el.dataset.i]; r[f] = v;
+    if ((f === 'nChoices' || f === 'choicesStr') && e.type === 'change') {   // 객관식 정답 선택지를 보기 수에 맞춰 바꿔요
+      const sel = document.querySelector(`select[data-f="answer"][data-i="${el.dataset.i}"]`);
+      if (sel) { const n = Math.min(9, Math.max(2, String(r.choicesStr || '').split('|').filter(s => s.trim()).length || parseInt(r.nChoices) || 4)); const lab = String(r.choicesStr || '').split('|').map(x => x.trim()).filter(Boolean); sel.innerHTML = '<option value="">선택</option>' + Array.from({ length: n }, (_, k) => `<option value="${k + 1}" ${r.answer == k + 1 ? 'selected' : ''}>${CIRC9[k]}${lab[k] ? ' ' + esc(lab[k]) : ''}</option>`).join(''); }
+    }
+    if (f === 'type') { if (v === 'ox') r.answer = oxNorm(r.answer) === 'O' || oxNorm(r.answer) === 'X' ? oxNorm(r.answer) : ''; rerender(); }
+    return;
+  }
   if (el.dataset.scope !== 'set') return;
   if (el.type === 'radio' && !el.checked) return;
   E[f] = v;
@@ -836,7 +954,7 @@ function readFile(file) {
       const wb = XLSX.read(new Uint8Array(fr.result), { type: 'array' });
       const rows = parseWB(wb);
       if (!rows.length) return toast('불러올 문제를 찾지 못했어요. 양식을 확인해 주세요.');
-      E.rows = rows; renderSetup(); toast(`${rows.length}문제를 불러왔어요`);
+      E.rows = rows; rerender(); toast(`${rows.length}문제를 불러왔어요`);
     } catch (err) { toast('엑셀 파일을 읽지 못했어요'); }
   };
   fr.readAsArrayBuffer(file);
@@ -852,18 +970,18 @@ async function saveRoom() {
   const defPts = Math.max(1, parseFloat(E.points) || 10);
   const qs = rowsToQs(rows, defPts);
   E.createdAt = E.createdAt || Date.now();
-  const meta = { title: (E.title || '').trim() || '퀴즈', mode: E.mode, input: E.input, grading: E.grading, showRank: !!E.showRank, timeLimit: Math.max(0, parseInt(E.timeLimit) || 0), points: defPts, speed: !self && !!E.speed, change: !!E.change, auto: !!E.auto, total: qs.length, createdAt: E.createdAt };
+  const meta = { title: (E.title || '').trim() || '퀴즈', mode: E.mode, input: E.input, grading: E.grading, showRank: !!E.showRank, timeLimit: Math.max(0, parseInt(E.timeLimit) || 0), points: defPts, speed: !self && !!E.speed, lenient: E.lenient !== false, change: !!E.change, auto: !!E.auto, total: qs.length, createdAt: E.createdAt };
   try {
     let code = E.code; const isNew = !code;
     if (isNew) {
       for (let i = 0; i < 12; i++) { const c = String(Math.floor(1000 + Math.random() * 9000)); if (!(await db.ref(`quizboard/${c}/meta`).once('value')).exists()) { code = c; break; } }
       if (!code) return err.textContent = '방 코드를 만들지 못했어요. 다시 시도해 주세요.';
     }
-    const pub = qs.map(q => { const info = qInfo(q), web = meta.mode === 'web'; return { n: meta.input === 'text' ? info.n : 0, text: web ? q.text : '', choices: web ? q.choices : [], image: web ? q.image : '' }; });
+    const pub = qs.map(q => { const info = qInfo(q), web = meta.mode === 'web'; return { n: meta.input === 'text' ? info.n : 0, ox: q.type === 'ox', text: web ? q.text : '', choices: web ? q.choices : [], image: web ? q.image : '' }; });
     const updates = { [`quizboard/${code}/meta`]: meta, [`quizboard/${code}/questions`]: pub };
     if (isNew) updates[`quizboard/${code}/state`] = { q: -1, phase: 'idle' };
     await db.ref().update(updates);
-    LS.set('qb_room:' + code, { title: meta.title, mode: E.mode, input: E.input, grading: E.grading, timeLimit: meta.timeLimit, points: defPts, speed: E.speed, change: E.change, auto: E.auto, showRank: E.showRank, nSelf: E.nSelf, createdAt: E.createdAt, rows: self ? [] : E.rows });
+    LS.set('qb_room:' + code, { title: meta.title, mode: E.mode, input: E.input, grading: E.grading, timeLimit: meta.timeLimit, points: defPts, speed: E.speed, lenient: E.lenient !== false, change: E.change, auto: E.auto, showRank: E.showRank, nSelf: E.nSelf, createdAt: E.createdAt, rows: self ? [] : E.rows });
     const rooms = LS.get('qb_rooms', []).filter(r => r.code !== code); rooms.unshift({ code, title: meta.title, at: E.createdAt, mode: E.mode }); LS.set('qb_rooms', rooms);
     openRoom(code);
   } catch (e) { err.textContent = '저장에 실패했어요. Firebase 규칙(quizboard 경로)을 확인해 주세요.'; }
@@ -877,16 +995,23 @@ async function openRoom(code) {
     const meta = normMeta(raw);
     const known = LS.get('qb_rooms', []);
     if (!known.find(r => r.code === code)) { known.unshift({ code, title: meta.title, at: meta.createdAt || Date.now(), mode: meta.mode }); LS.set('qb_rooms', known); }
+    if (meta.mode === 'sheet') {   // 평가지 방: 정답은 보관함의 key에서 가져와요
+      const key = toArr((await db.ref(`quizboard/_sheets/${meta.sheetId}/key`).once('value')).val());
+      LENIENT = meta.lenient !== false;
+      T = { code, meta, local: null, qs: rowsToQs(key, meta.points), players: {}, ans: {}, dr: {}, mk: {}, sans: {}, curQ: -2, qUn: [], state: null, overlay: null, showAns: false, peek: false, group: false, big: false, zoom: null, busy: false, groups: {} };
+      return renderSheetLive();
+    }
     const pub = toArr((await db.ref(`quizboard/${code}/questions`).once('value')).val());
     const local = LS.get('qb_room:' + code, null);
     let rows = local && local.rows && local.rows.length ? local.rows : null;
     if (!rows) {
       rows = rowsFromPub(pub);
       if (meta.grading === 'auto') {
-        E = Object.assign(defaultsE(), { code, title: meta.title, mode: meta.mode, input: meta.input, grading: meta.grading, timeLimit: meta.timeLimit, points: meta.points, speed: meta.speed, change: meta.change, auto: meta.auto, showRank: meta.showRank, nSelf: meta.total, createdAt: meta.createdAt || 0, rows });
+        E = Object.assign(defaultsE(), { code, title: meta.title, mode: meta.mode, input: meta.input, grading: meta.grading, timeLimit: meta.timeLimit, points: meta.points, speed: meta.speed, lenient: meta.lenient, change: meta.change, auto: meta.auto, showRank: meta.showRank, nSelf: meta.total, createdAt: meta.createdAt || 0, rows });
         toast('이 기기에는 정답이 없어요. 정답을 다시 입력(엑셀)해 주세요.'); return renderSetup();
       }
     }
+    LENIENT = meta.lenient !== false;
     T = { code, meta, local, qs: rowsToQs(rows, meta.points), players: {}, ans: {}, dr: {}, mk: {}, curQ: -2, qUn: [], state: null, overlay: null, showAns: false, peek: false, group: false, big: false, zoom: null, busy: false, groups: {} };
     renderLive();
   } catch (e) { toast('방을 열지 못했어요'); }
@@ -913,7 +1038,7 @@ function renderLive() {
   app.innerHTML = `<div class="wrap wide">
   <div class="topbar"><div><div class="muted" style="font-size:12px">방 코드</div><div class="code">${esc(T.code)}</div></div>
     <div class="ttl">${esc(T.meta.title)} <span class="badge">${esc(MODE_LABEL[T.meta.mode])}</span> <span class="badge">${T.meta.input === 'draw' ? '그리기' : T.meta.input === 'none' ? '⭕/❌' : '글씨'}</span></div>
-    <div class="tools"><button class="btn" data-act="showJoin">📣 입장 안내</button><button class="btn" data-act="showBoard">🏆 ${T.meta.showRank ? '순위 크게' : '현황 크게'}</button><button class="btn" data-act="exportRes">📊 결과 엑셀</button><button class="btn" data-act="openRecords">📁 지난 기록</button><button class="btn" data-act="editRoom">✏️ 설정·문제 수정</button><button class="btn ghost" data-act="tHome">나가기</button></div></div>
+    <div class="tools"><button class="btn" id="snd-btn" data-act="toggleSnd">${SOUND ? '🔊' : '🔇'}</button><button class="btn" data-act="showJoin">📣 입장 안내</button><button class="btn" data-act="showBoard">🏆 ${T.meta.showRank ? '순위 크게' : '현황 크게'}</button><button class="btn" data-act="exportRes">📊 결과 엑셀</button><button class="btn" data-act="openRecords">📁 지난 기록</button><button class="btn" data-act="editRoom">✏️ 설정·문제 수정</button><button class="btn ghost" data-act="tHome">나가기</button></div></div>
   <div class="live">
     <div class="live-l"><div id="tl-ctrl" class="card"></div>
       <div class="card"><h3>${T.meta.showRank ? '실시간 순위' : '정답 현황'}</h3><div id="tl-board" class="scrollbox"></div></div></div>
@@ -1036,6 +1161,7 @@ function ratesHTML() {
 }
 function drawLive() {
   if (view !== 'tLive' || !T || !T.state) return;
+  if (T.meta.mode === 'sheet') return drawSheetLive();
   { const h = ctrlHTML(); setHTML($('#tl-ctrl'), h, h); }   // 바뀐 부분만 다시 그려서 깜빡임·렉을 줄여요
   const list = listOf(T.players, T.meta.showRank);
   { const h = boardHTML(list, { kick: true, noRank: !T.meta.showRank }); setHTML($('#tl-board'), h, h); }
@@ -1061,9 +1187,41 @@ function drawOverlay() {
     else { $('#zt').textContent = dispValue({ n: qInfo(q).n, choices: q.choices }, a.value); fitText($('#zt'), $('#zbox'), 700, 24); }
   } else ov.innerHTML = '';
 }
+/* ---------- 효과음 · 카운트다운 (교사 화면) ---------- */
+let SOUND = LS.get('qb_snd', true), AC = null;
+function beep(f, d, v) {
+  if (!SOUND) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume();
+    const o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime;
+    o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(v || .15, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+    o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + d);
+  } catch (e) {}
+}
+const chime = () => { beep(784, .18); setTimeout(() => beep(988, .18), 150); setTimeout(() => beep(1319, .4), 300); };
+function showCountdown(txt) {
+  const el = $('#cdn'); if (!el) return;
+  if (!txt) { el.textContent = ''; el.className = ''; return; }
+  if (el.textContent !== txt) { el.textContent = txt; el.className = ''; void el.offsetWidth; el.className = 'on'; }
+}
+function soundTick(st, left) {
+  const key = st.q + ':' + st.phase;
+  if (T.pk === undefined) T.pk = key;                       // 처음 열 때는 소리 내지 않아요
+  else if (T.pk !== key) { T.pk = key; if (st.phase === 'revealed' || (T.meta.mode === 'sheet' && st.phase === 'finished')) chime(); }
+  if (st.phase === 'open' && st.endsAt && left > 0 && left <= 5000) {
+    const sec = Math.ceil(left / 1000);
+    if (T.cdSec !== key + ':' + sec) { T.cdSec = key + ':' + sec; beep(sec === 1 ? 1175 : 880, .12, .18); }
+    showCountdown(String(sec));
+  } else {
+    showCountdown('');
+    if (st.phase === 'open' && st.endsAt && left <= 0 && T.endKey !== key) { T.endKey = key; beep(330, .6, .2); }
+  }
+}
 function teacherTick() {
   if (!T || !T.state) return;
+  if (T.meta.mode === 'sheet') return sheetTeacherTick();
   const st = T.state, tm = $('#t-timer'); if (!tm) return;
+  soundTick(st, st.endsAt ? st.endsAt - now() : Infinity);
   if (st.phase === 'open') {
     if (st.endsAt) {
       const left = st.endsAt - now();
@@ -1141,7 +1299,11 @@ async function saveRecord() {
   const m = T.meta, players = await freshPlayers(true), list = ranked(players);   // 중간에 나갔던 학생도 기록에 포함
   if (!list.length) return toast('참가자가 없어서 기록을 저장하지 않았어요');
   // 글씨 답만 내려받아요 (그림 데이터는 무거워서 기록에 넣지 않아요)
-  const A = m.input === 'text' ? ((await db.ref(`quizboard/${T.code}/answers`).once('value')).val() || {}) : {};
+  let A = {};
+  if (m.mode === 'sheet') {   // 평가지: 학생별 제출 답(sheetAns)을 문항별 형태로 바꿔요
+    const sa = (await db.ref(`quizboard/${T.code}/sheetAns`).once('value')).val() || {};
+    T.qs.forEach((q, i) => { A[i] = {}; entriesOf(sa).forEach(([pid, x]) => { const v = x && x.a ? x.a[i] : undefined; if (v !== undefined && v !== null && v !== '') A[i][pid] = { value: v }; }); });
+  } else if (m.input === 'text') A = (await db.ref(`quizboard/${T.code}/answers`).once('value')).val() || {};
   const date = ymd(new Date(now())), id = `${T.code}_${m.createdAt || 0}`;
   const qs = T.qs.map(q => ({ t: q.text || '', a: q.answer ? dispAnswer(q) : '', p: q.points }));
   let okSum = 0, totSum = 0;
@@ -1188,17 +1350,35 @@ function endQuiz() {
 let REC = null;
 async function renderRecords(filter) {
   detach(); T = null; S = null; REC = null; view = 'records'; keepAwake(false);
-  app.innerHTML = `<div class="wrap"><div class="topbar"><h2 style="margin:0;flex:1">📁 지난 퀴즈 기록</h2><input type="date" id="rec-date" value="${esc(filter || '')}" style="width:auto"><button class="btn" data-act="recAll">전체</button><button class="btn" data-act="stuView">👤 학생별 누적</button><button class="btn ghost" data-act="tHome">← 교사 홈</button></div><div id="rec-body" class="card muted">불러오는 중…</div></div>`;
+  app.innerHTML = `<div class="wrap"><div class="topbar"><h2 style="margin:0;flex:1">📁 지난 퀴즈 기록</h2><button class="btn" data-act="stuView">👤 학생별 누적</button><button class="btn ghost" data-act="tHome">← 교사 홈</button></div>
+  <div class="row" id="rec-tools" style="margin-bottom:10px"><input type="text" id="rec-q" placeholder="🔍 제목·코드 검색" class="grow"><input type="date" id="rec-date" value="${esc(filter || '')}" style="width:auto"><select id="rec-sort" style="width:auto"><option value="new">최신순</option><option value="old">오래된 순</option><option value="low">정답률 낮은 순</option></select><button class="btn" data-act="recAll">전체</button></div>
+  <div id="rec-body" class="card muted">불러오는 중…</div></div>`;
   let idx;
   try { idx = (await db.ref('quizboard/_archive/index').once('value')).val() || {}; }
   catch (e) { const b = $('#rec-body'); if (b) b.innerHTML = '<div class="err">기록을 불러오지 못했어요. 연결과 Firebase 규칙을 확인해 주세요.</div>'; return; }
   if (view !== 'records') return;
-  const days = Object.keys(idx).sort().reverse().filter(d => !filter || d === filter);
-  const html = days.map(d => {
-    const items = Object.entries(idx[d]).map(([id, v]) => Object.assign({ id }, v)).sort((a, b) => b.at - a.at);
-    return `<h3 style="margin-top:14px">${esc(dayLabel(d))} <span class="badge">${items.length}개</span></h3>` + items.map(v => `<div class="grp"><div class="gn" style="flex:1 1 220px"><b style="font-size:16px;color:var(--ink)">${esc(v.title)}</b><br>코드 ${esc(v.code)} · ${new Date(v.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} · 참여 ${v.np}명 · ${v.nq}문제 · 평균 정답률 ${v.avg}%</div><button class="btn primary" data-act="recOpen" data-id="${esc(v.id)}">보기</button></div>`).join('');
-  }).join('');
-  const b = $('#rec-body'); b.className = 'card'; b.innerHTML = html || `<div class="muted center">${filter ? '이 날짜에 저장된 기록이 없어요.' : '아직 저장된 기록이 없어요. 퀴즈를 끝내면 여기에 쌓여요.'}</div>`;
+  RL = { idx, filter: filter || '', q: '', sort: 'new' };
+  const tb = $('#rec-tools'); if (tb) tb.style.display = '';
+  drawRecList();
+}
+let RL = null;
+function drawRecList() {
+  if (view !== 'records' || !RL) return;
+  const q = normS(RL.q), asc = RL.sort === 'old', low = RL.sort === 'low';
+  let days = Object.keys(RL.idx).sort(); if (!asc && !low) days.reverse();
+  days = days.filter(d => !RL.filter || d === RL.filter);
+  let html;
+  const mk = v => `<div class="grp"><div class="gn" style="flex:1 1 220px"><b style="font-size:16px;color:var(--ink)">${esc(v.title)}</b><br>코드 ${esc(v.code)} · ${new Date(v.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} · 참여 ${v.np}명 · ${v.nq}문제 · 평균 정답률 ${v.avg}%</div><button class="btn primary" data-act="recOpen" data-id="${esc(v.id)}">보기</button></div>`;
+  const all = [];
+  days.forEach(d => Object.entries(RL.idx[d]).forEach(([id, v]) => { if (!q || normS(v.title).includes(q) || normS(v.code).includes(q)) all.push(Object.assign({ id, d }, v)); }));
+  if (low) {
+    html = all.sort((a, b) => a.avg - b.avg).map(v => `<div style="margin-top:8px"><span class="badge">${esc(dayLabel(v.d))}</span></div>` + mk(v)).join('');
+  } else {
+    const byDay = {}; all.forEach(v => (byDay[v.d] = byDay[v.d] || []).push(v));
+    html = Object.keys(byDay).sort(); if (!asc) html.reverse();
+    html = html.map(d => `<h3 style="margin-top:14px">${esc(dayLabel(d))} <span class="badge">${byDay[d].length}개</span></h3>` + byDay[d].sort((a, b) => asc ? a.at - b.at : b.at - a.at).map(mk).join('')).join('');
+  }
+  const b = $('#rec-body'); b.className = 'card'; b.innerHTML = html || `<div class="muted center">${RL.filter || RL.q ? '조건에 맞는 기록이 없어요.' : '아직 저장된 기록이 없어요. 퀴즈를 끝내면 여기에 쌓여요.'}</div>`;
 }
 async function renderRecord(id) {
   detach(); T = null; S = null; view = 'record';
@@ -1219,7 +1399,7 @@ function drawRecord() {
   const rates = R.qs.map((q, i) => { let ok = 0, tot = 0; R.ps.forEach(p => { const o = cell(p, i).o; if (o >= 0) { tot++; if (o === 1) ok++; } }); return { ok, tot }; });
   let h = `<div class="wrap"><div class="topbar"><div class="ttl">${esc(R.title)} <span class="badge">${esc(dayLabel(R.date))}</span> <span class="badge">코드 ${esc(R.code)}</span> <span class="badge">참여 ${R.ps.length}명 · ${nq}문제</span></div>
   <div class="tools"><button class="btn" data-act="recXlsx">📊 엑셀 저장</button><button class="btn danger" data-act="recDel">🗑 기록 삭제</button><button class="btn ghost" data-act="recBack">← 목록</button></div></div>`;
-  h += `<div class="card"><h3>학생별 결과 <span class="muted" style="font-size:13px">(학생 이름을 누르면 아래에 맞은·틀린 문제가 자세히 나와요)</span></h3><div class="rscroll"><table class="rtbl"><thead><tr>${rk ? '<th>순위</th>' : ''}<th class="l">이름</th>${rk ? '<th>점수</th>' : ''}<th>정답</th>${R.qs.map((_, i) => `<th>${i + 1}</th>`).join('')}</tr></thead><tbody>` +
+  h += `<div class="card"><h3>학생별 결과 <span class="muted" style="font-size:13px">(이름 클릭 → 상세)</span></h3><div class="rscroll"><table class="rtbl"><thead><tr>${rk ? '<th>순위</th>' : ''}<th class="l">이름</th>${rk ? '<th>점수</th>' : ''}<th>정답</th>${R.qs.map((_, i) => `<th>${i + 1}</th>`).join('')}</tr></thead><tbody>` +
     R.ps.map((p, pi) => `<tr data-act="recStu" data-i="${pi}" class="${pi === R.sel ? 'pick' : ''}">${rk ? `<td>${p.r <= 3 ? ['🥇', '🥈', '🥉'][p.r - 1] : p.r}</td>` : ''}<td class="l"><b>${esc(p.n)}</b></td>${rk ? `<td><b>${p.s}</b></td>` : ''}<td>${p.k}/${nq}</td>${R.qs.map((_, i) => `<td>${markO(cell(p, i).o)}</td>`).join('')}</tr>`).join('') +
     `<tr><td class="l" ${rk ? 'colspan="2"' : ''}><b>정답률</b></td>${rk ? '<td></td>' : ''}<td></td>${rates.map(r => `<td class="muted">${r.tot ? Math.round(r.ok / r.tot * 100) + '%' : '-'}</td>`).join('')}</tr></tbody></table></div></div>`;
   if (R.sel >= 0 && R.ps[R.sel]) {
@@ -1229,8 +1409,10 @@ function drawRecord() {
     h += `<div class="card" id="rec-detail"><h3>${esc(p.n)} 학생 상세${rk ? ` · ${p.s}점` : ''} · 정답 ${p.k}/${nq}</h3>
       <div class="chips kv">⭕ 맞은 문제 ${chips(okN, 'o')}</div><div class="chips kv">❌ 틀린 문제 ${chips(badN, 'x')}</div>${noN.length ? `<div class="chips kv">· 채점 안 된 문제 ${chips(noN, '')}</div>` : ''}
       <div class="rscroll"><table class="rtbl" style="margin-top:10px"><thead><tr><th>번호</th><th class="l">문제</th><th class="l">학생 답</th><th class="l">정답</th><th>결과</th>${rk ? '<th>점수</th>' : ''}</tr></thead><tbody>` +
-      R.qs.map((q, i) => { const c = cell(p, i); return `<tr><td>${i + 1}</td><td class="l">${q.t ? esc(q.t) : '<span class="muted">(PPT 문제)</span>'}</td><td class="l">${c.a ? esc(c.a) : '<span class="muted">-</span>'}</td><td class="l">${q.a ? esc(q.a) : '<span class="muted">-</span>'}</td><td>${markO(c.o)}</td>${rk ? `<td>${c.s || 0}</td>` : ''}</tr>`; }).join('') + '</tbody></table></div></div>';
+      R.qs.map((q, i) => { const c = cell(p, i); return `<tr><td>${i + 1}</td><td class="l">${q.t ? esc(q.t) : `<span class="muted">(${R.mode === 'sheet' ? '평가지' : 'PPT 문제'})</span>`}</td><td class="l">${c.a ? esc(c.a) : '<span class="muted">-</span>'}</td><td class="l">${q.a ? esc(q.a) : '<span class="muted">-</span>'}</td><td>${markO(c.o)}</td>${rk ? `<td>${c.s || 0}</td>` : ''}</tr>`; }).join('') + '</tbody></table></div></div>';
   }
+  const hard = rates.map((r, i) => ({ i, r, pct: r.tot ? Math.round(r.ok / r.tot * 100) : 101 })).filter(x => x.r.tot).sort((a, b) => a.pct - b.pct || a.i - b.i).slice(0, 5);
+  if (hard.length > 1) h += `<div class="card"><h3>😥 가장 어려웠던 문제 TOP ${hard.length}</h3>${hard.map((x, k) => `<div class="rate"><b style="width:30px">${k + 1}위</b><div style="flex:1;min-width:0"><div style="font-weight:700">${x.i + 1}번 <span class="muted" style="font-weight:400">${R.qs[x.i].t ? esc(R.qs[x.i].t.slice(0, 40)) : ''}</span></div><div class="muted" style="font-size:13px">정답: ${R.qs[x.i].a ? esc(R.qs[x.i].a) : '-'}</div></div><span><b>${x.pct}%</b> (${x.r.ok}/${x.r.tot})</span></div>`).join('')}</div>`;
   h += `<div class="card"><h3>문항별 정답률</h3>${rates.map((r, i) => { const pct = r.tot ? Math.round(r.ok / r.tot * 100) : 0; return `<div class="rate"><b style="width:38px">${i + 1}번</b><div class="bar"><i style="width:${pct}%"></i></div><span>${pct}% (${r.ok}/${r.tot})</span></div>`; }).join('')}</div></div>`;
   app.innerHTML = h;
 }
@@ -1238,27 +1420,40 @@ function drawRecord() {
 let STU = null;
 async function renderStudents(selKey) {
   detach(); T = null; S = null; REC = null; view = 'students'; keepAwake(false);
-  app.innerHTML = `<div class="wrap"><div class="topbar"><h2 style="margin:0;flex:1">👤 학생별 누적 기록</h2><input type="text" id="stu-q" placeholder="이름 검색" style="width:160px"><button class="btn ghost" data-act="recAll">← 퀴즈 기록</button></div><div id="stu-body" class="card muted">불러오는 중…</div></div>`;
+  app.innerHTML = `<div class="wrap"><div class="topbar"><h2 style="margin:0;flex:1">👤 학생별 누적 기록</h2><input type="text" id="stu-q" placeholder="이름 검색" style="width:140px"><select id="stu-sort" style="width:auto"><option value="name">이름순</option><option value="low">정답률 낮은 순</option><option value="high">정답률 높은 순</option><option value="cnt">참여 많은 순</option></select><button class="btn ghost" data-act="recAll">← 퀴즈 기록</button></div><div id="stu-body" class="card muted">불러오는 중…</div></div>`;
   let raw;
   try { raw = (await db.ref('quizboard/_archive/students').once('value')).val() || {}; }
   catch (e) { const b = $('#stu-body'); if (b) b.innerHTML = '<div class="err">불러오지 못했어요. 연결과 Firebase 규칙을 확인해 주세요.</div>'; return; }
   if (view !== 'students') return;
-  STU = { sel: selKey || '', q: '', list: Object.entries(raw).map(([key, recs]) => {
+  STU = { sel: selKey || '', q: '', sort: 'name', list: Object.entries(raw).map(([key, recs]) => {
     const rs = Object.entries(recs || {}).map(([id, r]) => Object.assign({ id }, r, { x: toArr(r.x) })).sort((a, b) => b.at - a.at);
     const sum = (f) => rs.reduce((t, r) => t + (+r[f] || 0), 0), nq = sum('nq');
     return { key, name: rs[0] ? rs[0].n : key, rs, cnt: rs.length, score: rs.filter(r => r.sr).reduce((t, r) => t + (+r.s || 0), 0), anyRank: rs.some(r => r.sr), ok: sum('k'), nq, rate: nq ? Math.round(sum('k') / nq * 100) : 0 };
   }).sort((a, b) => byName(a, b)) };
   drawStudents();
 }
+// 학생의 퀴즈별 정답률 추이 (오래된 → 최신)
+function trendSVG(rs) {
+  const pts = rs.slice().reverse().map(r => ({ p: r.nq ? Math.round(r.k / r.nq * 100) : 0, d: r.d, t: r.t }));
+  if (pts.length < 2) return '<div class="muted" style="font-size:13px;margin:4px 0">퀴즈를 2번 이상 하면 정답률 추이 그래프가 나와요.</div>';
+  const W = 560, H = 170, L = 34, R = 14, T = 14, B = 30, n = pts.length;
+  const x = i => L + (W - L - R) * (n === 1 ? .5 : i / (n - 1)), y = p => T + (H - T - B) * (1 - p / 100);
+  const line = pts.map((q, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(q.p).toFixed(1)}`).join('');
+  const grid = [0, 50, 100].map(g => `<line x1="${L}" x2="${W - R}" y1="${y(g)}" y2="${y(g)}" stroke="var(--line)"/><text x="${L - 6}" y="${y(g) + 4}" text-anchor="end" font-size="11" fill="var(--mute)">${g}%</text>`).join('');
+  const step = Math.max(1, Math.ceil(n / 6));
+  const dots = pts.map((q, i) => `<circle cx="${x(i)}" cy="${y(q.p)}" r="4" fill="var(--pri)"><title>${esc(q.d)} ${esc(q.t)} · ${q.p}%</title></circle>${i % step === 0 || i === n - 1 ? `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" font-size="10.5" fill="var(--mute)">${esc(q.d.slice(5))}</text>` : ''}`).join('');
+  return `<div class="rscroll"><svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="정답률 추이">${grid}<path d="${line}" fill="none" stroke="var(--pri)" stroke-width="2.5" stroke-linejoin="round"/>${dots}</svg></div>`;
+}
 function drawStudents() {
   if (view !== 'students' || !STU) return;
   const b = $('#stu-body'); if (!b) return;
   const q = normS(STU.q), L = STU.list.filter(s => !q || normS(s.name).includes(q));
+  const so = STU.sort; if (so === 'low') L.sort((a, b) => a.rate - b.rate); else if (so === 'high') L.sort((a, b) => b.rate - a.rate); else if (so === 'cnt') L.sort((a, b) => b.cnt - a.cnt);
   let h = L.length ? `<div class="rscroll"><table class="rtbl"><thead><tr><th class="l">이름</th><th>참여 퀴즈</th><th>누적 점수</th><th>정답 / 문항</th><th>정답률</th></tr></thead><tbody>` +
     L.map(s => `<tr data-act="stuOpen" data-k="${esc(s.key)}" class="${s.key === STU.sel ? 'pick' : ''}"><td class="l"><b>${esc(s.name)}</b></td><td>${s.cnt}회</td><td>${s.anyRank ? s.score + '점' : '-'}</td><td>${s.ok}/${s.nq}</td><td><b>${s.rate}%</b></td></tr>`).join('') + '</tbody></table></div>'
     : `<div class="muted center">${STU.list.length ? '검색 결과가 없어요.' : '아직 누적된 기록이 없어요. 퀴즈를 끝내면 학생별로 쌓여요.'}</div>`;
   const s = STU.list.find(x => x.key === STU.sel);
-  if (s) h += `<h3 style="margin-top:18px" id="stu-detail">${esc(s.name)} · 퀴즈별 기록</h3><div class="rscroll"><table class="rtbl"><thead><tr><th>날짜</th><th class="l">퀴즈</th><th>점수</th><th>정답</th><th>순위</th><th class="l">틀린 문제</th><th></th></tr></thead><tbody>` +
+  if (s) h += `<h3 style="margin-top:18px" id="stu-detail">${esc(s.name)} · 퀴즈별 기록</h3>${trendSVG(s.rs)}<div class="rscroll"><table class="rtbl"><thead><tr><th>날짜</th><th class="l">퀴즈</th><th>점수</th><th>정답</th><th>순위</th><th class="l">틀린 문제</th><th></th></tr></thead><tbody>` +
     s.rs.map(r => `<tr><td>${esc(r.d)}</td><td class="l">${esc(r.t)}</td><td>${r.sr ? r.s + '점' : '-'}</td><td>${r.k}/${r.nq}</td><td>${r.sr ? r.r + '/' + r.np : '-'}</td><td class="l">${r.x.length ? r.x.map(n => n + '번').join(', ') : '<span class="muted">없음 🎉</span>'}</td><td><button class="btn sm" data-act="recOpen" data-id="${esc(r.id)}">기록</button></td></tr>`).join('') + '</tbody></table></div>';
   b.className = 'card'; b.innerHTML = h;
 }
@@ -1320,12 +1515,12 @@ const A = {
   delLocal(el) { if (!confirm('이 기기 목록에서만 지워요. (서버의 방은 그대로예요)')) return; LS.set('qb_rooms', LS.get('qb_rooms', []).filter(r => r.code !== el.dataset.code)); LS.del('qb_room:' + el.dataset.code); renderTHome(); },
   dlTemplate() { XLSX.writeFile(makeWB(SAMPLE, true), '퀴즈_정답_양식.xlsx'); },
   dlQuestions() { if (!E.rows.length) return toast('저장할 문제가 없어요'); XLSX.writeFile(makeWB(E.rows, false), `${E.title || '퀴즈'}_문제.xlsx`); },
-  addRow() { E.rows.push(emptyRow()); renderSetup(); },
-  delRow(el) { E.rows.splice(+el.dataset.i, 1); renderSetup(); },
+  addRow() { E.rows.push(emptyRow()); rerender(); },
+  delRow(el) { E.rows.splice(+el.dataset.i, 1); rerender(); },
   makeBlank() {
-    const n = Math.min(100, Math.max(1, parseInt($('#bn').value) || 10)), c = parseInt($('#bc').value) || 0;
-    if (E.rows.length && !confirm('지금 표 내용이 지워져요. 계속할까요?')) return;
-    E.rows = Array.from({ length: n }, () => ({ ...emptyRow(), nChoices: c >= 2 ? String(c) : '' })); renderSetup();
+    const n = Math.min(100, Math.max(1, parseInt($('#bn').value) || 10)), t = $('#bt').value, c = Math.min(9, Math.max(2, parseInt($('#bc').value) || 4));
+    if (E.rows.some(r => r.text || r.answer || r.choicesStr) && !confirm('지금 표 내용이 지워져요. 계속할까요?')) return;
+    E.rows = Array.from({ length: n }, () => ({ ...emptyRow(), type: t, nChoices: t === 'mc' ? String(c) : '' })); rerender();
   },
   saveRoom() { saveRoom(); },
   cancelSetup() { E.code ? openRoom(E.code) : renderTHome(); },
@@ -1354,7 +1549,58 @@ const A = {
     entriesOf(await freshPlayers()).forEach(([id]) => { u[`players/${id}/scores`] = null; u[`players/${id}/oks`] = null; u[`players/${id}/score`] = 0; });
     await baseRef().update(u); toast('초기화했어요');
   },
-  openRecords() { renderRecords(); },
+  bxPlace(el) { const i = +el.dataset.i; E.placing = E.placing === i ? null : i; bxUpdateUI(); if (E.placing != null) { const c = $('#bx-card'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' }); else toast('평가지 파일을 먼저 올려 주세요'); } },
+  bxClear(el) { const r = E.rows[+el.dataset.i]; r.pg = r.bx = r.by = r.bw = r.bh = ''; rerender(); },
+  shLib() { renderSheets(); },
+  shNew() { E = { sheet: true, sid: null, title: '', np: 0, newPages: [], mode: 'ppt', input: 'text', grading: 'auto', points: 10, rows: [] }; renderSheetEdit(); },
+  shEdit(el) { sheetEditOpen(el.dataset.id); },
+  shOpen(el) { sheetRoomOpen(el.dataset.id); },
+  async shDel(el) {
+    if (!confirm('이 평가지를 보관함에서 완전히 삭제할까요?\n(이미 저장된 퀴즈 기록은 남아요)')) return;
+    const id = el.dataset.id;
+    try { await db.ref().update({ [`quizboard/_sheets/${id}`]: null, [`quizboard/_sheetidx/${id}`]: null }); toast('삭제했어요'); renderSheets(); } catch (e) { toast('삭제하지 못했어요'); }
+  },
+  shSave() { saveSheet(); },
+  shMove(el) { const i = +el.dataset.i, j = i + +el.dataset.d, p = E.newPages; if (j < 0 || j >= p.length) return; [p[i], p[j]] = [p[j], p[i]]; renderSheetEdit(); },
+  shDelPage(el) { E.newPages.splice(+el.dataset.i, 1); renderSheetEdit(); },
+  shStart() { guarded(async () => { const t = now(), lim = T.meta.timeLimit || 0; await baseRef().update({ sheetAns: null, sheetKey: null, state: { q: 0, phase: 'open', startedAt: t, endsAt: lim ? t + lim * 1000 : null } }); }); },
+  shClose() {
+    const P = Object.keys(T.players).length, subs = Object.keys(T.players).filter(id => T.sans[id]).length;
+    if (!confirm(`제출 ${subs} / ${P}명이에요.\n마감하고 채점할까요? (결과는 기록으로 저장돼요)`)) return;
+    guarded(sheetFinish);
+  },
+  shResave() { guarded(saveRecord); },
+  async shMark(el) {
+    const id = el.dataset.pid, i = +el.dataset.i, ok = +el.dataset.ok, q = T.qs[i], p = T.players[id]; if (!p) return;
+    const pts = ok ? q.points : 0, sc = {}; entriesOf(p.scores).forEach(([k, v]) => { sc[k] = +v; }); sc[i] = pts;
+    await baseRef().update({ [`players/${id}/oks/${i}`]: ok, [`players/${id}/scores/${i}`]: pts, [`players/${id}/score`]: Object.values(sc).reduce((t, v) => t + v, 0) });
+    shResaveSoon();
+  },
+  async shMarkAll(el) {
+    const i = +el.dataset.i, q = T.qs[i], u = {};
+    entriesOf(T.players).forEach(([id, p]) => { if (okOfP(p, i) >= 0) return; const sc = {}; entriesOf(p.scores).forEach(([k, v]) => { sc[k] = +v; }); sc[i] = q.points; u[`players/${id}/oks/${i}`] = 1; u[`players/${id}/scores/${i}`] = q.points; u[`players/${id}/score`] = Object.values(sc).reduce((t, v) => t + v, 0); });
+    if (Object.keys(u).length) { await baseRef().update(u); shResaveSoon(); }
+  },
+  shZoom(el) { el.closest('.shpg').classList.toggle('zm'); },
+  shPick(el) {
+    const i = el.dataset.i, v = el.dataset.v; if (!S || !S.sh || !S.state || S.state.phase !== 'open') return;
+    shSet(i, S.sh.ans[i] == v ? '' : v);
+  },
+  shInl(el) {   // 평가지 속 O/X·객관식 칸을 누르면 작은 선택창이 떠요
+    const i = +el.dataset.i, q = S.qs[i]; if (!S.state || S.state.phase !== 'open') return;
+    const had = el.parentNode.querySelector('.shpop'); document.querySelectorAll('.shpop').forEach(p => p.remove()); if (had && +had.dataset.i === i) return;
+    const b = q.box, opts = q.ox ? [['1', 'O'], ['2', 'X']] : Array.from({ length: q.n }, (_, j) => [String(j + 1), optLabel(q, j)]);
+    const pop = document.createElement('div'); pop.className = 'shpop'; pop.dataset.i = i;
+    pop.style.left = `min(${b.x}%, calc(100% - ${opts.length * 50 + 12}px))`;
+    if (b.y + b.h > 78) { pop.style.top = b.y + '%'; pop.style.transform = 'translateY(-100%)'; } else pop.style.top = (b.y + b.h) + '%';
+    pop.innerHTML = opts.map(([v, t]) => `<button class="shb ${q.ox ? 'oxs ' + (v === '1' ? 'o' : 'x') : ''} ${S.sh.ans[i] == v ? 'sel' : ''}" data-act="shPopPick" data-i="${i}" data-v="${v}">${t}</button>`).join('');
+    el.parentNode.appendChild(pop);
+  },
+  shPopPick(el) { const i = el.dataset.i, v = el.dataset.v; if (!S.state || S.state.phase !== 'open') return; shSet(i, S.sh.ans[i] == v ? '' : v); document.querySelectorAll('.shpop').forEach(p => p.remove()); },
+  shSubmit() { shSubmit(false); },
+  shMin() { const a = $('#sh-ans'); if (!a) return; a.classList.toggle('min'); const b = a.querySelector('.shmin'); if (b) b.textContent = a.classList.contains('min') ? '▴ 펼치기' : '▾ 접기'; },
+  toggleSnd() { SOUND = !SOUND; LS.set('qb_snd', SOUND); const b = $('#snd-btn'); if (b) b.textContent = SOUND ? '🔊' : '🔇'; if (SOUND) chime(); },
+  openRecords() { showCountdown(''); renderRecords(); },
   recAll() { renderRecords(); },
   recBack() { renderRecords(); },
   recOpen(el) { renderRecord(el.dataset.id); },
@@ -1419,19 +1665,34 @@ const A = {
   hideTools() { S.hideTools = !S.hideTools; renderTools(); layoutCanvas(); }
 };
 document.addEventListener('click', e => {
+  if (!e.target.closest('.shpop, .shch')) document.querySelectorAll('.shpop').forEach(p => p.remove());
   const el = e.target.closest('[data-act]'); if (!el) return;
   if (el.tagName === 'A' || el.tagName === 'BUTTON') e.preventDefault();
   const fn = A[el.dataset.act]; if (fn) fn(el, e);
 });
+document.addEventListener('paste', e => {   // 평가지 올리기 화면에서 캡처한 그림을 붙여넣어요
+  if (view !== 'sheetEdit') return;
+  const fs = Array.from((e.clipboardData && e.clipboardData.files) || []).filter(f => /^image\//.test(f.type));
+  if (fs.length) { e.preventDefault(); addSheetFiles(fs); }
+});
 document.addEventListener('input', e => {
+  if (e.target.classList && e.target.classList.contains('sh-in') && S && S.sh) {
+    shSet(e.target.dataset.i, e.target.value.trim()); return;
+  }
   if (e.target.id === 'stu-q' && STU) { STU.q = e.target.value; drawStudents(); return; }
+  if (e.target.id === 'rec-q' && RL) { RL.q = e.target.value; drawRecList(); return; }
   if (e.target.id === 'ans' && S) { S.draft = e.target.value; fitInput(e.target); saveLoc(); markWriting(); } else onField(e);
 });
 document.addEventListener('change', e => {
   if (e.target.id === 'rec-date') { renderRecords(e.target.value); return; }
+  if (e.target.id === 'rec-sort' && RL) { RL.sort = e.target.value; drawRecList(); return; }
+  if (e.target.id === 'stu-sort' && STU) { STU.sort = e.target.value; drawStudents(); return; }
+  if (e.target.id === 'bt') { const w = $('#bcw'); if (w) w.style.display = e.target.value === 'mc' ? '' : 'none'; return; }
+  if (e.target.dataset.change === 'sheetfile') { addSheetFiles(e.target.files); return; }
   if (e.target.dataset.change === 'xfile') { const f = e.target.files[0]; if (f) readFile(f); } else onField(e);
 });
 document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && view === 'sheetEdit' && E && E.placing != null) { E.placing = null; bxUpdateUI(); return; }
   if (e.key !== 'Enter') return;
   if (e.target.id === 'ans') { if (!e.shiftKey && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); submitCurrent(false); } }
   else if (e.target.id === 'j-name' || e.target.id === 'j-code') A.join();
@@ -1441,8 +1702,409 @@ window.addEventListener('resize', () => {
   if (S.meta.input === 'draw') layoutCanvas(); else fitText($('#cd-t'), $('#cd-fitbox'), 640, 20);
 });
 
+/* ======================= 평가지(시험지) ======================= */
+/* 평가지 = PDF·그림을 쪽별 그림으로 바꿔 Firebase에 저장해 두고(보관함), 퀴즈방을 열면 학생이 평가지를 보면서 번호별로 답을 입력해요 */
+const fmtMS = ms => { const s = Math.ceil(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const PDFJS_VER = '3.11.174', PAGE_W = 1200;
+let pdfReady = null;
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('load ' + src)); document.head.appendChild(s); }); }
+function ensurePdfJs() {
+  if (window.pdfjsLib) return Promise.resolve();
+  if (!pdfReady) pdfReady = loadScript(`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VER}/pdf.min.js`).then(() => { pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VER}/pdf.worker.min.js`; }).catch(e => { pdfReady = null; throw e; });
+  return pdfReady;
+}
+function canvasToJpeg(cv) { let q = .82, d = cv.toDataURL('image/jpeg', q); while (d.length > 450000 && q > .5) { q -= .08; d = cv.toDataURL('image/jpeg', q); } return d; }
+async function pdfToPages(file, onProg) {
+  await ensurePdfJs();
+  const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise, out = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const pg = await pdf.getPage(i), sc = PAGE_W / pg.getViewport({ scale: 1 }).width, vp = pg.getViewport({ scale: sc });
+    const cv = document.createElement('canvas'); cv.width = Math.round(vp.width); cv.height = Math.round(vp.height);
+    const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+    await pg.render({ canvasContext: ctx, viewport: vp }).promise;
+    out.push(canvasToJpeg(cv)); if (onProg) onProg(i, pdf.numPages);
+  }
+  return out;
+}
+function imgToPage(file) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = () => {
+      const sc = Math.min(1, PAGE_W / im.naturalWidth), cv = document.createElement('canvas');
+      cv.width = Math.round(im.naturalWidth * sc); cv.height = Math.round(im.naturalHeight * sc);
+      const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.drawImage(im, 0, 0, cv.width, cv.height);
+      URL.revokeObjectURL(url); res(canvasToJpeg(cv));
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(new Error('img')); }; im.src = url;
+  });
+}
+async function addSheetFiles(files) {
+  if (!E || !E.sheet) return;
+  const arr = Array.from(files || []); if (!arr.length) return;
+  const say = t => { const e = $('#sh-prog'); if (e) e.textContent = t; };
+  say('변환하는 중…');
+  try {
+    for (const f of arr) {
+      if (/pdf$/i.test(f.type) || /\.pdf$/i.test(f.name)) E.newPages = (E.newPages || []).concat(await pdfToPages(f, (i, n) => say(`${f.name} 변환 중… ${i}/${n}쪽`)));
+      else if (/^image\//.test(f.type)) E.newPages = (E.newPages || []).concat(await imgToPage(f));
+      else if (/\.hwpx?$/i.test(f.name)) toast('한글 파일은 바로 읽을 수 없어요. 한글에서 "PDF로 저장"한 파일을 올려 주세요.');
+      else toast(`${f.name}: 지원하지 않는 파일이에요`);
+    }
+    if ((E.newPages || []).length > 30) { E.newPages.length = 30; toast('평가지는 최대 30쪽까지 올릴 수 있어요'); }
+  } catch (e) { console.error(e); toast('파일을 변환하지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.'); }
+  if (E && E.sheet) renderSheetEdit();
+}
+
+/* ---------- 교사: 보관함 ---------- */
+async function renderSheets() {
+  detach(); T = null; S = null; E = null; view = 'sheets'; keepAwake(false);
+  app.innerHTML = `<div class="wrap narrow"><div class="topbar"><h2 style="margin:0;flex:1">📄 평가지 보관함</h2><button class="btn ghost" data-act="tHome">← 교사 홈</button></div><button class="btn primary big" data-act="shNew">＋ 새 평가지 올리기</button><div id="sh-body" class="card muted" style="margin-top:12px">불러오는 중…</div></div>`;
+  let idx;
+  try { idx = (await db.ref('quizboard/_sheetidx').once('value')).val() || {}; }
+  catch (e) { const b = $('#sh-body'); if (b) b.innerHTML = '<div class="err">불러오지 못했어요. 연결과 Firebase 규칙을 확인해 주세요.</div>'; return; }
+  if (view !== 'sheets') return;
+  const L = Object.entries(idx).map(([id, v]) => Object.assign({ id }, v)).sort((a, b) => b.at - a.at), b = $('#sh-body');
+  b.className = 'card';
+  b.innerHTML = L.length ? L.map(v => `<div class="grp"><div class="gn" style="flex:1 1 200px"><b style="font-size:16px;color:var(--ink)">${esc(v.title)}</b><br>${v.np}쪽 · ${v.nq}문항 · ${esc(v.date || '')}</div><button class="btn primary" data-act="shOpen" data-id="${esc(v.id)}">▶ 퀴즈 열기</button><button class="btn" data-act="shEdit" data-id="${esc(v.id)}">✏️ 수정</button><button class="btn danger" data-act="shDel" data-id="${esc(v.id)}">🗑</button></div>`).join('') : '<div class="muted center">아직 올린 평가지가 없어요.<br>PDF나 그림을 올려 보세요.</div>';
+}
+function renderSheetEdit() {
+  detach(); view = 'sheetEdit';
+  const pages = E.newPages || [], kb = Math.round(pages.reduce((t, d) => t + d.length * .75, 0) / 1024);
+  app.innerHTML = `<div class="wrap">
+  <div class="topbar"><h2 style="margin:0;flex:1">${E.sid ? '📄 평가지 수정' : '📄 평가지 올리기'}</h2><button class="btn ghost" data-act="shLib">취소</button></div>
+  <div class="card"><h3>① 평가지 이름</h3><input type="text" data-scope="set" data-f="title" value="${esc(E.title)}" placeholder="예: 5학년 사회 단원평가 (1)"></div>
+  <div class="card"><h3>② 평가지 파일</h3>
+    <input type="file" id="sheetfile" accept=".pdf,image/*" multiple data-change="sheetfile">
+    <div class="note">PDF나 그림을 올려요. 한글(hwp)은 "PDF로 저장"해서 올리면 돼요. 캡처한 그림은 Ctrl+V로 붙여넣어도 돼요.</div>
+    <div id="sh-prog" class="muted"></div>
+    ${E.sid && !pages.length ? `<div class="kv">현재 <b>${E.np}쪽</b>이 저장되어 있어요. 새 파일을 올리면 <b>교체</b>돼요.</div>` : ''}
+    ${pages.length ? `<div class="kv"><b>${pages.length}쪽</b> · 약 ${kb}KB ${kb > 9000 ? '<span class="err">용량이 커요. 쪽 수를 줄여 주세요</span>' : ''}</div><div class="shthumbs">${pages.map((d, i) => `<div class="shth"><img src="${d}" alt=""><div class="row" style="justify-content:center;gap:4px"><button class="btn sm" data-act="shMove" data-i="${i}" data-d="-1">◀</button><b>${i + 1}</b><button class="btn sm" data-act="shMove" data-i="${i}" data-d="1">▶</button><button class="btn sm danger" data-act="shDelPage" data-i="${i}">✕</button></div></div>`).join('')}</div>` : ''}
+  </div>
+  <div class="card"><h3>③ 번호별 유형 · 정답</h3><div class="note">평가지에 문제가 있으니 번호·유형·정답·배점만 정하면 돼요.</div>${qTableHTML()}</div>
+  ${bxCardHTML()}
+  <button class="btn primary big" data-act="shSave">저장하기</button><div id="setup-err" class="err"></div></div>`;
+  bxUpdateUI();
+}
+/* ---------- 평가지 안의 답칸 위치 정하기 ---------- */
+const sheetPagesView = () => (E.newPages && E.newPages.length ? E.newPages : E.curPages) || [];
+function bxCardHTML() {
+  const pgs = sheetPagesView(); if (!pgs.length) return '';
+  return `<div class="card" id="bx-card"><h3>④ 답 쓰는 자리 정하기 <span class="muted" style="font-size:13px">(선택)</span></h3>
+    <div class="note">표의 <b>📍 지정</b>을 누르고, 평가지에서 답이 들어갈 칸을 <b>드래그</b>해요. 번호 순서대로 이어서 지정돼요. 지정하면 학생이 평가지 안에 바로 답을 써요. (박스는 끌어서 옮기고, 오른쪽 아래 모서리로 크기를 바꿔요)</div>
+    <div id="bx-hint" class="kv"></div>
+    <div class="bxpages">${pgs.map((d, pi) => `<div class="bxpg" data-pg="${pi}"><img src="${d}" draggable="false" alt=""><span class="pgno">${pi + 1} / ${pgs.length}</span></div>`).join('')}</div></div>`;
+}
+function bxUpdateUI() {
+  if (!E || !E.sheet) return;
+  document.querySelectorAll('.bxb').forEach(b => b.remove());
+  document.querySelectorAll('.bxpg').forEach(pg => {
+    const pi = +pg.dataset.pg;
+    E.rows.forEach((r, i) => {
+      const q = rowsToQs([r], 10)[0].box; if (!q || q.p !== pi) return;
+      const d = document.createElement('div'); d.className = 'bxb' + (E.placing === i ? ' cur' : ''); d.dataset.i = i;
+      d.style.cssText = `left:${q.x}%;top:${q.y}%;width:${q.w}%;height:${q.h}%`; d.innerHTML = `<span>${i + 1}</span><i class="bxh"></i>`; pg.appendChild(d);
+    });
+    pg.classList.toggle('placing', E.placing != null);
+  });
+  document.querySelectorAll('.bxbtn').forEach(b => { const i = +b.dataset.i; b.textContent = bxLabel(E.rows[i], i); b.classList.toggle('primary', E.placing === i); });
+  const h = $('#bx-hint'); if (h) h.textContent = E.placing != null ? `✋ ${E.placing + 1}번 답칸을 평가지에서 드래그하세요 (취소: Esc)` : `답칸 지정 ${E.rows.filter(r => r.pg).length} / ${E.rows.length}개`;
+}
+let BX = null;
+document.addEventListener('pointerdown', e => {
+  if (view !== 'sheetEdit' || !E || !e.target.closest) return;
+  const pg = e.target.closest('.bxpg'); if (!pg) return;
+  const rect = pg.getBoundingClientRect(), pt = ev => [(ev.clientX - rect.left) / rect.width * 100, (ev.clientY - rect.top) / rect.height * 100];
+  const bb = e.target.closest('.bxb');
+  if (bb) { const i = +bb.dataset.i, r = E.rows[i]; BX = { mode: e.target.closest('.bxh') ? 'resize' : 'move', i, pg, rect, pt, start: pt(e), o: { x: +r.bx, y: +r.by, w: +r.bw, h: +r.bh }, el: bb }; }
+  else if (E.placing != null) { const el = document.createElement('div'); el.className = 'bxb cur'; pg.appendChild(el); BX = { mode: 'draw', i: E.placing, pg, rect, pt, start: pt(e), el }; }
+  else return;
+  e.preventDefault(); try { pg.setPointerCapture(e.pointerId); } catch (x) {}
+});
+function bxGeom(B, ev) {
+  const [cx, cy] = B.pt(ev), [sx, sy] = B.start, cl = (v, a, b) => Math.max(a, Math.min(b, v)), dx = cx - sx, dy = cy - sy;
+  if (B.mode === 'move') return { x: cl(B.o.x + dx, 0, 100 - B.o.w), y: cl(B.o.y + dy, 0, 100 - B.o.h), w: B.o.w, h: B.o.h };
+  if (B.mode === 'resize') return { x: B.o.x, y: B.o.y, w: cl(B.o.w + dx, 2, 100 - B.o.x), h: cl(B.o.h + dy, 1.2, 100 - B.o.y) };
+  const x = cl(Math.min(sx, cx), 0, 100), y = cl(Math.min(sy, cy), 0, 100);
+  return { x, y, w: cl(Math.abs(cx - sx), 0, 100 - x), h: cl(Math.abs(cy - sy), 0, 100 - y) };
+}
+document.addEventListener('pointermove', e => {
+  if (!BX) return;
+  const g = bxGeom(BX, e); BX.el.style.cssText = `left:${g.x}%;top:${g.y}%;width:${g.w}%;height:${g.h}%`;
+});
+document.addEventListener('pointerup', e => {
+  if (!BX) return;
+  const B = BX; BX = null; let g = bxGeom(B, e); const r = E.rows[B.i], rd = v => Math.round(v * 10) / 10;
+  if (B.mode === 'draw') {
+    if (g.w < 1.5 || g.h < 1) g = { x: Math.min(g.x, 88), y: Math.min(g.y, 96), w: 12, h: 3.6 };   // 클릭만 하면 기본 크기
+    r.pg = String(+B.pg.dataset.pg + 1);
+    const nx = E.rows.findIndex((q, k) => k > B.i && !q.pg); E.placing = nx >= 0 ? nx : null;
+  }
+  r.bx = rd(g.x); r.by = rd(g.y); r.bw = rd(g.w); r.bh = rd(g.h);
+  bxUpdateUI();
+});
+async function saveSheet() {
+  const err = $('#setup-err'); err.textContent = '';
+  const rows = E.rows, pages = E.newPages || [];
+  if (!rows.length) return err.textContent = '문제 번호를 한 개 이상 만들어 주세요.';
+  const bad = rows.findIndex(r => rowType(r) !== 'essay' && !String(r.answer || '').trim()); if (bad >= 0) return err.textContent = `${bad + 1}번 정답이 비어 있어요. (서술형은 비워도 돼요)`;
+  if (!E.sid && !pages.length) return err.textContent = '평가지 파일(PDF·그림)을 올려 주세요.';
+  const btn = document.querySelector('[data-act="shSave"]'); if (btn) btn.disabled = true;
+  try {
+    const sid = E.sid || db.ref('quizboard/_sheetidx').push().key, base = `quizboard/_sheets/${sid}`;
+    if (pages.length) {
+      await db.ref(`${base}/pages`).remove();
+      for (let i = 0; i < pages.length; i++) { if (btn) btn.textContent = `업로드 중… ${i + 1}/${pages.length}쪽`; await db.ref(`${base}/pages/${i}`).set(pages[i]); }
+    }
+    const qs = rowsToQs(rows, 10);
+    const key = rows.map((r, i) => ({ type: qs[i].type, choicesStr: qs[i].type === 'mc' ? String(r.choicesStr || '') : '', nChoices: qs[i].type === 'mc' ? String(r.nChoices || '') : '', answer: qs[i].answer, points: String(r.points || ''), explanation: String(r.explanation || ''), pg: String(r.pg || ''), bx: String(r.bx ?? ''), by: String(r.by ?? ''), bw: String(r.bw ?? ''), bh: String(r.bh ?? ''), lb: String(r.lb || '') }));
+    const np = pages.length || E.np, kb = pages.length ? Math.round(pages.reduce((t, d) => t + d.length * .75, 0) / 1024) : (E.kb || 0);
+    await db.ref().update({ [`${base}/key`]: key, [`quizboard/_sheetidx/${sid}`]: { title: (E.title || '').trim() || '평가지', np, nq: rows.length, at: Date.now(), date: ymd(new Date()), kb } });
+    toast('✅ 평가지를 저장했어요'); renderSheets();
+  } catch (e) { console.error(e); err.textContent = '저장에 실패했어요. 연결과 Firebase 규칙을 확인해 주세요.'; if (btn) { btn.disabled = false; btn.textContent = '저장하기'; } }
+}
+async function sheetEditOpen(sid) {
+  try {
+    const v = (await db.ref(`quizboard/_sheetidx/${sid}`).once('value')).val(), key = toArr((await db.ref(`quizboard/_sheets/${sid}/key`).once('value')).val());
+    if (!v) return toast('평가지를 찾지 못했어요');
+    toast('평가지를 불러오는 중…');
+    const cur = []; for (let i = 0; i < v.np; i++) cur.push((await db.ref(`quizboard/_sheets/${sid}/pages/${i}`).once('value')).val() || '');
+    E = { sheet: true, sid, title: v.title, np: v.np, kb: v.kb, newPages: [], curPages: cur, mode: 'ppt', input: 'text', grading: 'auto', points: 10, rows: key.map(r => Object.assign(emptyRow(), r)) };
+    renderSheetEdit();
+  } catch (e) { toast('불러오지 못했어요'); }
+}
+async function sheetRoomOpen(sid) {
+  try {
+    const v = (await db.ref(`quizboard/_sheetidx/${sid}`).once('value')).val(); if (!v) return toast('평가지를 찾지 못했어요');
+    const minRaw = prompt(`「${v.title}」 퀴즈방을 열어요.\n제한시간(분)을 입력하세요. (없으면 0)`, '0'); if (minRaw === null) return;
+    const pub = confirm('학생에게 순위도 보여줄까요?\n[확인] 점수와 순위 / [취소] 내 점수만');
+    const key = toArr((await db.ref(`quizboard/_sheets/${sid}/key`).once('value')).val()), qs = rowsToQs(key, 10);
+    let code = null;
+    for (let i = 0; i < 12; i++) { const c = String(Math.floor(1000 + Math.random() * 9000)); if (!(await db.ref(`quizboard/${c}/meta`).once('value')).exists()) { code = c; break; } }
+    if (!code) return toast('방 코드를 만들지 못했어요');
+    const meta = { title: v.title, mode: 'sheet', sheetId: sid, np: v.np, input: 'text', grading: 'auto', showRank: true, pubRank: pub, timeLimit: Math.max(0, Math.round((parseFloat(minRaw) || 0) * 60)), points: 10, speed: false, lenient: true, change: true, auto: true, total: qs.length, createdAt: Date.now(), showAns: true };
+    const pubQ = qs.map(q => ({ n: qInfo(q).n, ox: q.type === 'ox', essay: q.type === 'essay', text: '', choices: q.type === 'mc' ? q.choices : [], image: '', box: q.box || null, lb: q.label || '' }));
+    await db.ref().update({ [`quizboard/${code}/meta`]: meta, [`quizboard/${code}/questions`]: pubQ, [`quizboard/${code}/state`]: { q: -1, phase: 'idle' } });
+    const rooms = LS.get('qb_rooms', []).filter(r => r.code !== code); rooms.unshift({ code, title: meta.title, at: meta.createdAt, mode: 'sheet' }); LS.set('qb_rooms', rooms);
+    openRoom(code);
+  } catch (e) { console.error(e); toast('퀴즈방을 만들지 못했어요'); }
+}
+
+/* ---------- 교사: 진행 ---------- */
+function renderSheetLive() {
+  detach(); view = 'tLive';
+  app.innerHTML = `<div class="wrap wide">
+  <div class="topbar"><div><div class="muted" style="font-size:12px">방 코드</div><div class="code">${esc(T.code)}</div></div>
+    <div class="ttl">${esc(T.meta.title)} <span class="badge">📄 평가지 ${T.meta.np}쪽 · ${T.qs.length}문항</span></div>
+    <div class="tools"><button class="btn" id="snd-btn" data-act="toggleSnd">${SOUND ? '🔊' : '🔇'}</button><button class="btn" data-act="showJoin">📣 입장 안내</button><button class="btn" data-act="openRecords">📁 지난 기록</button><button class="btn ghost" data-act="tHome">나가기</button></div></div>
+  <div class="live"><div class="live-l"><div id="tl-ctrl" class="card"></div></div>
+    <div class="live-r"><div class="card"><h3 id="tl-h">학생</h3><div id="tl-board"></div></div></div></div>
+  <div class="card" id="tl-essay" style="display:none"></div>
+  <div class="card"><div class="row"><button class="btn sm" data-act="cleanOff">🧹 접속 끊긴 명단 정리</button><button class="btn sm danger" data-act="delRoom">방 삭제</button></div></div>
+  <div id="overlay"></div></div>`;
+  T.sans = {}; T.curQ = -2;
+  const R = p => db.ref(`quizboard/${T.code}/${p}`);
+  listen(R('state'), v => { if (!T) return; T.state = v || { q: -1, phase: 'idle' }; updateLive(); });
+  listen(R('players'), v => { if (!T) return; T.players = cleanPlayers(v); updateLive(); });
+  listen(R('sheetAns'), v => { if (!T) return; T.sans = v || {}; updateLive(); });
+  tick = setInterval(teacherTick, 250);
+}
+function drawSheetLive() {
+  if (view !== 'tLive' || !T || !T.state) return;
+  const st = T.state, m = T.meta, N = T.qs.length, ph = st.q < 0 ? 'idle' : st.phase;
+  const list = listOf(T.players, true), P = list.length, subs = list.filter(p => T.sans[p.id]).length;
+  let c;
+  if (ph === 'idle') c = `<div class="center"><div class="emoji">📄</div><h2>준비됐어요</h2><p class="muted">학생 <b>${P}명</b> 입장 · ${m.np}쪽 · ${N}문항${m.timeLimit ? ' · ' + Math.round(m.timeLimit / 6) / 10 + '분' : ''}</p><button class="btn primary big" data-act="shStart">▶ 평가지 배부하기 (시작)</button></div>`;
+  else if (ph === 'open' || ph === 'collect') c = `<div class="qhead">${ph === 'open' ? '평가 중' : '답을 모으는 중…'}</div><div id="t-timer" class="timer"></div><div class="row"><b>제출 ${subs} / ${P}명</b></div><div class="bar"><i style="width:${P ? subs / P * 100 : 0}%"></i></div>${ph === 'open' ? '<button class="btn primary big" data-act="shClose">제출 마감 · 채점하기 ▶</button>' : ''}`;
+  else c = `<div class="center"><div class="emoji">🏆</div><h2>채점 완료</h2><p class="muted">결과가 기록으로 저장됐어요.</p></div><button class="btn primary big" data-act="viewThisRecord">📁 결과 상세 보기 (학생별 ⭕/❌)</button><button class="btn big" data-act="shResave">💾 기록 다시 저장</button><button class="btn big danger" data-act="delRoom">🧹 방 닫고 정리 (기록은 남아요)</button>`;
+  setHTML($('#tl-ctrl'), c, c);
+  const b = ph === 'finished' ? boardHTML(list, { kick: true })
+    : list.length ? `<div class="chips">${list.map(p => `<span class="chip2 ${T.sans[p.id] ? 'o' : ''}">${T.sans[p.id] ? '✔ ' : ''}${esc(p.name)}${p.on === false ? ' 🔌' : ''}</span>`).join('')}</div>` : '<div class="muted center">아직 입장한 학생이 없어요</div>';
+  setHTML($('#tl-board'), b, b);
+  { const box = $('#tl-essay'), eh = ph === 'finished' ? essayPanelHTML() : ''; if (box) { box.style.display = eh ? '' : 'none'; setHTML(box, eh, eh); } }
+  const h = $('#tl-h'); if (h) h.textContent = ph === 'finished' ? '🏆 결과 순위' : `학생 (${P}명)`;
+}
+const okOfP = (p, i) => { const e = entriesOf(p.oks).find(([k]) => k == i); return e ? +e[1] : -1; };
+function essayPanelHTML() {   // 서술형: 학생 답을 보며 선생님이 ⭕/❌
+  const es = T.qs.map((q, i) => [q, i]).filter(([q]) => q.type === 'essay'); if (!es.length) return '';
+  const list = listOf(T.players, false);
+  return '<h3>✍️ 서술형 채점 <span class="muted" style="font-size:13px">(⭕/❌를 누르면 점수에 바로 반영돼요)</span></h3>' + es.map(([q, i]) => {
+    const done = list.filter(p => okOfP(T.players[p.id], i) >= 0).length;
+    return `<div class="esq"><div class="row"><b style="flex:1">${esc(q.label || String(i + 1))}번 · 배점 ${q.points}점 <span class="muted">채점 ${done}/${list.length}</span></b><button class="btn sm" data-act="shMarkAll" data-i="${i}">미채점 모두 ⭕</button></div>${q.answer ? `<div class="ansbox">모범답안: ${esc(q.answer)}</div>` : ''}` +
+      list.map(p => { const a = T.sans[p.id] && T.sans[p.id].a, v = a ? a[i] : '', o = okOfP(T.players[p.id], i);
+        return `<div class="esa"><span class="nm">${esc(p.name)}</span><span class="tx">${v ? esc(v) : '<span class="muted">(무응답)</span>'}</span><button class="btn sm ${o === 1 ? 'primary' : ''}" data-act="shMark" data-pid="${esc(p.id)}" data-i="${i}" data-ok="1">⭕</button><button class="btn sm ${o === 0 ? 'danger' : ''}" data-act="shMark" data-pid="${esc(p.id)}" data-i="${i}" data-ok="0">❌</button></div>`; }).join('') + '</div>';
+  }).join('');
+}
+function shResaveSoon() { clearTimeout(T.rsT); T.rsT = setTimeout(() => { if (T) saveRecord().catch(() => {}); }, 2500); }   // 서술형 채점이 바뀌면 기록도 다시 저장
+function sheetTeacherTick() {
+  const st = T.state, left = st.endsAt ? st.endsAt - now() : Infinity, tm = $('#t-timer');
+  soundTick(st, left);
+  if (!tm) return;
+  if (st.phase === 'open') {
+    tm.textContent = st.endsAt ? (left > 0 ? `⏱ ${fmtMS(left)} 남음` : '⏰ 시간 종료 · 답을 모으는 중…') : '⏱ 제한시간 없음';
+    if (st.endsAt && left <= -1500 && T.meta.auto) guarded(sheetFinish);
+  } else tm.textContent = '';
+}
+async function sheetFinish() {
+  await baseRef().child('state').update({ phase: 'collect' });
+  await new Promise(r => setTimeout(r, 1800));   // 학생 기기가 마지막 답을 올릴 시간을 줘요
+  await gradeSheet();
+}
+async function gradeSheet() {
+  const m = T.meta, [players, sa] = await Promise.all([freshPlayers(true), db.ref(`quizboard/${T.code}/sheetAns`).once('value').then(s => s.val() || {})]);
+  const u = {};
+  entriesOf(players).forEach(([id]) => {
+    const a = (sa[id] && sa[id].a) || {}; let tot = 0;
+    T.qs.forEach((q, i) => {
+      if (q.type === 'essay') { u[`players/${id}/oks/${i}`] = null; u[`players/${id}/scores/${i}`] = null; return; }   // 서술형은 선생님이 채점해요
+      const v = a[i], ok = v !== undefined && v !== null && v !== '' && !!q.answer && grade(q, v), pts = ok ? q.points : 0; tot += pts;
+      u[`players/${id}/oks/${i}`] = ok ? 1 : 0; u[`players/${id}/scores/${i}`] = pts;
+    });
+    u[`players/${id}/score`] = tot;
+  });
+  u.sheetKey = m.showAns === false ? null : T.qs.reduce((o, q, i) => { o[i] = { a: dispAnswer(q), e: q.explanation || '' }; return o; }, {});
+  u['state/phase'] = 'finished';
+  await baseRef().update(u);
+  await saveRecord();
+}
+
+/* ---------- 학생: 평가지 보기 · 번호별 답 입력 ---------- */
+const SHEET_CACHE = {};
+const shKey = () => `qb_sh:${S.code}:${S.pid}`;
+const shSaveLoc = () => LS.set(shKey(), S.sh.ans);
+function shNormAns(a) { const o = {}; if (a) Object.keys(a).forEach(k => { if (a[k] !== null && a[k] !== undefined && String(a[k]) !== '') o[k] = String(a[k]); }); return o; }
+const shSame = (a, b) => { const ka = Object.keys(a), kb = Object.keys(b); return ka.length === kb.length && ka.every(k => a[k] === b[k]); };
+function shEnsure() {
+  const m = S.meta;
+  if (!S.sh || S.sh.sid !== m.sheetId) { S.sh = { sid: m.sheetId, np: m.np || 0, pages: SHEET_CACHE[m.sheetId] || [], ans: shNormAns(LS.get(shKey(), {})), built: '', loading: false, subKnown: false, sub: null, autoSub: false }; shLoadPages(); }
+  const sh = S.sh;
+  if (S.sheetSub !== undefined) {
+    sh.sub = S.sheetSub && S.sheetSub.a ? shNormAns(S.sheetSub.a) : null;
+    if (!sh.subKnown) { sh.subKnown = true; if (sh.sub && !Object.keys(sh.ans).length) { sh.ans = Object.assign({}, sh.sub); shSaveLoc(); } }
+  }
+}
+async function shLoadPages() {
+  const sh = S.sh; if (!sh || sh.loading) return; sh.loading = true;
+  for (let i = 0; i < sh.np; i++) {
+    if (!S || S.sh !== sh) return;
+    for (let tries = 0; !sh.pages[i] && tries < 6; tries++) {
+      try { sh.pages[i] = (await db.ref(`quizboard/_sheets/${sh.sid}/pages/${i}`).once('value')).val() || ''; } catch (e) { await new Promise(r => setTimeout(r, 1500)); }
+      if (!S || S.sh !== sh) return;
+    }
+    SHEET_CACHE[sh.sid] = sh.pages;
+    const im = $('#shp-' + i); if (im && sh.pages[i]) { im.src = sh.pages[i]; im.closest('.shpg').classList.add('ld'); }
+    const pg = $('#sh-load'); if (pg) pg.textContent = `평가지를 불러오는 중… ${i + 1}/${sh.np}쪽`;
+  }
+  sh.loading = false;
+  const pg = $('#sh-load'); if (pg) pg.textContent = '평가지를 다 받았어요 ✔';
+}
+const boxStyle = b => `left:${b.x}%;top:${b.y}%;width:${b.w}%;height:${b.h}%`;
+const optLabel = (q, j) => (q.choices && q.choices[j]) || CIRC9[j] || '';   // 객관식 버튼 글자 (㉮㉯… 또는 ①②…)
+const shLbl = i => S.qs[i].label || String(i + 1);
+const shText = (q, v) => q.ox ? (v == 1 ? 'O' : v == 2 ? 'X' : String(v)) : q.n >= 2 ? optLabel(q, v - 1) : String(v);
+const shShow = (q, v) => q.ox ? (v == 1 ? 'O' : v == 2 ? 'X' : '') : (v >= 1 ? optLabel(q, v - 1) : '');
+const shOkOf = i => { const e = entriesOf((S.players[S.pid] || {}).oks).find(([k]) => k == i); return e ? +e[1] : -1; };
+function shInlineHTML(pi, mode, dis) {   // 평가지 쪽 위에 겹쳐 놓는 답칸
+  let h = '';
+  S.qs.forEach((q, i) => {
+    const b = q.box; if (!b || b.p !== pi) return;
+    if (mode === 'review') {
+      const o = shOkOf(i), k = (S.sheetKey || {})[i], sv = (S.sh.sub || S.sh.ans)[i];
+      h += `<div class="shrv ${q.essay ? 'essay' : ''} ${o === 1 ? 'ok' : o === 0 ? 'bad' : ''}" style="${boxStyle(b)}">${sv ? esc(shText(q, sv)) : ''}</div>` + (o === 0 && k ? `<div class="shfix" style="left:${b.x}%;top:${b.y + b.h}%">정답 ${esc(k.a || '')}</div>` : '');
+    } else if (q.ox || q.n >= 2) h += `<button class="shinl shch" ${dis ? 'disabled' : ''} data-act="shInl" data-i="${i}" data-n="${shLbl(i)}" style="${boxStyle(b)}">${esc(shShow(q, S.sh.ans[i]))}</button>`;
+    else if (q.essay) h += `<textarea class="sh-in shinl essay" ${dis ? 'disabled' : ''} data-i="${i}" placeholder="${esc(shLbl(i))}" spellcheck="false" style="${boxStyle(b)}">${esc(S.sh.ans[i] ?? '')}</textarea>`;
+    else h += `<input class="sh-in shinl" ${dis ? 'disabled' : ''} data-i="${i}" placeholder="${esc(shLbl(i))}" value="${esc(S.sh.ans[i] ?? '')}" autocomplete="off" autocapitalize="off" spellcheck="false" style="${boxStyle(b)}">`;
+  });
+  return h;
+}
+const shPagesInner = (mode, dis) => Array.from({ length: S.sh.np }, (_, i) => `<div class="shpg ${S.sh.pages[i] ? 'ld' : ''}"><div class="shin"><img id="shp-${i}" ${S.sh.pages[i] ? `src="${S.sh.pages[i]}"` : ''} onload="shFitInl()" data-act="shZoom" alt="${i + 1}쪽">${shInlineHTML(i, mode, dis)}</div><span class="pgno">${i + 1} / ${S.sh.np}</span></div>`).join('');
+function shFitInl() { document.querySelectorAll('.shinl, .shrv').forEach(el => { const h = el.clientHeight; if (h) el.style.fontSize = (el.classList.contains('essay') ? Math.max(11, Math.min(20, h * 0.26)) : Math.max(11, Math.min(40, h * 0.62))) + 'px'; }); }
+window.addEventListener('resize', shFitInl);
+function shSet(i, v) {   // 답 바꾸기: 평가지 속 답칸과 오른쪽 목록을 함께 맞춰요
+  const sh = S.sh; if (!sh) return;
+  if (v === '' || v == null) delete sh.ans[i]; else sh.ans[i] = String(v);
+  shSaveLoc();
+  const q = S.qs[i], cur = sh.ans[i] ?? '';
+  document.querySelectorAll(`#shq-${i} .shb`).forEach(b => b.classList.toggle('sel', cur == b.dataset.v));
+  document.querySelectorAll(`.shch[data-i="${i}"]`).forEach(b => { b.textContent = shShow(q, cur); });
+  document.querySelectorAll(`.sh-in[data-i="${i}"]`).forEach(inp => { if (inp.value !== cur && document.activeElement !== inp) inp.value = cur; });
+  shRefreshBits();
+}
+function shRowsHTML(dis) {
+  return S.qs.map((q, i) => {
+    const v = S.sh.ans[i] ?? '', d = dis ? 'disabled' : '';
+    const inp = q.ox ? [['1', 'O', 'o'], ['2', 'X', 'x']].map(([k, t, c]) => `<button class="shb oxs ${c} ${v == k ? 'sel' : ''}" ${d} data-act="shPick" data-i="${i}" data-v="${k}">${t}</button>`).join('')
+      : q.n >= 2 ? Array.from({ length: q.n }, (_, j) => `<button class="shb ${v == j + 1 ? 'sel' : ''}" ${d} data-act="shPick" data-i="${i}" data-v="${j + 1}">${esc(optLabel(q, j))}</button>`).join('')
+      : q.essay ? `<textarea class="sh-in" rows="3" ${d} data-i="${i}" placeholder="답을 써요" spellcheck="false">${esc(v)}</textarea>`
+      : `<input class="sh-in" ${d} data-i="${i}" value="${esc(v)}" placeholder="답을 써요" autocomplete="off" autocapitalize="off" spellcheck="false">`;
+    return `<div class="shq" id="shq-${i}"><b class="no" ${shLbl(i).length > 3 ? 'style="font-size:12px;width:44px"' : ''}>${esc(shLbl(i))}</b><div class="shopts">${inp}</div></div>`;
+  }).join('');
+}
+function shResultHTML() {
+  const sh = S.sh, me = S.players[S.pid] || {}, N = S.qs.length, key = S.sheetKey || {}, sub = sh.sub || sh.ans;
+  const oks = entriesOf(me.oks), okOf = i => { const e = oks.find(([k]) => k == i); return e ? +e[1] : -1; };
+  const mine = ranked(S.players).find(x => x.id === S.pid), pubRank = S.meta.pubRank;
+  return `<div class="card center"><div class="emoji">🏆</div><h2>평가 끝!</h2><div class="kv"><b style="font-size:30px">${me.score || 0}점</b> · 정답 ${mine ? mine.ok : 0}/${N}${pubRank && mine ? ` · ${mine.rank}위` : ''}</div></div>
+  <div class="card"><h3>문제별 결과</h3><div class="rscroll"><table class="rtbl"><thead><tr><th>번호</th><th>결과</th><th class="l">내 답</th><th class="l">정답</th></tr></thead><tbody>` +
+    S.qs.map((q, i) => { const v = sub[i], k = key[i]; return `<tr><td>${esc(shLbl(i))}</td><td>${q.essay && okOf(i) < 0 ? '<span class="muted" style="font-size:12px">⏳ 채점 중</span>' : markO(okOf(i))}</td><td class="l">${v ? esc(shText(q, v)) : '<span class="muted">-</span>'}</td><td class="l">${k ? esc(k.a || '') : '<span class="muted">-</span>'}${k && k.e ? `<div class="muted" style="font-size:12px">💡 ${esc(k.e)}</div>` : ''}</td></tr>`; }).join('') +
+    `</tbody></table></div></div>`;
+}
+function renderSheetPage(body) {
+  const wrap = document.querySelector('.wrap.student'); if (wrap) wrap.classList.add('sheetmode');
+  shEnsure();
+  const st = S.state, sh = S.sh, ph = !st || st.q < 0 ? 'idle' : st.phase, me = S.players[S.pid] || {};
+  const key = [ph, S.qs.length, sh.sid, !!S.sheetKey, entriesOf(me.oks).length, me.score || 0, S.meta.pubRank].join('|');
+  if (key === sh.built) { shRefreshBits(); return; }
+  sh.built = key;
+  if (ph === 'idle') body.innerHTML = `<div class="card center"><div class="emoji">⏳</div><h2>잠시만 기다려요</h2><p class="muted" id="sh-load">${sh.pages.filter(Boolean).length >= sh.np ? '평가지를 다 받았어요 ✔' : '평가지를 불러오는 중…'}</p></div>`;
+  else if (ph === 'finished') body.innerHTML = shResultHTML() + `<div class="card"><h3>평가지 다시 보기 <span class="muted" style="font-size:13px">(⭕·❌ 표시)</span></h3><div class="shpages" id="sh-pages">${shPagesInner('review')}</div></div>`;
+  else {
+    const dis = ph !== 'open', solo = S.qs.length > 0 && S.qs.every(q => q.box);   // 모든 문제에 답칸이 있으면 평가지에만 써요
+    body.innerHTML = `<div class="card" style="padding:10px"><div class="row"><div id="s-timer" class="timer grow"></div><span id="sh-status" class="muted"></span></div><div class="bar"><i id="s-bar"></i></div><div class="muted" id="sh-load" style="font-size:12px"></div>${solo ? '<div class="muted" style="font-size:12px">💡 평가지의 노란 칸을 눌러 바로 써요. 쪽을 누르면 확대돼요.</div>' : S.qs.some(q => q.box) ? '<div class="muted" style="font-size:12px">💡 평가지의 노란 칸에 바로 써도 되고, 오른쪽 목록에 써도 돼요. 쪽을 누르면 확대돼요.</div>' : ''}</div>
+    <div class="shwrap${solo ? ' solo' : ''}"><div class="shpages" id="sh-pages">${shPagesInner('edit', dis)}</div>
+      ${solo ? `<div class="shbar" id="sh-ans"><span class="muted" style="font-weight:800">✏️ <span id="sh-cnt"></span></span><button class="btn primary" id="sh-submit" data-act="shSubmit">제출하기</button></div>` : `<div class="shans card" id="sh-ans"><div class="row"><b style="flex:1">✏️ 답 입력 <span id="sh-cnt" class="muted"></span></b><button class="btn sm primary" id="sh-submit2" data-act="shSubmit">제출</button><button class="btn sm shmin" data-act="shMin">▾ 접기</button></div><div class="shlist">${shRowsHTML(dis)}</div><button class="btn primary big" id="sh-submit" data-act="shSubmit">제출하기</button></div>`}</div>`;
+  }
+  shRefreshBits(); sheetTick();
+}
+function shRefreshBits() {
+  const sh = S.sh, st = S.state; if (!sh) return;
+  const n = Object.keys(sh.ans).length, cnt = $('#sh-cnt'); if (cnt) cnt.textContent = `${n}/${S.qs.length}`;
+  const same = !!sh.sub && shSame(sh.sub, shNormAns(sh.ans));
+  const stt = $('#sh-status'); if (stt) stt.textContent = same ? '✔ 제출 완료' : sh.sub ? '✏️ 바뀐 답이 있어요' : n ? '아직 제출 전이에요' : '';
+  const b = $('#sh-submit'); if (b) { b.textContent = same ? '제출 완료 ✔ (고치면 다시 제출)' : sh.sub ? '고친 답 다시 제출' : '제출하기'; b.classList.toggle('done', same); b.disabled = !st || st.phase !== 'open' || !!sh.over; }
+  const b2 = $('#sh-submit2'); if (b2) { b2.textContent = same ? '제출 ✔' : '제출'; b2.disabled = !st || st.phase !== 'open' || !!sh.over; }
+}
+async function shSubmit(force) {
+  const sh = S.sh, st = S.state; if (!sh || !st || (st.phase !== 'open' && !force)) return;
+  const a = shNormAns(sh.ans);
+  if (sh.sub && shSame(sh.sub, a)) return;
+  if (!force && !Object.keys(a).length && !confirm('아직 입력한 답이 없어요. 그래도 제출할까요?')) return;
+  try { await db.ref(`quizboard/${S.code}/sheetAns/${S.pid}`).set({ a, t: TS, n: Object.keys(a).length }); if (!force) toast('✅ 제출했어요'); }
+  catch (e) { if (!force) toast('제출하지 못했어요. 연결을 확인해 주세요.'); }
+}
+function sheetTick() {
+  const st = S.state, sh = S.sh; if (!st || !sh) return;
+  let txt = '', pct = 0;
+  if (st.phase === 'open' && st.endsAt) { const left = Math.max(0, st.endsAt - now()), lim = (S.meta.timeLimit || 1) * 1000; sh.over = left <= 0; txt = sh.over ? '⏰ 시간 종료' : `⏱ ${fmtMS(left)}`; pct = left / lim * 100; }
+  const t = $('#s-timer'); if (t) t.textContent = txt;
+  const bar = $('#s-bar'); if (bar) bar.style.width = pct + '%';
+  if ((sh.over || st.phase === 'collect') && !sh.autoSub) {   // 시간이 끝나거나 선생님이 마감하면 지금까지의 답을 자동 제출해요
+    sh.autoSub = true; shSubmit(true);
+    document.querySelectorAll('#sh-ans .shq button, #sh-ans .shq input, .shinl').forEach(e => e.disabled = true); document.querySelectorAll('.shpop').forEach(p => p.remove()); shRefreshBits();
+  }
+}
+
 /* ---------- 시작 ---------- */
 (function init() {
+  const cd = document.createElement('div'); cd.id = 'cdn'; document.body.appendChild(cd);
+  if (db) {   // 와이파이가 끊기면 배너로 알려줘요 (잠깐 흔들리는 건 무시)
+    const bn = document.createElement('div'); bn.id = 'offline'; bn.textContent = '📶 연결이 끊겼어요. 다시 연결하는 중…'; document.body.appendChild(bn);
+    let t = null, was = false;
+    db.ref('.info/connected').on('value', s => {
+      clearTimeout(t);
+      if (s.val() === true) { bn.classList.remove('on'); if (was) { was = false; toast('✅ 다시 연결됐어요'); } }
+      else t = setTimeout(() => { was = true; bn.classList.add('on'); }, 2500);
+    });
+  }
   if (!db) return renderHome();
   const sess = LS.get('quizsess', null);
   if (sess) joinRoom(sess.code, sess.name, true); else renderHome();
