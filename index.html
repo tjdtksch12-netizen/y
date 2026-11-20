@@ -312,6 +312,7 @@ function normS(s) {
   s = String(s ?? '').trim().toLowerCase().replace(/[①②③④⑤⑥⑦⑧⑨]/g, c => CIRC9.indexOf(c) + 1);
   return s.replace(/[\s,'"“”‘’!?~]/g, '').replace(/\.+$/, '');
 }
+const isMultiAns = a => /^\s*\d\s*[,，]\s*\d(\s*[,，]\s*\d)*\s*$/.test(String(a ?? ''));   // 복수 정답(예: 2,5) = 두 가지 고르기
 function splitAns(a) { return String(a ?? '').split(/[|;｜]/).map(x => x.trim()).filter(Boolean); }
 function accepted(q) {
   const info = qInfo(q);
@@ -327,6 +328,7 @@ function grade(q, val) {
 }
 function dispAnswer(q) {
   const info = qInfo(q);
+  if (info.kind === 'choice' && isMultiAns(q.answer)) return String(q.answer).split(/[,，]/).map(x => parseInt(x)).filter(n => n >= 1 && n <= info.n).map(n => CIRC9[n - 1] + (q.choices[n - 1] ? ' ' + q.choices[n - 1] : '')).join(', ');
   return splitAns(q.answer).map(a => {
     if (info.kind === 'choice') {
       const k = normS(a), n = parseInt(k);
@@ -338,6 +340,7 @@ function dispAnswer(q) {
 function dispValue(q, v) {
   if (v == null || v === '') return '';
   if (q && (q.ox || (q.n === 2 && q.choices && q.choices[0] === 'O' && q.choices[1] === 'X'))) return String(v) === '1' ? 'O' : String(v) === '2' ? 'X' : String(v);
+  if (q && q.n >= 2 && isMultiAns(v)) return String(v).split(',').map(x => { const n = +x; return CIRC9[n - 1] + (q.choices && q.choices[n - 1] ? ' ' + q.choices[n - 1] : ''); }).join(', ');
   if (q && q.n >= 2) { const n = parseInt(v); if (n >= 1 && n <= q.n) return CIRC9[n - 1] + (q.choices && q.choices[n - 1] ? ' ' + q.choices[n - 1] : ''); }
   return String(v);
 }
@@ -541,7 +544,7 @@ function startStudent(code, pid, name) {
   listen(R('sheetKey'), v => { if (!S) return; S.sheetKey = v || null; if (S.meta && S.meta.mode === 'sheet') renderAll(); });
   listen(R(`sheetAns/${pid}`), v => { if (!S) return; S.sheetSub = v || null; if (S.meta && S.meta.mode === 'sheet') renderAll(); });
   listen(R('meta'), v => { if (!S) return; if (!v) { LS.del('quizsess'); toast('방이 사라졌어요'); return renderHome(); } S.meta = normMeta(v); $('#s-title').textContent = S.meta.title || '퀴즈'; renderAll(); });
-  listen(R('questions'), v => { if (!S) return; S.qs = toArr(v).map(q => ({ n: q.n || 0, ox: !!q.ox && (q.n || 0) === 2, essay: !!q.essay, box: q.box || null, label: q.lb || '', text: q.text || '', choices: toArr(q.choices), image: q.image || '' })); renderAll(); });
+  listen(R('questions'), v => { if (!S) return; S.qs = toArr(v).map(q => ({ n: q.n || 0, ox: !!q.ox && (q.n || 0) === 2, essay: !!q.essay, multi: !!q.multi, box: q.box || null, label: q.lb || '', text: q.text || '', choices: toArr(q.choices), image: q.image || '' })); renderAll(); });
   listen(R('state'), v => { if (!S) return; S.state = v; onStateChange(); });
   listen(R('reveal'), v => { if (!S) return; S.reveal = v || {}; renderAll(); });
   listen(R('players'), v => { if (!S) return; S.players = cleanPlayers(v); if (!S.players[pid] && S.meta) { LS.del('quizsess'); toast('참가자 목록에서 빠졌어요. 다시 입장해 주세요.'); return renderHome(); } if (S.meta && S.meta.mode === 'sheet') renderAll(); else refreshDynSoon(); });
@@ -1584,7 +1587,7 @@ const A = {
   shZoom(el) { el.closest('.shpg').classList.toggle('zm'); },
   shPick(el) {
     const i = el.dataset.i, v = el.dataset.v; if (!S || !S.sh || !S.state || S.state.phase !== 'open') return;
-    shSet(i, S.sh.ans[i] == v ? '' : v);
+    shSet(i, shNext(i, v));
   },
   shInl(el) {   // 평가지 속 O/X·객관식 칸을 누르면 작은 선택창이 떠요
     const i = +el.dataset.i, q = S.qs[i]; if (!S.state || S.state.phase !== 'open') return;
@@ -1593,10 +1596,14 @@ const A = {
     const pop = document.createElement('div'); pop.className = 'shpop'; pop.dataset.i = i;
     pop.style.left = `min(${b.x}%, calc(100% - ${opts.length * 50 + 12}px))`;
     if (b.y + b.h > 78) { pop.style.top = b.y + '%'; pop.style.transform = 'translateY(-100%)'; } else pop.style.top = (b.y + b.h) + '%';
-    pop.innerHTML = opts.map(([v, t]) => `<button class="shb ${q.ox ? 'oxs ' + (v === '1' ? 'o' : 'x') : ''} ${S.sh.ans[i] == v ? 'sel' : ''}" data-act="shPopPick" data-i="${i}" data-v="${v}">${t}</button>`).join('');
+    pop.innerHTML = opts.map(([v, t]) => `<button class="shb ${q.ox ? 'oxs ' + (v === '1' ? 'o' : 'x') : ''} ${(q.multi ? String(S.sh.ans[i] || '').split(',').includes(v) : S.sh.ans[i] == v) ? 'sel' : ''}" data-act="shPopPick" data-i="${i}" data-v="${v}">${t}</button>`).join('');
     el.parentNode.appendChild(pop);
   },
-  shPopPick(el) { const i = el.dataset.i, v = el.dataset.v; if (!S.state || S.state.phase !== 'open') return; shSet(i, S.sh.ans[i] == v ? '' : v); document.querySelectorAll('.shpop').forEach(p => p.remove()); },
+  shPopPick(el) {
+    const i = el.dataset.i, v = el.dataset.v; if (!S.state || S.state.phase !== 'open') return; shSet(i, shNext(i, v));
+    if (S.qs[i].multi) { const cur = String(S.sh.ans[i] || '').split(','); el.parentNode.querySelectorAll('.shb').forEach(b => b.classList.toggle('sel', cur.includes(b.dataset.v))); }   // 복수 선택은 창을 열어 둬요
+    else document.querySelectorAll('.shpop').forEach(p => p.remove());
+  },
   shSubmit() { shSubmit(false); },
   shMin() { const a = $('#sh-ans'); if (!a) return; a.classList.toggle('min'); const b = a.querySelector('.shmin'); if (b) b.textContent = a.classList.contains('min') ? '▴ 펼치기' : '▾ 접기'; },
   toggleSnd() { SOUND = !SOUND; LS.set('qb_snd', SOUND); const b = $('#snd-btn'); if (b) b.textContent = SOUND ? '🔊' : '🔇'; if (SOUND) chime(); },
@@ -1882,7 +1889,7 @@ async function sheetRoomOpen(sid) {
     for (let i = 0; i < 12; i++) { const c = String(Math.floor(1000 + Math.random() * 9000)); if (!(await db.ref(`quizboard/${c}/meta`).once('value')).exists()) { code = c; break; } }
     if (!code) return toast('방 코드를 만들지 못했어요');
     const meta = { title: v.title, mode: 'sheet', sheetId: sid, np: v.np, input: 'text', grading: 'auto', showRank: true, pubRank: pub, timeLimit: Math.max(0, Math.round((parseFloat(minRaw) || 0) * 60)), points: 10, speed: false, lenient: true, change: true, auto: true, total: qs.length, createdAt: Date.now(), showAns: true };
-    const pubQ = qs.map(q => ({ n: qInfo(q).n, ox: q.type === 'ox', essay: q.type === 'essay', text: '', choices: q.type === 'mc' ? q.choices : [], image: '', box: q.box || null, lb: q.label || '' }));
+    const pubQ = qs.map(q => ({ n: qInfo(q).n, ox: q.type === 'ox', essay: q.type === 'essay', multi: q.type === 'mc' && isMultiAns(q.answer), text: '', choices: q.type === 'mc' ? q.choices : [], image: '', box: q.box || null, lb: q.label || '' }));
     await db.ref().update({ [`quizboard/${code}/meta`]: meta, [`quizboard/${code}/questions`]: pubQ, [`quizboard/${code}/state`]: { q: -1, phase: 'idle' } });
     const rooms = LS.get('qb_rooms', []).filter(r => r.code !== code); rooms.unshift({ code, title: meta.title, at: meta.createdAt, mode: 'sheet' }); LS.set('qb_rooms', rooms);
     openRoom(code);
@@ -2000,8 +2007,9 @@ async function shLoadPages() {
 const boxStyle = b => `left:${b.x}%;top:${b.y}%;width:${b.w}%;height:${b.h}%`;
 const optLabel = (q, j) => (q.choices && q.choices[j]) || CIRC9[j] || '';   // 객관식 버튼 글자 (㉮㉯… 또는 ①②…)
 const shLbl = i => S.qs[i].label || String(i + 1);
-const shText = (q, v) => q.ox ? (v == 1 ? 'O' : v == 2 ? 'X' : String(v)) : q.n >= 2 ? optLabel(q, v - 1) : String(v);
-const shShow = (q, v) => q.ox ? (v == 1 ? 'O' : v == 2 ? 'X' : '') : (v >= 1 ? optLabel(q, v - 1) : '');
+const shMultiLbl = (q, v) => String(v).split(',').map(n => optLabel(q, n - 1)).join(' ');
+const shText = (q, v) => q.multi && v ? shMultiLbl(q, v) : q.ox ? (v == 1 ? 'O' : v == 2 ? 'X' : String(v)) : q.n >= 2 ? optLabel(q, v - 1) : String(v);
+const shShow = (q, v) => q.multi && v ? String(v).split(',').map(n => optLabel(q, n - 1)).join('') : q.ox ? (v == 1 ? 'O' : v == 2 ? 'X' : '') : (v >= 1 ? optLabel(q, v - 1) : '');
 const shOkOf = i => { const e = entriesOf((S.players[S.pid] || {}).oks).find(([k]) => k == i); return e ? +e[1] : -1; };
 function shInlineHTML(pi, mode, dis) {   // 평가지 쪽 위에 겹쳐 놓는 답칸
   let h = '';
@@ -2019,12 +2027,18 @@ function shInlineHTML(pi, mode, dis) {   // 평가지 쪽 위에 겹쳐 놓는 �
 const shPagesInner = (mode, dis) => Array.from({ length: S.sh.np }, (_, i) => `<div class="shpg ${S.sh.pages[i] ? 'ld' : ''}"><div class="shin"><img id="shp-${i}" ${S.sh.pages[i] ? `src="${S.sh.pages[i]}"` : ''} onload="shFitInl()" data-act="shZoom" alt="${i + 1}쪽">${shInlineHTML(i, mode, dis)}</div><span class="pgno">${i + 1} / ${S.sh.np}</span></div>`).join('');
 function shFitInl() { document.querySelectorAll('.shinl, .shrv').forEach(el => { const h = el.clientHeight; if (h) el.style.fontSize = (el.classList.contains('essay') ? Math.max(11, Math.min(20, h * 0.26)) : Math.max(11, Math.min(40, h * 0.62))) + 'px'; }); }
 window.addEventListener('resize', shFitInl);
+function shNext(i, v) {   // 누른 보기를 반영한 새 답 (복수 선택이면 켜고 끄기)
+  const q = S.qs[i], cur = S.sh.ans[i] ?? '';
+  if (!q.multi) return cur == v ? '' : v;
+  const set = new Set(String(cur).split(',').filter(Boolean)); if (set.has(v)) set.delete(v); else set.add(v);
+  return [...set].sort((a, b) => a - b).join(',');
+}
 function shSet(i, v) {   // 답 바꾸기: 평가지 속 답칸과 오른쪽 목록을 함께 맞춰요
   const sh = S.sh; if (!sh) return;
   if (v === '' || v == null) delete sh.ans[i]; else sh.ans[i] = String(v);
   shSaveLoc();
   const q = S.qs[i], cur = sh.ans[i] ?? '';
-  document.querySelectorAll(`#shq-${i} .shb`).forEach(b => b.classList.toggle('sel', cur == b.dataset.v));
+  document.querySelectorAll(`#shq-${i} .shb`).forEach(b => b.classList.toggle('sel', q.multi ? String(cur).split(',').includes(b.dataset.v) : cur == b.dataset.v));
   document.querySelectorAll(`.shch[data-i="${i}"]`).forEach(b => { b.textContent = shShow(q, cur); });
   document.querySelectorAll(`.sh-in[data-i="${i}"]`).forEach(inp => { if (inp.value !== cur && document.activeElement !== inp) inp.value = cur; });
   shRefreshBits();
@@ -2033,7 +2047,7 @@ function shRowsHTML(dis) {
   return S.qs.map((q, i) => {
     const v = S.sh.ans[i] ?? '', d = dis ? 'disabled' : '';
     const inp = q.ox ? [['1', 'O', 'o'], ['2', 'X', 'x']].map(([k, t, c]) => `<button class="shb oxs ${c} ${v == k ? 'sel' : ''}" ${d} data-act="shPick" data-i="${i}" data-v="${k}">${t}</button>`).join('')
-      : q.n >= 2 ? Array.from({ length: q.n }, (_, j) => `<button class="shb ${v == j + 1 ? 'sel' : ''}" ${d} data-act="shPick" data-i="${i}" data-v="${j + 1}">${esc(optLabel(q, j))}</button>`).join('')
+      : q.n >= 2 ? Array.from({ length: q.n }, (_, j) => `<button class="shb ${(q.multi ? String(v).split(',').includes(String(j + 1)) : v == j + 1) ? 'sel' : ''}" ${d} data-act="shPick" data-i="${i}" data-v="${j + 1}">${esc(optLabel(q, j))}</button>`).join('')
       : q.essay ? `<textarea class="sh-in" rows="3" ${d} data-i="${i}" placeholder="답을 써요" spellcheck="false">${esc(v)}</textarea>`
       : `<input class="sh-in" ${d} data-i="${i}" value="${esc(v)}" placeholder="답을 써요" autocomplete="off" autocapitalize="off" spellcheck="false">`;
     return `<div class="shq" id="shq-${i}"><b class="no" ${shLbl(i).length > 3 ? 'style="font-size:12px;width:44px"' : ''}>${esc(shLbl(i))}</b><div class="shopts">${inp}</div></div>`;
