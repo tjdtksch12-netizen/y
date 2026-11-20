@@ -350,6 +350,8 @@ function okCount(p) { return entriesOf(p.oks).filter(([, v]) => v == 1).length; 
 function totalExcept(p, ex) { let s = 0; entriesOf(p.scores).forEach(([k, v]) => { if (k !== String(ex)) s += +v || 0; }); return s; }
 const namedPlayers = v => { const o = {}; entriesOf(v).forEach(([k, p]) => { if (p && p.name) o[k] = p; }); return o; };   // 나간 학생(left)도 포함
 const cleanPlayers = v => { const o = {}; entriesOf(v).forEach(([k, p]) => { if (p && p.name && !p.left) o[k] = p; }); return o; };   // 화면에 보이는 명단
+const aliasMap = async () => (await db.ref('quizboard/_archive/alias').once('value')).val() || {};   // 선생님이 "같은 학생"으로 묶은 이름들
+const resolveKey = (am, n) => { const k = nameKey(n); return (am[k] && am[k].k) || k; };
 const nameKey = n => encodeURIComponent(normS(n)).replace(/\./g, '%2E') || '_';
 const ymd = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const dayLabel = s => { const d = new Date(s + 'T00:00:00'); return isNaN(d) ? s : s + ' (' + '일월화수목금토'[d.getDay()] + ')'; };
@@ -498,8 +500,8 @@ function renderHome() {
     <button class="gear" data-act="teacher" aria-label="교사용"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     <div class="hero"><div class="logo">📝</div><h1>퀴즈판</h1></div>
     <div class="card">
-      <label>방 코드</label><input id="j-code" type="text" inputmode="numeric" maxlength="6" value="${esc(room)}" placeholder="예: 1234">
-      <label>이름</label><input id="j-name" type="text" maxlength="14" value="${esc(LS.get('quizname', ''))}" placeholder="예: 3번 홍길동">
+      <label>방 코드</label><input id="j-code" type="text" inputmode="numeric" maxlength="6" value="${esc(room)}">
+      <label>이름</label><input id="j-name" type="text" maxlength="14" value="${esc(LS.get('quizname', ''))}">
       <button class="btn primary big" data-act="join">입장하기</button>
       <div id="j-err" class="err"></div>
     </div>
@@ -1326,10 +1328,11 @@ async function saveRecord() {
   const old = (await db.ref(`quizboard/_archive/data/${id}/date`).once('value')).val();
   const u = {}; if (old && old !== date) u[`quizboard/_archive/index/${old}/${id}`] = null;
   u[`quizboard/_archive/index/${date}/${id}`] = idx; u[`quizboard/_archive/data/${id}`] = rec;
-  // 학생별 누적 기록 (이름 기준으로 퀴즈마다 한 줄씩 쌓여요)
+  // 학생별 누적 기록 (이름 기준으로 퀴즈마다 한 줄씩 쌓여요 · 선생님이 같은 학생으로 묶은 이름은 한 곳에 모여요)
+  let am = {}; try { am = await aliasMap(); } catch (e) { }
   ps.forEach(p => {
     const x = []; p.q.forEach((c, i) => { if (c.o === 0) x.push(i + 1); });
-    u[`quizboard/_archive/students/${nameKey(p.n)}/${id}`] = { n: p.n, t: m.title, d: date, at: rec.at, s: p.s, k: p.k, nq: qs.length, r: p.r, np: ps.length, sr: !!m.showRank, x };
+    u[`quizboard/_archive/students/${resolveKey(am, p.n)}/${id}`] = { n: p.n, t: m.title, d: date, at: rec.at, s: p.s, k: p.k, nq: qs.length, r: p.r, np: ps.length, sr: !!m.showRank, x };
   });
   await db.ref().update(u);
   toast('✅ 퀴즈 결과가 기록으로 저장됐어요');
@@ -1428,10 +1431,11 @@ async function renderStudents(selKey) {
   try { raw = (await db.ref('quizboard/_archive/students').once('value')).val() || {}; }
   catch (e) { const b = $('#stu-body'); if (b) b.innerHTML = '<div class="err">불러오지 못했어요. 연결과 Firebase 규칙을 확인해 주세요.</div>'; return; }
   if (view !== 'students') return;
-  STU = { sel: selKey || '', q: '', sort: 'name', list: Object.entries(raw).map(([key, recs]) => {
+  STU = { sel: selKey || '', q: '', sort: 'name', list: Object.entries(raw).filter(([, recs]) => recs && Object.keys(recs).length).map(([key, recs]) => {
     const rs = Object.entries(recs || {}).map(([id, r]) => Object.assign({ id }, r, { x: toArr(r.x) })).sort((a, b) => b.at - a.at);
     const sum = (f) => rs.reduce((t, r) => t + (+r[f] || 0), 0), nq = sum('nq');
-    return { key, name: rs[0] ? rs[0].n : key, rs, cnt: rs.length, score: rs.filter(r => r.sr).reduce((t, r) => t + (+r.s || 0), 0), anyRank: rs.some(r => r.sr), ok: sum('k'), nq, rate: nq ? Math.round(sum('k') / nq * 100) : 0 };
+    const own = rs.find(r => nameKey(r.n) === key), names = [...new Set(rs.map(r => r.n))].filter(n => nameKey(n) !== key);
+    return { key, name: own ? own.n : rs[0] ? rs[0].n : key, others: names, rs, cnt: rs.length, score: rs.filter(r => r.sr).reduce((t, r) => t + (+r.s || 0), 0), anyRank: rs.some(r => r.sr), ok: sum('k'), nq, rate: nq ? Math.round(sum('k') / nq * 100) : 0 };
   }).sort((a, b) => byName(a, b)) };
   drawStudents();
 }
@@ -1447,17 +1451,23 @@ function trendSVG(rs) {
   const dots = pts.map((q, i) => `<circle cx="${x(i)}" cy="${y(q.p)}" r="4" fill="var(--pri)"><title>${esc(q.d)} ${esc(q.t)} · ${q.p}%</title></circle>${i % step === 0 || i === n - 1 ? `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" font-size="10.5" fill="var(--mute)">${esc(q.d.slice(5))}</text>` : ''}`).join('');
   return `<div class="rscroll"><svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="정답률 추이">${grid}<path d="${line}" fill="none" stroke="var(--pri)" stroke-width="2.5" stroke-linejoin="round"/>${dots}</svg></div>`;
 }
+function stuMergeHTML(s) {   // 같은 학생으로 묶기: 퀴즈마다 이름을 다르게 써도 한 학생 기록으로 관리해요
+  const chips = s.others.length ? `<div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:8px"><span class="muted" style="font-size:13px">함께 묶인 이름</span>` + s.others.map(n => `<span class="chip2">${esc(n)} <button class="btn sm ghost" data-act="stuSplit" data-a="${esc(nameKey(n))}" title="따로 분리">✂ 분리</button></span>`).join('') + '</div>' : '';
+  const others = STU.list.filter(x => x.key !== s.key);
+  const pick = STU.merge ? `<div class="card" style="background:var(--bg2,#f6f7fb)"><b>${esc(s.name)}와(과) 같은 학생인 이름을 모두 골라 주세요</b><div class="row" style="gap:8px;flex-wrap:wrap;margin:8px 0">${others.length ? others.map(x => `<label class="chip2" style="cursor:pointer"><input type="checkbox" data-mk="${esc(x.key)}"> ${esc(x.name)} <span class="muted" style="font-size:12px">${x.cnt}회</span></label>`).join('') : '<span class="muted">합칠 다른 이름이 없어요</span>'}</div><div class="row"><button class="btn primary" data-act="stuMergeGo">합치기</button><button class="btn ghost" data-act="stuMergeToggle">취소</button></div></div>` : '';
+  return `${chips}<div class="row" style="margin-bottom:8px"><button class="btn sm" data-act="stuMergeToggle">🔗 이 학생과 같은 사람 합치기</button></div>${pick}`;
+}
 function drawStudents() {
   if (view !== 'students' || !STU) return;
   const b = $('#stu-body'); if (!b) return;
   const q = normS(STU.q), L = STU.list.filter(s => !q || normS(s.name).includes(q));
   const so = STU.sort; if (so === 'low') L.sort((a, b) => a.rate - b.rate); else if (so === 'high') L.sort((a, b) => b.rate - a.rate); else if (so === 'cnt') L.sort((a, b) => b.cnt - a.cnt);
   let h = L.length ? `<div class="rscroll"><table class="rtbl"><thead><tr><th class="l">이름</th><th>참여 퀴즈</th><th>누적 점수</th><th>정답 / 문항</th><th>정답률</th></tr></thead><tbody>` +
-    L.map(s => `<tr data-act="stuOpen" data-k="${esc(s.key)}" class="${s.key === STU.sel ? 'pick' : ''}"><td class="l"><b>${esc(s.name)}</b></td><td>${s.cnt}회</td><td>${s.anyRank ? s.score + '점' : '-'}</td><td>${s.ok}/${s.nq}</td><td><b>${s.rate}%</b></td></tr>`).join('') + '</tbody></table></div>'
+    L.map(s => `<tr data-act="stuOpen" data-k="${esc(s.key)}" class="${s.key === STU.sel ? 'pick' : ''}"><td class="l"><b>${esc(s.name)}</b>${s.others.length ? ` <span class="muted" style="font-size:12px">(${esc(s.others.join(', '))})</span>` : ''}</td><td>${s.cnt}회</td><td>${s.anyRank ? s.score + '점' : '-'}</td><td>${s.ok}/${s.nq}</td><td><b>${s.rate}%</b></td></tr>`).join('') + '</tbody></table></div>'
     : `<div class="muted center">${STU.list.length ? '검색 결과가 없어요.' : '아직 누적된 기록이 없어요. 퀴즈를 끝내면 학생별로 쌓여요.'}</div>`;
   const s = STU.list.find(x => x.key === STU.sel);
-  if (s) h += `<h3 style="margin-top:18px" id="stu-detail">${esc(s.name)} · 퀴즈별 기록</h3>${trendSVG(s.rs)}<div class="rscroll"><table class="rtbl"><thead><tr><th>날짜</th><th class="l">퀴즈</th><th>점수</th><th>정답</th><th>순위</th><th class="l">틀린 문제</th><th></th></tr></thead><tbody>` +
-    s.rs.map(r => `<tr><td>${esc(r.d)}</td><td class="l">${esc(r.t)}</td><td>${r.sr ? r.s + '점' : '-'}</td><td>${r.k}/${r.nq}</td><td>${r.sr ? r.r + '/' + r.np : '-'}</td><td class="l">${r.x.length ? r.x.map(n => n + '번').join(', ') : '<span class="muted">없음 🎉</span>'}</td><td><button class="btn sm" data-act="recOpen" data-id="${esc(r.id)}">기록</button></td></tr>`).join('') + '</tbody></table></div>';
+  if (s) h += `<h3 style="margin-top:18px" id="stu-detail">${esc(s.name)} · 퀴즈별 기록</h3>` + stuMergeHTML(s) + trendSVG(s.rs) + `<div class="rscroll"><table class="rtbl"><thead><tr><th>날짜</th><th class="l">퀴즈</th><th>점수</th><th>정답</th><th>순위</th><th class="l">틀린 문제</th><th></th></tr></thead><tbody>` +
+    s.rs.map(r => `<tr><td>${esc(r.d)}</td><td class="l">${esc(r.t)}${nameKey(r.n) !== s.key ? ` <span class="muted" style="font-size:12px">(${esc(r.n)})</span>` : ''}</td><td>${r.sr ? r.s + '점' : '-'}</td><td>${r.k}/${r.nq}</td><td>${r.sr ? r.r + '/' + r.np : '-'}</td><td class="l">${r.x.length ? r.x.map(n => n + '번').join(', ') : '<span class="muted">없음 🎉</span>'}</td><td><button class="btn sm" data-act="recOpen" data-id="${esc(r.id)}">기록</button></td></tr>`).join('') + '</tbody></table></div>';
   b.className = 'card'; b.innerHTML = h;
 }
 function recXlsx() {
@@ -1612,13 +1622,41 @@ const A = {
   recBack() { renderRecords(); },
   recOpen(el) { renderRecord(el.dataset.id); },
   stuView() { renderStudents(); },
-  stuOpen(el) { STU.sel = el.dataset.k; drawStudents(); const d = $('#stu-detail'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
+  stuMergeToggle() { STU.merge = !STU.merge; drawStudents(); },
+  async stuMergeGo() {
+    const base = STU.list.find(x => x.key === STU.sel), ks = [...document.querySelectorAll('input[data-mk]:checked')].map(i => i.dataset.mk);
+    if (!base || !ks.length) return toast('합칠 이름을 골라 주세요');
+    const subs = ks.map(k => STU.list.find(x => x.key === k)).filter(Boolean);
+    if (!confirm(`${subs.map(x => x.name).join(', ')} 기록을 "${base.name}" 한 학생으로 합칠까요?\n앞으로 그 이름으로 입장해도 ${base.name}의 기록으로 쌓여요. (언제든 분리할 수 있어요)`)) return;
+    try {
+      const am = await aliasMap(), u = {}, P = 'quizboard/_archive/';
+      subs.forEach(sb => {
+        sb.rs.forEach(r => { const o = Object.assign({}, r); delete o.id; u[`${P}students/${base.key}/${r.id}`] = o; u[`${P}students/${sb.key}/${r.id}`] = null; });
+        u[`${P}alias/${sb.key}`] = { k: base.key };
+        Object.entries(am).forEach(([a, v]) => { if (v && v.k === sb.key) u[`${P}alias/${a}`] = { k: base.key }; });
+      });
+      await db.ref().update(u); STU.merge = false; toast('✅ 한 학생으로 합쳤어요'); renderStudents(base.key);
+    } catch (e) { toast('합치지 못했어요. 다시 시도해 주세요'); }
+  },
+  async stuSplit(el) {
+    const a = el.dataset.a, base = STU.list.find(x => x.key === STU.sel); if (!base) return;
+    const mine = base.rs.filter(r => nameKey(r.n) === a), nm = mine[0] ? mine[0].n : '';
+    if (!confirm(`"${nm}" 이름의 기록 ${mine.length}개를 ${base.name}에서 따로 분리할까요?`)) return;
+    try {
+      const u = {}, P = 'quizboard/_archive/';
+      mine.forEach(r => { const o = Object.assign({}, r); delete o.id; u[`${P}students/${a}/${r.id}`] = o; u[`${P}students/${base.key}/${r.id}`] = null; });
+      u[`${P}alias/${a}`] = null;
+      await db.ref().update(u); toast('분리했어요'); renderStudents(base.key);
+    } catch (e) { toast('분리하지 못했어요'); }
+  },
+  stuOpen(el) { STU.sel = el.dataset.k; STU.merge = false; drawStudents(); const d = $('#stu-detail'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
   recStu(el) { REC.sel = +el.dataset.i; drawRecord(); const d = $('#rec-detail'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
   recXlsx() { recXlsx(); },
   async recDel() {
     if (!confirm('이 기록을 완전히 삭제할까요? 되돌릴 수 없어요.')) return;
     const u = {}; u[`quizboard/_archive/data/${REC.id}`] = null; u[`quizboard/_archive/index/${REC.date}/${REC.id}`] = null;
-    REC.ps.forEach(p => { u[`quizboard/_archive/students/${nameKey(p.n)}/${REC.id}`] = null; });
+    let am = {}; try { am = await aliasMap(); } catch (e) { }
+    REC.ps.forEach(p => { u[`quizboard/_archive/students/${nameKey(p.n)}/${REC.id}`] = null; u[`quizboard/_archive/students/${resolveKey(am, p.n)}/${REC.id}`] = null; });
     try { await db.ref().update(u); toast('기록을 삭제했어요'); renderRecords(); } catch (e) { toast('삭제하지 못했어요'); }
   },
   endQuiz() { endQuiz(); },
