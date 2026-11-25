@@ -586,7 +586,7 @@ function renderHome() {
     <button class="gear" data-act="teacher" aria-label="교사용"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     <div class="hero"><div class="logo">📝</div><h1>퀴즈판</h1></div>
     <div class="card">
-      <label>방 코드</label><input id="j-code" type="text" inputmode="numeric" maxlength="6" value="${esc(room)}">
+      <label>방 코드</label><input id="j-code" type="text" inputmode="numeric" maxlength="6" value="${esc(room || LS.get('quizcode', ''))}">
       <label>이름</label><input id="j-name" type="text" maxlength="14" value="${esc(LS.get('quizname', ''))}">
       <button class="btn primary big" data-act="join">입장하기</button>
       <div id="j-err" class="err"></div>
@@ -628,7 +628,7 @@ async function joinRoomRaw(code, name, silent) {
       await db.ref(`quizboard/${code}/players/${pid}`).set({ name, score: 0, joinedAt: TS });
     }
     if (players[pid] && players[pid].left) await db.ref(`quizboard/${code}/players/${pid}/left`).remove();   // 나갔던 학생이 돌아오면 점수 그대로 복구
-    LS.set('quizname', name); LS.set('quizsess', { code, pid, name });
+    LS.set('quizname', name); LS.set('quizcode', code); LS.set('quizsess', { code, pid, name });
     startStudent(code, pid, name);
   } catch (e) { fail('접속에 실패했어요. 잠시 후 다시 시도해 주세요.'); }
 }
